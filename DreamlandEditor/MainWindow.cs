@@ -17,6 +17,8 @@ namespace MonoGame.Forms.DX {
         readonly Color ButtonLighterColor = Color.FromArgb(38, 38, 38);
         readonly Color ButtonLightestColor = Color.FromArgb(89, 89, 89);
 
+        bool allowResize = false;
+
         public MainWindow() {
             InitializeComponent();
 
@@ -83,9 +85,23 @@ namespace MonoGame.Forms.DX {
             }
         }
 
-        private void TreeViewFileExplorer_AfterSelect(object sender, TreeViewEventArgs e) {
-            
+        private void Explorer_MouseDown(object sender, MouseEventArgs e) {
+            allowResize = true;
         }
+        private void PanelFileExplorer_MouseMove(object sender, MouseEventArgs e) {
+            if (allowResize) {
+                this.PanelFileExplorer.Width = PanelFileExplorerResizeArea.Left + e.X;
+            }
+        }
+        private void PanelItemExplorer_MouseMove(object sender, MouseEventArgs e) {
+            if (allowResize) {
+                this.PanelItemExplorerContainer.Height = PanelItemExplorerResizeArea.Top - e.Y;
+            }
+        }
+        private void Explorer_MouseUp(object sender, MouseEventArgs e) {
+            allowResize = false;
+        }
+
         private void TreeViewFileExplorer_NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
             if (e.Node.Text.Contains(".pd")) {
                 // TODO: Add logic for opening files. Either on the renderwindow or in a new form.
