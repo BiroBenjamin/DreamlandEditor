@@ -28,7 +28,9 @@ namespace MonoGame.Forms.DX {
             this.PanelFileExplorer = new System.Windows.Forms.Panel();
             this.PanelNavbar = new System.Windows.Forms.Panel();
             this.ButtonFiles = new System.Windows.Forms.Button();
+            this.TreeViewFileExplorer = new System.Windows.Forms.TreeView();
             this.MonoRenderWindow = new MonoGame.Forms.DX.Controls.SampleControl();
+            this.PanelFileExplorer.SuspendLayout();
             this.PanelNavbar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +49,7 @@ namespace MonoGame.Forms.DX {
             // 
             this.PanelFileExplorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.PanelFileExplorer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelFileExplorer.Controls.Add(this.TreeViewFileExplorer);
             this.PanelFileExplorer.Dock = System.Windows.Forms.DockStyle.Left;
             this.PanelFileExplorer.Location = new System.Drawing.Point(0, 29);
             this.PanelFileExplorer.Name = "PanelFileExplorer";
@@ -83,6 +86,19 @@ namespace MonoGame.Forms.DX {
             this.ButtonFiles.UseVisualStyleBackColor = true;
             this.ButtonFiles.Click += new System.EventHandler(this.ButtonFiles_Click);
             // 
+            // TreeViewFileExplorer
+            // 
+            this.TreeViewFileExplorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.TreeViewFileExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TreeViewFileExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TreeViewFileExplorer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TreeViewFileExplorer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.TreeViewFileExplorer.Location = new System.Drawing.Point(0, 0);
+            this.TreeViewFileExplorer.Name = "TreeViewFileExplorer";
+            this.TreeViewFileExplorer.Size = new System.Drawing.Size(198, 615);
+            this.TreeViewFileExplorer.TabIndex = 0;
+            this.TreeViewFileExplorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewFileExplorer_AfterSelect);
+            // 
             // MonoRenderWindow
             // 
             this.MonoRenderWindow.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -108,8 +124,10 @@ namespace MonoGame.Forms.DX {
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainWindow";
             this.Text = "Dreamland Editor";
+            this.PanelFileExplorer.ResumeLayout(false);
             this.PanelNavbar.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -120,6 +138,7 @@ namespace MonoGame.Forms.DX {
         private System.Windows.Forms.Panel PanelFileExplorer;
         private System.Windows.Forms.Panel PanelNavbar;
         private System.Windows.Forms.Button ButtonFiles;
+        private System.Windows.Forms.TreeView TreeViewFileExplorer;
     }
 }
 

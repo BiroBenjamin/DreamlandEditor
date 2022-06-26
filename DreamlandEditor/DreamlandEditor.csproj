@@ -68,6 +68,7 @@
     <Compile Include="Controls\RenderWindow.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Managers\FileExplorerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="MainWindow.resx">
