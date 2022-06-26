@@ -1,14 +1,6 @@
 ﻿using DreamlandEditor.Managers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MonoGame.Forms.DX {
@@ -26,44 +18,51 @@ namespace MonoGame.Forms.DX {
 
             FileExplorerManager.UpdateTreeView(TreeViewFileExplorer);
         }
+
         #region FileSubmenu
         private void CreateFileSubmenu(int xPos, int yPos, int width, int height) {
-            Panel newPanel = new Panel {
+            Panel PanelFileSubmenu = new Panel {
                 Name = "PanelFileSubmenu",
                 Visible = false,
                 Location = new Point(xPos + 1, yPos - 1),
                 Size = new Size(width, height),
                 BackColor = ButtonDarkerColor
             };
+            PanelFileSubmenu.BorderStyle = BorderStyle.FixedSingle;
 
-            this.Controls.Add(newPanel);
-            newPanel.BringToFront();
+            this.Controls.Add(PanelFileSubmenu);
+            PanelFileSubmenu.BringToFront();
 
-            AddButtonsToFileSubmenu(newPanel);
+            Button ButtonOpenFile = FormatButton("ButtonOpenFile", "Open", DockStyle.Top);
+            PanelFileSubmenu.Controls.Add(ButtonOpenFile);
+
+            PanelFileSubmenu.Controls.Add(new Panel {
+                BackColor = ButtonLightestColor,
+                Size = new Size(10, 2),
+                Dock = DockStyle.Bottom
+            });
+            Button ButtonExitApp = FormatButton("ButtonExitApp", "Exit", DockStyle.Bottom);
+            ButtonExitApp.Click += (sender, e) => {
+                Application.Exit();
+            };
+            PanelFileSubmenu.Controls.Add(ButtonExitApp);
         }
-        private void ToggleColor(Button button, Panel panel) {
-            if (button.BackColor == ButtonLighterColor) {
-                if (panel.Visible) { button.BackColor = ButtonDarkerColor; }
-            } else {
-                button.BackColor = ButtonLighterColor;
-            }
-        }
-        private void AddButtonsToFileSubmenu(Panel submenu) {
-            Button newButton = new Button {
-                Dock = DockStyle.Top,
+        private Button FormatButton(string name, string text, DockStyle dockStyle) {
+            Button Button = new Button {
+                Dock = dockStyle,
                 FlatStyle = FlatStyle.Flat,
-                Name = "ButtonOpenFile",
-                Text = "Open",
+                Name = name,
+                Text = text,
                 ForeColor = Color.FromArgb(191, 191, 191),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font(new FontFamily("Microsoft Sans Serif"), 8.5f),
                 BackColor = ButtonDarkerColor,
             };
-            newButton.FlatAppearance.BorderSize = 0;
-            newButton.FlatAppearance.MouseDownBackColor = ButtonLightestColor;
-            newButton.FlatAppearance.MouseOverBackColor = ButtonLighterColor;
+            Button.FlatAppearance.BorderSize = 0;
+            Button.FlatAppearance.MouseDownBackColor = ButtonLightestColor;
+            Button.FlatAppearance.MouseOverBackColor = ButtonLighterColor;
 
-            submenu.Controls.Add(newButton);
+            return Button;
         }
 
         #endregion FileSubmenu
@@ -75,13 +74,19 @@ namespace MonoGame.Forms.DX {
                 }
             }
         }
-
         private void MainWindow_Hover(object sender, EventArgs e) {
             foreach (Control panel in this.Controls) {
                 if (panel.Name.EndsWith("Submenu")) {
                     panel.Visible = false;
                     ToggleColor(ButtonFiles, (Panel)panel);
                 }
+            }
+        }
+        private void ToggleColor(Button button, Panel panel) {
+            if (button.BackColor == ButtonLighterColor) {
+                if (panel.Visible) { button.BackColor = ButtonDarkerColor; }
+            } else {
+                button.BackColor = ButtonLighterColor;
             }
         }
 
