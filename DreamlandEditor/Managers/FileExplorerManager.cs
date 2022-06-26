@@ -34,6 +34,7 @@ namespace DreamlandEditor.Managers {
                 foreach (FileInfo fl in directory.GetFiles()) {
                     TreeNode newNode = new TreeNode(fl.Name);
                     node.Nodes.Add(newNode);
+                    
                 }
             } catch (Exception e) {
                 MessageBox.Show(e.Message.ToString());

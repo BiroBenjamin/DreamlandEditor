@@ -97,7 +97,10 @@ namespace MonoGame.Forms.DX {
             this.TreeViewFileExplorer.Name = "TreeViewFileExplorer";
             this.TreeViewFileExplorer.Size = new System.Drawing.Size(198, 615);
             this.TreeViewFileExplorer.TabIndex = 0;
-            this.TreeViewFileExplorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewFileExplorer_AfterSelect);
+            this.TreeViewFileExplorer.AfterSelect += 
+                new System.Windows.Forms.TreeViewEventHandler(this.TreeViewFileExplorer_AfterSelect);
+            this.TreeViewFileExplorer.NodeMouseDoubleClick += 
+                new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeViewFileExplorer_NodeDoubleClick);
             // 
             // MonoRenderWindow
             // 

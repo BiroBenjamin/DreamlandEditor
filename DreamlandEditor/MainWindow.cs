@@ -86,5 +86,10 @@ namespace MonoGame.Forms.DX {
         private void TreeViewFileExplorer_AfterSelect(object sender, TreeViewEventArgs e) {
             
         }
+        private void TreeViewFileExplorer_NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
+            if (e.Node.Text.Contains(".pd")) {
+                // TODO: Add logic for opening files. Either on the renderwindow or in a new form.
+            }
+        }
     }
 }
