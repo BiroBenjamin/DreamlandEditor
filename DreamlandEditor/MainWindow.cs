@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DreamlandEditor.Managers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +21,8 @@ namespace MonoGame.Forms.DX {
             InitializeComponent();
 
             CreateFileSubmenu(0, PanelNavbar.Height, 150, 150);
+
+            FileExplorerManager.UpdateTreeView(TreeViewFileExplorer);
         }
         #region FileSubmenu
         private void CreateFileSubmenu(int xPos, int yPos, int width, int height) {
@@ -76,6 +80,15 @@ namespace MonoGame.Forms.DX {
                     panel.Visible = false;
                     ToggleColor(ButtonFiles, (Panel)panel);
                 }
+            }
+        }
+
+        private void TreeViewFileExplorer_AfterSelect(object sender, TreeViewEventArgs e) {
+            
+        }
+        private void TreeViewFileExplorer_NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
+            if (e.Node.Text.Contains(".pd")) {
+                // TODO: Add logic for opening files. Either on the renderwindow or in a new form.
             }
         }
     }
