@@ -1,26 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.Managers {
-    static class FileExplorerManager {
-        public static void UpdateTreeView(TreeView itemList) {
-            itemList.BeginUpdate();
+namespace DreamlandEditor.UI {
+    class FileExplorer : TreeView {
+        public FileExplorer() : base() {
+            InitializeComponents();
+        }
+
+        private void InitializeComponents() {
+            BackColor = Color.FromArgb(38, 38, 38);
+            ForeColor = Color.FromArgb(191, 191, 191);
+            Font = new Font("Microsoft Sans Serif", 9);
+            UpdateTreeView();
+        }
+
+        private void UpdateTreeView() {
+            BeginUpdate();
 
             TreeNode rootnode = new TreeNode(@"C:\Temp\");
-            itemList.Nodes.Add(rootnode);
+            Nodes.Add(rootnode);
             FillChildNodes(rootnode);
-            itemList.Nodes[0].Expand();
-            itemList.Nodes[0].Text = "Project Dreamland";
+            Nodes[0].Expand();
+            Nodes[0].Text = "Project Dreamland";
 
-            itemList.EndUpdate();
+            EndUpdate();
         }
-        private static void FillChildNodes(TreeNode node) {
+        private void FillChildNodes(TreeNode node) {
             try {
                 DirectoryInfo directory = new DirectoryInfo(node.FullPath);
                 foreach (DirectoryInfo dir in directory.GetDirectories()) {
@@ -34,13 +42,13 @@ namespace DreamlandEditor.Managers {
                 foreach (FileInfo fl in directory.GetFiles()) {
                     TreeNode newNode = new TreeNode(fl.Name);
                     node.Nodes.Add(newNode);
-                    
+
                 }
             } catch (Exception e) {
                 MessageBox.Show(e.Message.ToString());
             }
         }
-        private static bool IsDirectoryEmpty(string path) {
+        private bool IsDirectoryEmpty(string path) {
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
     }
