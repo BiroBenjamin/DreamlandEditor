@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DreamlandEditor.Managers;
+using DreamlandEditor.UI.UIPanels;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.UIButtons {
-    class NavigatonButton : UiButton {
-        public NavigatonButton() : base() {
+    public class NavigationButton : UiButton {
+        public NavigationButton() : base() {
             InitializeComponent();
         }
 
@@ -23,11 +21,14 @@ namespace DreamlandEditor.UI.UIButtons {
             Width = 50;
         }
 
-        public void SetDropdownPanel(Panel panel) {
-            Click += (sender, ev) => {
+        public void SetDropdownPanel(DropdownPanel panel) {
+            Click += delegate (object sender, EventArgs e) {
+                EventManager.DropDown(sender, e, this, panel);
+            };
+            /*Click += (sender, ev) => {
                 panel.Visible = !panel.Visible;
                 SetActive(panel);
-            };
+            };*/
         }
         public void SetActive(Panel panel) {
             if (panel.Visible) {

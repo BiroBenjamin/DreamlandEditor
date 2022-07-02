@@ -13,21 +13,16 @@ namespace DreamlandEditor.UI {
         private UiPanel MenuPanel { get; set; }
         private TreeView FileTree { get; set; }
 
-        private SystemPrefs systemPrefs = new SystemPrefs();
+        private readonly SystemPrefs systemPrefs = new SystemPrefs();
 
-        public FileExplorer() {
-        }
-        public FileExplorer(SystemPrefs systemPrefs) : base() {
-            this.systemPrefs = systemPrefs;
-        }
-
-        public void AddSystemPrefs(SystemPrefs systemPrefs) {
+        public FileExplorer(/*SystemPrefs systemPrefs*/) : base() {
             this.systemPrefs = systemPrefs;
             InitializeComponents();
         }
 
         private void InitializeComponents() {
             SetupLayout(DockStyle.Right);
+            SetUpTreeView();
         }
         public void SetUpTreeView() {
             WorkArea.Controls.Remove(FileTree);
