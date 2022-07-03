@@ -1,5 +1,7 @@
-﻿using DreamlandEditor.Data;
+﻿using DreamlandEditor.Controls;
+using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
+using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
 using System;
@@ -8,12 +10,17 @@ using System.Windows.Forms;
 
 namespace MonoGame.Forms.DX {
     public partial class Form1 : Form {
-        DropdownPanel PanelFileDropdown { get; set; }
+        private ItemEditor ItemEditor { get; set; }
+        private CharacterEditor CharacterEditor { get; set; }
+
+        private DropdownPanel PanelFileDropdown { get; set; }
 
         public Form1() {
-            InitializeComponent();
-
             SystemPrefs systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
+
+            InitializeComponent();
+            SetupEditors();
+
             DebugManager.SystemPrefs = systemPrefs;
             DebugManager.ShowWindow();
 
@@ -23,8 +30,25 @@ namespace MonoGame.Forms.DX {
             PanelItemExplorer.SetupLayout(DockStyle.Top);
 
             SetupDropdownPanel();
+        }
 
+        private void SetupEditors() {
             ButtonSwitchToRenderWindow.SetActive();
+            ButtonSwitchToRenderWindow.Click += delegate (object sender, EventArgs e) {
+                EventManager.SwitchEditor(sender, e, RenderWindow, PanelWorkArea.Controls);
+            };
+
+            ItemEditor = new ItemEditor();
+            PanelWorkArea.Controls.Add(ItemEditor);
+            ButtonSwitchToItemEditor.Click += delegate (object sender, EventArgs e) {
+                EventManager.SwitchEditor(sender, e, ItemEditor, PanelWorkArea.Controls);
+            };
+
+            CharacterEditor = new CharacterEditor();
+            PanelWorkArea.Controls.Add(CharacterEditor);
+            ButtonSwitchToCharacterEditor.Click += delegate (object sender, EventArgs e) {
+                EventManager.SwitchEditor(sender, e, CharacterEditor, PanelWorkArea.Controls);
+            };
         }
 
         private void SetupDropdownPanel() {

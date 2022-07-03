@@ -60,23 +60,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\CharacterEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\CharacterEditor.Designer.cs">
-      <DependentUpon>CharacterEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\DebugWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\DebugWindow.Designer.cs">
       <DependentUpon>DebugWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ItemEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\ItemEditor.Designer.cs">
-      <DependentUpon>ItemEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\SystemPrefs.cs" />
     <Compile Include="Controls\RenderWindow.cs">
@@ -93,6 +81,15 @@
     <Compile Include="Managers\SystemPrefsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UI\Editors\BaseEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\CharacterEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\ItemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\FileExplorer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -121,14 +118,8 @@
     <Compile Include="UI\UIPanels\UiPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="Controls\CharacterEditor.resx">
-      <DependentUpon>CharacterEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DebugWindow.resx">
       <DependentUpon>DebugWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ItemEditor.resx">
-      <DependentUpon>ItemEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -142,6 +133,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\Editors\BaseEditor.resx">
+      <DependentUpon>BaseEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\CharacterEditor.resx">
+      <DependentUpon>CharacterEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\ItemEditor.resx">
+      <DependentUpon>ItemEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Content\Content.mgcb" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

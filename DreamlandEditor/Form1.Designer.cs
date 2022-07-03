@@ -25,18 +25,18 @@ namespace MonoGame.Forms.DX {
         /// </summary>
         private void InitializeComponent() {
             this.PanelNavbar = new System.Windows.Forms.Panel();
-            this.PanelWorkArea = new System.Windows.Forms.Panel();
+            this.ButtonFileNavbutton = new DreamlandEditor.UI.UIButtons.NavigationButton();
             this.PanelSwitchEditorWindows = new System.Windows.Forms.Panel();
-            this.sampleControl = new DreamlandEditor.Controls.SampleControl();
+            this.ButtonSwitchToCharacterEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+            this.ButtonSwitchToItemEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+            this.ButtonSwitchToRenderWindow = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+            this.RenderWindow = new DreamlandEditor.Controls.SampleControl();
             this.FileExplorer = new DreamlandEditor.UI.FileExplorer();
             this.PanelItemExplorer = new DreamlandEditor.UI.UIPanels.ResizablePanel();
-            this.ButtonFileNavbutton = new DreamlandEditor.UI.UIButtons.NavigationButton();
-            this.ButtonSwitchToRenderWindow = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
-            this.ButtonSwitchToItemEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
-            this.ButtonSwitchToCharacterEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+            this.PanelWorkArea = new System.Windows.Forms.Panel();
             this.PanelNavbar.SuspendLayout();
-            this.PanelWorkArea.SuspendLayout();
             this.PanelSwitchEditorWindows.SuspendLayout();
+            this.PanelWorkArea.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelNavbar
@@ -50,15 +50,22 @@ namespace MonoGame.Forms.DX {
             this.PanelNavbar.Size = new System.Drawing.Size(1184, 25);
             this.PanelNavbar.TabIndex = 1;
             // 
-            // PanelWorkArea
+            // ButtonFileNavbutton
             // 
-            this.PanelWorkArea.Controls.Add(this.sampleControl);
-            this.PanelWorkArea.Controls.Add(this.PanelSwitchEditorWindows);
-            this.PanelWorkArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelWorkArea.Location = new System.Drawing.Point(200, 25);
-            this.PanelWorkArea.Name = "PanelWorkArea";
-            this.PanelWorkArea.Size = new System.Drawing.Size(984, 536);
-            this.PanelWorkArea.TabIndex = 3;
+            this.ButtonFileNavbutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonFileNavbutton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonFileNavbutton.FlatAppearance.BorderSize = 0;
+            this.ButtonFileNavbutton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonFileNavbutton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonFileNavbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonFileNavbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.ButtonFileNavbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonFileNavbutton.Location = new System.Drawing.Point(0, 0);
+            this.ButtonFileNavbutton.Name = "ButtonFileNavbutton";
+            this.ButtonFileNavbutton.Size = new System.Drawing.Size(50, 23);
+            this.ButtonFileNavbutton.TabIndex = 0;
+            this.ButtonFileNavbutton.Text = "File";
+            this.ButtonFileNavbutton.UseVisualStyleBackColor = false;
             // 
             // PanelSwitchEditorWindows
             // 
@@ -72,17 +79,74 @@ namespace MonoGame.Forms.DX {
             this.PanelSwitchEditorWindows.Size = new System.Drawing.Size(984, 25);
             this.PanelSwitchEditorWindows.TabIndex = 1;
             // 
-            // sampleControl
+            // ButtonSwitchToCharacterEditor
             // 
-            this.sampleControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sampleControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sampleControl.Location = new System.Drawing.Point(0, 25);
-            this.sampleControl.Margin = new System.Windows.Forms.Padding(2);
-            this.sampleControl.MouseHoverUpdatesOnly = false;
-            this.sampleControl.Name = "sampleControl";
-            this.sampleControl.Size = new System.Drawing.Size(984, 511);
-            this.sampleControl.TabIndex = 0;
-            this.sampleControl.Text = "Sample Control";
+            this.ButtonSwitchToCharacterEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToCharacterEditor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonSwitchToCharacterEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.ButtonSwitchToCharacterEditor.FlatAppearance.BorderSize = 0;
+            this.ButtonSwitchToCharacterEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonSwitchToCharacterEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonSwitchToCharacterEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSwitchToCharacterEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            this.ButtonSwitchToCharacterEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonSwitchToCharacterEditor.Location = new System.Drawing.Point(150, 0);
+            this.ButtonSwitchToCharacterEditor.Name = "ButtonSwitchToCharacterEditor";
+            this.ButtonSwitchToCharacterEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.ButtonSwitchToCharacterEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToCharacterEditor.TabIndex = 2;
+            this.ButtonSwitchToCharacterEditor.Text = "Character Editor";
+            this.ButtonSwitchToCharacterEditor.UseVisualStyleBackColor = false;
+            // 
+            // ButtonSwitchToItemEditor
+            // 
+            this.ButtonSwitchToItemEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToItemEditor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonSwitchToItemEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.ButtonSwitchToItemEditor.FlatAppearance.BorderSize = 0;
+            this.ButtonSwitchToItemEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonSwitchToItemEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonSwitchToItemEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSwitchToItemEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            this.ButtonSwitchToItemEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonSwitchToItemEditor.Location = new System.Drawing.Point(75, 0);
+            this.ButtonSwitchToItemEditor.Name = "ButtonSwitchToItemEditor";
+            this.ButtonSwitchToItemEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.ButtonSwitchToItemEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToItemEditor.TabIndex = 1;
+            this.ButtonSwitchToItemEditor.Text = "Item Editor";
+            this.ButtonSwitchToItemEditor.UseVisualStyleBackColor = false;
+            // 
+            // ButtonSwitchToRenderWindow
+            // 
+            this.ButtonSwitchToRenderWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToRenderWindow.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonSwitchToRenderWindow.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.ButtonSwitchToRenderWindow.FlatAppearance.BorderSize = 0;
+            this.ButtonSwitchToRenderWindow.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonSwitchToRenderWindow.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonSwitchToRenderWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSwitchToRenderWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            this.ButtonSwitchToRenderWindow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonSwitchToRenderWindow.Location = new System.Drawing.Point(0, 0);
+            this.ButtonSwitchToRenderWindow.Name = "ButtonSwitchToRenderWindow";
+            this.ButtonSwitchToRenderWindow.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.ButtonSwitchToRenderWindow.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToRenderWindow.TabIndex = 0;
+            this.ButtonSwitchToRenderWindow.Text = "Render Window";
+            this.ButtonSwitchToRenderWindow.UseVisualStyleBackColor = false;
+            // 
+            // RenderWindow
+            // 
+            this.RenderWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RenderWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RenderWindow.Location = new System.Drawing.Point(0, 25);
+            this.RenderWindow.Margin = new System.Windows.Forms.Padding(2);
+            this.RenderWindow.MouseHoverUpdatesOnly = false;
+            this.RenderWindow.Name = "RenderWindow";
+            this.RenderWindow.Size = new System.Drawing.Size(984, 511);
+            this.RenderWindow.TabIndex = 0;
+            this.RenderWindow.Text = "Sample Control";
             // 
             // FileExplorer
             // 
@@ -104,79 +168,15 @@ namespace MonoGame.Forms.DX {
             this.PanelItemExplorer.Size = new System.Drawing.Size(1184, 100);
             this.PanelItemExplorer.TabIndex = 2;
             // 
-            // ButtonFileNavbutton
+            // PanelWorkArea
             // 
-            this.ButtonFileNavbutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonFileNavbutton.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonFileNavbutton.FlatAppearance.BorderSize = 0;
-            this.ButtonFileNavbutton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonFileNavbutton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonFileNavbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFileNavbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            this.ButtonFileNavbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonFileNavbutton.Location = new System.Drawing.Point(0, 0);
-            this.ButtonFileNavbutton.Name = "ButtonFileNavbutton";
-            this.ButtonFileNavbutton.Size = new System.Drawing.Size(50, 23);
-            this.ButtonFileNavbutton.TabIndex = 0;
-            this.ButtonFileNavbutton.Text = "File";
-            this.ButtonFileNavbutton.UseVisualStyleBackColor = false;
-            // 
-            // ButtonSwitchToRenderWindow
-            // 
-            this.ButtonSwitchToRenderWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonSwitchToRenderWindow.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonSwitchToRenderWindow.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.ButtonSwitchToRenderWindow.FlatAppearance.BorderSize = 0;
-            this.ButtonSwitchToRenderWindow.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonSwitchToRenderWindow.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonSwitchToRenderWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSwitchToRenderWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            this.ButtonSwitchToRenderWindow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToRenderWindow.Location = new System.Drawing.Point(0, 0);
-            this.ButtonSwitchToRenderWindow.Name = "ButtonSwitchToRenderWindow";
-            this.ButtonSwitchToRenderWindow.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToRenderWindow.Size = new System.Drawing.Size(75, 25);
-            this.ButtonSwitchToRenderWindow.TabIndex = 0;
-            this.ButtonSwitchToRenderWindow.Text = "Render Window";
-            this.ButtonSwitchToRenderWindow.UseVisualStyleBackColor = false;
-            // 
-            // ButtonSwitchToItemEditor
-            // 
-            this.ButtonSwitchToItemEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonSwitchToItemEditor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonSwitchToItemEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.ButtonSwitchToItemEditor.FlatAppearance.BorderSize = 0;
-            this.ButtonSwitchToItemEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonSwitchToItemEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonSwitchToItemEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSwitchToItemEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            this.ButtonSwitchToItemEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToItemEditor.Location = new System.Drawing.Point(75, 0);
-            this.ButtonSwitchToItemEditor.Name = "ButtonSwitchToItemEditor";
-            this.ButtonSwitchToItemEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToItemEditor.Size = new System.Drawing.Size(75, 25);
-            this.ButtonSwitchToItemEditor.TabIndex = 1;
-            this.ButtonSwitchToItemEditor.Text = "Item Editor";
-            this.ButtonSwitchToItemEditor.UseVisualStyleBackColor = false;
-            // 
-            // ButtonSwitchToCharacterEditor
-            // 
-            this.ButtonSwitchToCharacterEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonSwitchToCharacterEditor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonSwitchToCharacterEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.ButtonSwitchToCharacterEditor.FlatAppearance.BorderSize = 0;
-            this.ButtonSwitchToCharacterEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonSwitchToCharacterEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonSwitchToCharacterEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSwitchToCharacterEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            this.ButtonSwitchToCharacterEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToCharacterEditor.Location = new System.Drawing.Point(150, 0);
-            this.ButtonSwitchToCharacterEditor.Name = "ButtonSwitchToCharacterEditor";
-            this.ButtonSwitchToCharacterEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToCharacterEditor.Size = new System.Drawing.Size(75, 25);
-            this.ButtonSwitchToCharacterEditor.TabIndex = 2;
-            this.ButtonSwitchToCharacterEditor.Text = "Character Editor";
-            this.ButtonSwitchToCharacterEditor.UseVisualStyleBackColor = false;
+            this.PanelWorkArea.Controls.Add(this.RenderWindow);
+            this.PanelWorkArea.Controls.Add(this.PanelSwitchEditorWindows);
+            this.PanelWorkArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelWorkArea.Location = new System.Drawing.Point(200, 25);
+            this.PanelWorkArea.Name = "PanelWorkArea";
+            this.PanelWorkArea.Size = new System.Drawing.Size(984, 536);
+            this.PanelWorkArea.TabIndex = 4;
             // 
             // Form1
             // 
@@ -187,29 +187,30 @@ namespace MonoGame.Forms.DX {
             this.Controls.Add(this.FileExplorer);
             this.Controls.Add(this.PanelItemExplorer);
             this.Controls.Add(this.PanelNavbar);
+            this.IsMdiContainer = true;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dreamland Editor";
             this.PanelNavbar.ResumeLayout(false);
-            this.PanelWorkArea.ResumeLayout(false);
             this.PanelSwitchEditorWindows.ResumeLayout(false);
+            this.PanelWorkArea.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private DreamlandEditor.Controls.SampleControl sampleControl;
+        private DreamlandEditor.Controls.SampleControl RenderWindow;
         private System.Windows.Forms.Panel PanelNavbar;
         private DreamlandEditor.UI.UIPanels.ResizablePanel PanelItemExplorer;
-        private System.Windows.Forms.Panel PanelWorkArea;
         private DreamlandEditor.UI.FileExplorer FileExplorer;
         private DreamlandEditor.UI.UIButtons.NavigationButton ButtonFileNavbutton;
         private System.Windows.Forms.Panel PanelSwitchEditorWindows;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToCharacterEditor;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToItemEditor;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToRenderWindow;
+        private System.Windows.Forms.Panel PanelWorkArea;
     }
 }
 

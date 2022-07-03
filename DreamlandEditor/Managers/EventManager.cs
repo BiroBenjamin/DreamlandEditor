@@ -56,13 +56,14 @@ namespace DreamlandEditor.Managers {
         }
 
         public static void SwitchEditor(object sender, EventArgs e, Control panelShow, ControlCollection collection) {
-            Control[] controls = collection.Find("Editor", true);
-            foreach (Control control in controls) {
-                if(control is WindowChangeButton) {
-                    (control as WindowChangeButton).SetInactive();
+            foreach (Control control in collection) {
+                if ( !(control is Panel) ) {
+                    control.Visible = false;
                     continue;
                 }
-                control.Visible = false;
+                foreach (Control button in control.Controls) {
+                    (button as WindowChangeButton).SetInactive();
+                }
             }
             (sender as WindowChangeButton).SetActive();
             panelShow.Visible = true;
