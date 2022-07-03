@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Forms.Controls;
 
-namespace MonoGame.Forms.DX.Controls {
+namespace DreamlandEditor.Controls {
     public class SampleControl : MonoGameControl {
         const string WelcomeMessage = "Hello MonoGame.Forms!";
 

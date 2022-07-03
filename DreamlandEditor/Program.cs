@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MonoGame.Forms.DX;
+using System;
 using System.Windows.Forms;
 
-namespace MonoGame.Forms.DX {
+namespace DreamlandEditor {
     internal static class Program {
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
@@ -13,7 +11,7 @@ namespace MonoGame.Forms.DX {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            Application.Run(new Form1());
         }
     }
 }
