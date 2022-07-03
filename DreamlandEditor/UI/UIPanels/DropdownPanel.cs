@@ -19,6 +19,7 @@ namespace DreamlandEditor.UI.UIPanels {
             Size = new Size(150, 150);
             BackColor = Color.FromArgb(13, 13, 13);
             BorderStyle = BorderStyle.FixedSingle;
+            Height = 0;
         }
 
         public void AddToControls(ControlCollection control, Point location) {
@@ -47,14 +48,11 @@ namespace DreamlandEditor.UI.UIPanels {
             };
         }
 
-        public void AddButtons(params Control[] components) {
-            int tmpHeight = 0;
+        public void AddComponent(params Control[] components) {
             foreach(Control component in components) {
-                tmpHeight += component.Height;
+                Height += component.Height;
                 Controls.Add(component);
-            }
-            Height = tmpHeight;
-            
+            }            
         }
     }
 }

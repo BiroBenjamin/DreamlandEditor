@@ -1,7 +1,10 @@
-﻿namespace DreamlandEditor.Data {
+﻿using System;
+
+namespace DreamlandEditor.Data {
     //[Serializable()]
     public class SystemPrefs /*: ISerializable*/ {
         public string rootPath = @"C:\Temp";
+        public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
         public bool isDevMode = false;
 
         public SystemPrefs() {
@@ -17,7 +20,8 @@
         }*/
         public override string ToString() {
             return $"[ rootPath: {rootPath} ]" +
-                $"  [ isDevMode: {isDevMode} ]";
+                $"  [ isDevMode: {isDevMode} ]" +
+                $"  [ debugLogPath: {debugLogPath} ]";
         }
 
     }

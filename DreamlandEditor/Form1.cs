@@ -2,6 +2,7 @@
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,6 +14,7 @@ namespace MonoGame.Forms.DX {
             InitializeComponent();
 
             SystemPrefs systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
+            DebugManager.SystemPrefs = systemPrefs;
             DebugManager.ShowWindow();
 
             FileExplorer.AddSystemPrefs(systemPrefs);
@@ -29,19 +31,21 @@ namespace MonoGame.Forms.DX {
             PanelFileDropdown = new DropdownPanel(ButtonFileNavbutton);
             PanelFileDropdown.AddToControls(Controls, new Point(1, PanelNavbar.Height));
             ButtonFileNavbutton.SetDropdownPanel(PanelFileDropdown);
-            AddButtonsToDropdown(PanelFileDropdown);
+
+            AddButtonsToDropdown(PanelFileDropdown, "Open",DockStyle.Top, EventManager.OpenFile);
+            AddButtonsToDropdown(PanelFileDropdown, "Create", DockStyle.Top, EventManager.CreateFile);
+            PanelFileDropdown.AddComponent(new UiPanel {
+                Height = 3,
+                Dock = DockStyle.Bottom,
+                BackColor = Color.FromArgb(166, 166, 166)
+            });
+            AddButtonsToDropdown(PanelFileDropdown, "Exit", DockStyle.Bottom, EventManager.ExitApplication);
         }
-        private void AddButtonsToDropdown(DropdownPanel panel) {
-            panel.AddButtons(
-                new DropdownUiButton(DockStyle.Top, "Open"),
-                new DropdownUiButton(DockStyle.Top, "Create"),
-                new Panel {
-                    Height = 3,
-                    Dock = DockStyle.Bottom,
-                    BackColor = Color.FromArgb(166, 166, 166)
-                },
-                new DropdownUiButton(DockStyle.Bottom, "Exit")
-            );
+        private void AddButtonsToDropdown(DropdownPanel panel, string text, DockStyle dockStyle, EventHandler action) {
+            DropdownUiButton button = new DropdownUiButton(dockStyle, text);
+            button.Click += action;
+
+            panel.AddComponent(button);
         }
     }
 }
