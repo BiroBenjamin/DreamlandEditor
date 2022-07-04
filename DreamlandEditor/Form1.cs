@@ -10,6 +10,8 @@ using System.Windows.Forms;
 namespace MonoGame.Forms.DX {
     public partial class Form1 : Form 
     {
+        SystemPrefs systemPrefs = new SystemPrefs();
+
         private ItemEditor ItemEditor { get; set; }
         private CharacterEditor CharacterEditor { get; set; }
 
@@ -30,11 +32,10 @@ namespace MonoGame.Forms.DX {
 
         public Form1() 
         {
-            SystemPrefs systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
-
             InitializeComponent();
             SetupEditors();
 
+            systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
             DebugManager.ShowWindow(systemPrefs, this);
 
             FileExplorer.AddSystemPrefs(systemPrefs);

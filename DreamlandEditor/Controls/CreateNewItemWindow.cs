@@ -1,4 +1,5 @@
 ﻿using DreamlandEditor.Data;
+using DreamlandEditor.Managers;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -17,7 +18,9 @@ namespace DreamlandEditor.Controls
 
         private void ButtonAccept_Click(object sender, EventArgs e)
         {
-            using (FileStream stream = File.Create(Path.Combine(systemPrefs.rootPath, $"{TextboxItemID.Text}.pdi")))
+            var filePath = systemPrefs.FolderStructure[ComboboxFileType.SelectedItem.ToString()];
+
+            using (FileStream stream = File.Create(Path.Combine(filePath.Key, $"{TextboxFileID.Text}.{filePath.Value}")))
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {

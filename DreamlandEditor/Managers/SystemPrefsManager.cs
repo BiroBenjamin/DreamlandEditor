@@ -12,7 +12,6 @@ namespace DreamlandEditor.Managers {
             try {
                 DeserializeSystemPrefs();
             } catch (FileNotFoundException ex){
-                DebugManager.Log($"{ex.Message} CREATED");
                 SerializeSystemPrefs();
             }
             return systemPrefs;
