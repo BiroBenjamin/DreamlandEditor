@@ -60,6 +60,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CreateNewItemWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateNewItemWindow.Designer.cs">
+      <DependentUpon>CreateNewItemWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DebugWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     <Compile Include="UI\UIPanels\UiPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="Controls\CreateNewItemWindow.resx">
+      <DependentUpon>CreateNewItemWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DebugWindow.resx">
       <DependentUpon>DebugWindow.cs</DependentUpon>
     </EmbeddedResource>

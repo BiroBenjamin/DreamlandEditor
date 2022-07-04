@@ -8,13 +8,28 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace MonoGame.Forms.DX {
-    public partial class Form1 : Form {
+    public partial class Form1 : Form 
+    {
         private ItemEditor ItemEditor { get; set; }
         private CharacterEditor CharacterEditor { get; set; }
 
-        private DropdownPanel PanelFileDropdown { get; set; }
+        private DropdownPanel PanelFileDropdown { get; set; } = new DropdownPanel();
+        private DropdownUiButton OpenButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Open");
+        private DropdownUiButton CreateButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Create");
+        private DropdownUiButton ExitButton { get; set; } = new DropdownUiButton(DockStyle.Bottom, "Exit");
 
-        public Form1() {
+        private DropdownPanel PanelOpenDropdown { get; set; } = new DropdownPanel();
+        private DropdownUiButton OpenItemButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Open existing item");
+        private DropdownUiButton OpenCharacterButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Open existing character");
+        private DropdownUiButton OpenMapButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Open existing map");
+
+        private DropdownPanel PanelCreateDropdown { get; set; } = new DropdownPanel();
+        private DropdownUiButton NewItemButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Create new item");
+        private DropdownUiButton NewCharacterButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Create new character");
+        private DropdownUiButton NewMapButton { get; set; } = new DropdownUiButton(DockStyle.Top, "Create new map");
+
+        public Form1() 
+        {
             SystemPrefs systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
 
             InitializeComponent();
@@ -27,7 +42,23 @@ namespace MonoGame.Forms.DX {
 
             PanelItemExplorer.SetupLayout(DockStyle.Top);
 
-            SetupDropdownPanel();
+            SetupButtonEvents();
+            SetupDropdownPanel(ButtonFileNavbutton, PanelFileDropdown, new Point(1, PanelNavbar.Height),
+                    CreateButton, OpenButton,
+                    new Panel
+                    {
+                        Height = 3,
+                        Dock = DockStyle.Bottom,
+                        BackColor = Color.FromArgb(166, 166, 166)
+                    },
+                    ExitButton
+            );
+            SetupDropdownPanel(OpenButton, PanelOpenDropdown,
+                    new Point(PanelOpenDropdown.Width, PanelNavbar.Height + OpenButton.Location.Y),
+                    OpenItemButton, OpenCharacterButton, OpenMapButton);
+            SetupDropdownPanel(CreateButton, PanelCreateDropdown,
+                    new Point(PanelFileDropdown.Width, PanelNavbar.Height + CreateButton.Location.Y),
+                    NewItemButton, NewCharacterButton, NewMapButton);
         }
 
         private void SetupEditors() {
@@ -43,36 +74,28 @@ namespace MonoGame.Forms.DX {
             ButtonSwitchToCharacterEditor.SetupEvents(PanelWorkArea.Controls, CharacterEditor);
         }
 
-        private void SetupDropdownPanel() {
-            PanelFileDropdown = new DropdownPanel();
-            PanelFileDropdown.SetupButton(ButtonFileNavbutton);
-            PanelFileDropdown.AddToControls(Controls, new Point(1, PanelNavbar.Height));
+        private void SetupDropdownPanel(IUiButton dropdownButton, DropdownPanel dropdownPanel, Point position, 
+                                        params Control[] components)
+        {
+            dropdownPanel.SetupButton(dropdownButton);
+            dropdownPanel.AddToControls(Controls, position);
 
-            ButtonFileNavbutton.SetDropdownPanel(PanelFileDropdown);
+            dropdownButton.SetDropdownPanel(dropdownPanel);
 
-            AddButtonsToDropdown(PanelFileDropdown, "Open",DockStyle.Top, 
-                (sender, ev) => { 
-                    
-                });
-            AddButtonsToDropdown(PanelFileDropdown, "Create", DockStyle.Top,
-                (sender, ev) => {
-                    
-                });
-            PanelFileDropdown.AddComponent(new UiPanel {
-                Height = 3,
-                Dock = DockStyle.Bottom,
-                BackColor = Color.FromArgb(166, 166, 166)
-            });
-            AddButtonsToDropdown(PanelFileDropdown, "Exit", DockStyle.Bottom,
-                (sender, ev) => {
-                    Application.Exit();
-                });
+            foreach(Control component in components)
+            {
+                dropdownPanel.AddComponent(component);
+            }
         }
-        private void AddButtonsToDropdown(DropdownPanel panel, string text, DockStyle dockStyle, EventHandler action) {
-            DropdownUiButton button = new DropdownUiButton(dockStyle, text);
-            button.Click += action;
-
-            panel.AddComponent(button);
+        
+        private void SetupButtonEvents()
+        {
+            CreateButton.SetDropdownPanel(PanelCreateDropdown);
+            OpenButton.SetDropdownPanel(PanelOpenDropdown);
+            ExitButton.Click += (sender, ev) => 
+            {
+                Application.Exit();
+            };
         }
     }
 }

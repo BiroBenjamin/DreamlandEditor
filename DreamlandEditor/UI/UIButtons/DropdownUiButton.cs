@@ -1,13 +1,9 @@
 ﻿using DreamlandEditor.UI.UIPanels;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.UIButtons {
+namespace DreamlandEditor.UI.UIButtons
+{
     class DropdownUiButton : Button, IUiButton
     {
         public DropdownUiButton(DockStyle dockStyle, string text) : base() 
@@ -30,10 +26,18 @@ namespace DreamlandEditor.UI.UIButtons {
 
         public void SetDropdownPanel(UiPanel panel)
         {
-            Click += (sender, ev) => {
-                panel.Visible = !panel.Visible;
-                panel.BringToFront();
+            Click += (sender, ev) =>
+            {
+                if (panel.Visible)
+                {
+                    panel.Visible = false;
+                    SetInactive();
+                    //SendToBack();
+                    return;
+                }
+                panel.Visible = true;
                 SetActive();
+                BringToFront();
             };
         }
 

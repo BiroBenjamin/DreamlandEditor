@@ -4,7 +4,6 @@ using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.UIButtons
 {
-    public enum ButtonPlace { Navbar, Dropdown };
     public class NavigationButton : Button, IUiButton
     {
         public NavigationButton() : base() 

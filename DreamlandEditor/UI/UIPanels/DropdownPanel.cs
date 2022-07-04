@@ -1,12 +1,13 @@
 ﻿using DreamlandEditor.Managers;
 using DreamlandEditor.UI.UIButtons;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.UIPanels 
 {
-    public class DropdownPanel : UiPanel 
+    public class DropdownPanel : UiPanel
     {
         public IUiButton DropdownButton { get; set; }
 
@@ -15,6 +16,8 @@ namespace DreamlandEditor.UI.UIPanels
             Visible = false;
             BackColor = Color.FromArgb(13, 13, 13);
             BorderStyle = BorderStyle.FixedSingle;
+
+            Name = "Dropdown";
 
             Height = 0;
             Width = 150;
@@ -46,7 +49,7 @@ namespace DreamlandEditor.UI.UIPanels
         }
         private bool CheckComponentValidity(Control component)
         {
-            return component == this || component == DropdownButton;
+            return component == this || component == DropdownButton || component.Name == "Dropdown";
         }
         private void AddEvent(Control component)
         {
