@@ -1,5 +1,4 @@
-﻿using DreamlandEditor.Controls;
-using DreamlandEditor.Data;
+﻿using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
@@ -21,8 +20,7 @@ namespace MonoGame.Forms.DX {
             InitializeComponent();
             SetupEditors();
 
-            DebugManager.SystemPrefs = systemPrefs;
-            DebugManager.ShowWindow();
+            DebugManager.ShowWindow(systemPrefs, this);
 
             FileExplorer.AddSystemPrefs(systemPrefs);
             FileExplorer.SetUpTreeView();
@@ -34,36 +32,41 @@ namespace MonoGame.Forms.DX {
 
         private void SetupEditors() {
             ButtonSwitchToRenderWindow.SetActive();
-            ButtonSwitchToRenderWindow.Click += delegate (object sender, EventArgs e) {
-                EventManager.SwitchEditor(sender, e, RenderWindow, PanelWorkArea.Controls);
-            };
+            ButtonSwitchToRenderWindow.SetupEvents(PanelWorkArea.Controls, RenderWindow);
 
             ItemEditor = new ItemEditor();
             PanelWorkArea.Controls.Add(ItemEditor);
-            ButtonSwitchToItemEditor.Click += delegate (object sender, EventArgs e) {
-                EventManager.SwitchEditor(sender, e, ItemEditor, PanelWorkArea.Controls);
-            };
+            ButtonSwitchToItemEditor.SetupEvents(PanelWorkArea.Controls, ItemEditor);
 
             CharacterEditor = new CharacterEditor();
             PanelWorkArea.Controls.Add(CharacterEditor);
-            ButtonSwitchToCharacterEditor.Click += delegate (object sender, EventArgs e) {
-                EventManager.SwitchEditor(sender, e, CharacterEditor, PanelWorkArea.Controls);
-            };
+            ButtonSwitchToCharacterEditor.SetupEvents(PanelWorkArea.Controls, CharacterEditor);
         }
 
         private void SetupDropdownPanel() {
-            PanelFileDropdown = new DropdownPanel(ButtonFileNavbutton);
+            PanelFileDropdown = new DropdownPanel();
+            PanelFileDropdown.SetupButton(ButtonFileNavbutton);
             PanelFileDropdown.AddToControls(Controls, new Point(1, PanelNavbar.Height));
+
             ButtonFileNavbutton.SetDropdownPanel(PanelFileDropdown);
 
-            AddButtonsToDropdown(PanelFileDropdown, "Open",DockStyle.Top, EventManager.OpenFile);
-            AddButtonsToDropdown(PanelFileDropdown, "Create", DockStyle.Top, EventManager.CreateFile);
+            AddButtonsToDropdown(PanelFileDropdown, "Open",DockStyle.Top, 
+                (sender, ev) => { 
+                    
+                });
+            AddButtonsToDropdown(PanelFileDropdown, "Create", DockStyle.Top,
+                (sender, ev) => {
+                    
+                });
             PanelFileDropdown.AddComponent(new UiPanel {
                 Height = 3,
                 Dock = DockStyle.Bottom,
                 BackColor = Color.FromArgb(166, 166, 166)
             });
-            AddButtonsToDropdown(PanelFileDropdown, "Exit", DockStyle.Bottom, EventManager.ExitApplication);
+            AddButtonsToDropdown(PanelFileDropdown, "Exit", DockStyle.Bottom,
+                (sender, ev) => {
+                    Application.Exit();
+                });
         }
         private void AddButtonsToDropdown(DropdownPanel panel, string text, DockStyle dockStyle, EventHandler action) {
             DropdownUiButton button = new DropdownUiButton(dockStyle, text);

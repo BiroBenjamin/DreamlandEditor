@@ -1,39 +1,45 @@
-﻿using DreamlandEditor.Managers;
-using DreamlandEditor.UI.UIPanels;
-using System;
+﻿using DreamlandEditor.UI.UIPanels;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.UIButtons {
-    public class NavigationButton : UiButton {
-        public NavigationButton() : base() {
-            InitializeComponent();
-        }
+namespace DreamlandEditor.UI.UIButtons
+{
+    public enum ButtonPlace { Navbar, Dropdown };
+    public class NavigationButton : Button, IUiButton
+    {
+        public NavigationButton() : base() 
+        {
+            FlatStyle = FlatStyle.Flat;
+            FlatAppearance.BorderSize = 0;
+            FlatAppearance.MouseOverBackColor = Color.FromArgb(13, 13, 13);
+            FlatAppearance.MouseDownBackColor = Color.FromArgb(89, 89, 89);
 
-        private void InitializeComponent() {
+            TextAlign = ContentAlignment.MiddleCenter;
+            Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
+            
+            Width = 50;
+
+            Dock = DockStyle.Left;
+
             BackColor = Color.FromArgb(38, 38, 38);
             ForeColor = Color.FromArgb(191, 191, 191);
-            Dock = DockStyle.Left;
-            FlatAppearance.MouseDownBackColor = Color.FromArgb(89, 89, 89);
-            FlatAppearance.MouseOverBackColor = Color.FromArgb(13, 13, 13);
-            Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
-            FlatAppearance.BorderSize = 0;
-            Width = 50;
         }
 
-        public void SetDropdownPanel(DropdownPanel panel) {
-            Click += delegate (object sender, EventArgs e) {
-                EventManager.DropDown(sender, e, panel);
+        public void SetDropdownPanel(UiPanel panel)
+        {
+            Click += (sender, ev) => {
+                panel.Visible = !panel.Visible;
+                panel.BringToFront();
+                SetActive();
             };
         }
-        public void SetActive(Panel panel) {
-            if (panel.Visible) {
-                BackColor = Color.FromArgb(13, 13, 13);
-                return;
-            }
-            BackColor = Color.FromArgb(38, 38, 38);
+
+        public void SetActive() 
+        {
+            BackColor = Color.FromArgb(13, 13, 13);
         }
-        public void SetInactive() {
+        public void SetInactive() 
+        {
             BackColor = Color.FromArgb(38, 38, 38);
         }
     }

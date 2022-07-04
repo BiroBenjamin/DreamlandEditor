@@ -2,25 +2,25 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.UIPanels {
-    public class ResizablePanel : UiPanel {
+namespace DreamlandEditor.UI.UIPanels 
+{
+    public class ResizablePanel : UiPanel 
+    {
         private Panel ResizeArea { get; set; }
-        protected Panel WorkArea { get; set; }
+        //protected Panel WorkArea { get; set; }
 
         private bool allowResize = false;
 
-        public ResizablePanel() : base() {
-            InitializeComponent();
+        public ResizablePanel() : base()
+        {
         }
 
-        private void InitializeComponent() {
-        }
         public void SetupLayout(DockStyle resizeAreaPosition) {
             SetupResizeArea(resizeAreaPosition);
-            SetupWorkArea();
+            //SetupWorkArea();
 
             Controls.Add(ResizeArea);
-            Controls.Add(WorkArea);
+            //Controls.Add(WorkArea);
         }
 
         private void SetupResizeArea(DockStyle dockType) {
@@ -69,10 +69,10 @@ namespace DreamlandEditor.UI.UIPanels {
             };
         }
 
-        private void SetupWorkArea() {
+        /*private void SetupWorkArea() {
             WorkArea = new Panel { 
                 Dock = DockStyle.Fill
             };
-        }
+        }*/
     }
 }

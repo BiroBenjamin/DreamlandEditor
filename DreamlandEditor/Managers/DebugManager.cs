@@ -1,16 +1,15 @@
 ﻿using DreamlandEditor.Controlers;
 using DreamlandEditor.Data;
+using System.Windows.Forms;
 
 namespace DreamlandEditor.Managers {
     public static class DebugManager {
-        private static DebugWindow debugWindow = new DebugWindow();
-        public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
+        private static DebugWindow debugWindow;
 
-
-        public static void ShowWindow() {
-            if (SystemPrefs.isDevMode) {
+        public static void ShowWindow(SystemPrefs systemPrefs, Form parentForm) {
+            if (systemPrefs.isDevMode) {
+                debugWindow = new DebugWindow(systemPrefs, parentForm);
                 debugWindow.Show();
-                debugWindow.AddPrefFile(SystemPrefs);
             }
         }
         public static void Log(string text) {

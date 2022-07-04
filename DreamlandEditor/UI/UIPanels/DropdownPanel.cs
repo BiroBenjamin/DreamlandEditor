@@ -1,34 +1,39 @@
 ﻿using DreamlandEditor.Managers;
 using DreamlandEditor.UI.UIButtons;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.UIPanels {
-    public class DropdownPanel : UiPanel {
-        public NavigationButton DropdownButton { get; set; }
+namespace DreamlandEditor.UI.UIPanels 
+{
+    public class DropdownPanel : UiPanel 
+    {
+        public IUiButton DropdownButton { get; set; }
 
-        public DropdownPanel(NavigationButton dropdownButton) : base() {
-            InitializeComponents();
+        public DropdownPanel() : base()
+        {
+            Visible = false;
+            BackColor = Color.FromArgb(13, 13, 13);
+            BorderStyle = BorderStyle.FixedSingle;
+
+            Height = 0;
+            Width = 150;
+        }
+
+        public void SetupButton(IUiButton dropdownButton)
+        {
             DropdownButton = dropdownButton;
         }
 
-        private void InitializeComponents() {
-            Visible = false;
-            Size = new Size(150, 150);
-            BackColor = Color.FromArgb(13, 13, 13);
-            BorderStyle = BorderStyle.FixedSingle;
-            Height = 0;
-        }
-
-        public void AddToControls(ControlCollection control, Point location) {
+        public void AddToControls(ControlCollection control, Point location)
+        {
             control.Add(this);
             Location = location;
             BringToFront();
             LoopControls(Parent.Controls);
         }
-        private void LoopControls(ControlCollection controls) {
+        private void LoopControls(ControlCollection controls)
+        {
             foreach (Control component in controls) {
                 if (CheckComponentValidity(component)) {
                     continue;
@@ -39,12 +44,15 @@ namespace DreamlandEditor.UI.UIPanels {
                 }
             }
         }
-        private bool CheckComponentValidity(Control component) {
+        private bool CheckComponentValidity(Control component)
+        {
             return component == this || component == DropdownButton;
         }
-        private void AddEvent(Control component) {
-            component.MouseEnter += delegate(object sender, EventArgs e){
-                EventManager.LeaveDropdownWindow(sender, e, this, DropdownButton);
+        private void AddEvent(Control component)
+        {
+            component.MouseEnter += (sender, ev) => {
+                Visible = false;
+                DropdownButton.SetInactive();
             };
         }
 

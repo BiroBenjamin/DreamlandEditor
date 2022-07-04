@@ -6,37 +6,43 @@ using System.Windows.Forms;
 
 namespace DreamlandEditor.Controlers {
     public partial class DebugWindow : Form {
-        SystemPrefs systemPrefs;
-        private string path;
+        private readonly SystemPrefs systemPrefs;
 
-        public DebugWindow() {
+        public DebugWindow(SystemPrefs systemPrefs, Form parentForm) {
             InitializeComponent();
+            this.systemPrefs = systemPrefs;
 
-            FormClosing += (sender, ev) => {
-                try {
-                    CreateLogFile();
-                } catch(DirectoryNotFoundException e) {
-                    Debug.WriteLine(e.Message);
-                    Directory.CreateDirectory(path);
-                    CreateLogFile();
-                }
-            };
+            FormClosing += OnFormClosing;
+            parentForm.FormClosing += OnFormClosing;
         }
 
+        private void OnFormClosing(object sender, EventArgs ev)
+        {
+            try
+            {
+                CreateLogFile();
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Debug.WriteLine(e.Message);
+                Directory.CreateDirectory(systemPrefs.debugLogPath);
+                CreateLogFile();
+            }
+        }
         private void CreateLogFile() {
             if(ListBoxDebugMessages.Items.Count < 1) {
                 return;
             }
             string fileName = String.Format("{0:MM-dd-yyyy_HH-mm-ss}.log", DateTime.Now);
 
-            using (FileStream stream = File.Create(Path.Combine(path, fileName))) {
+            using (FileStream stream = File.Create(Path.Combine(systemPrefs.debugLogPath, fileName))) {
                 using (StreamWriter writer = new StreamWriter(stream)){
                     foreach(var line in ListBoxDebugMessages.Items) {
                         writer.WriteLine(line.ToString());
                     }
                 }
             }
-            Debug.WriteLine(Path.Combine(path, fileName));
+            Debug.WriteLine(Path.Combine(systemPrefs.debugLogPath, fileName));
         }
 
         public void AddLog(string text) {
@@ -45,11 +51,6 @@ namespace DreamlandEditor.Controlers {
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             }
-        }
-
-        public void AddPrefFile(SystemPrefs SystemPrefs) {
-            systemPrefs = SystemPrefs;
-            path = systemPrefs.debugLogPath;
         }
     }
 }

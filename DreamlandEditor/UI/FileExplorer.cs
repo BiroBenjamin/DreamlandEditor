@@ -30,7 +30,7 @@ namespace DreamlandEditor.UI {
             SetupLayout(DockStyle.Right);
         }
         public void SetUpTreeView() {
-            WorkArea.Controls.Remove(FileTree);
+            Controls.Remove(FileTree);
             FileTree = new TreeView {
                 Name = "FileExplorer",
                 Dock = DockStyle.Fill,
@@ -40,11 +40,11 @@ namespace DreamlandEditor.UI {
                 Padding = new Padding(20)
             };
             UpdateTreeView();
-            WorkArea.Controls.Add(FileTree);
+            Controls.Add(FileTree);
             SetUpMenuPanel();
         }
         private void UpdateTreeView() {
-            FileTree.NodeMouseDoubleClick += EventManager.NodeItemClick;
+            FileTree.NodeMouseDoubleClick += ClickOnNode;
 
             FileTree.BeginUpdate();
 
@@ -54,6 +54,15 @@ namespace DreamlandEditor.UI {
             FileTree.Nodes[0].Expand();
 
             FileTree.EndUpdate();
+        }
+        private void ClickOnNode(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            string ext = Path.GetExtension(e.Node.Text);
+            if (ext.Length > 0)
+            {
+                // TODO: Add logic for opening files. Either on the renderwindow or in a new form.
+                DebugManager.Log(e.Node.FullPath);
+            }
         }
         private void FillChildNodes(TreeNode node) {
             try {
@@ -79,32 +88,44 @@ namespace DreamlandEditor.UI {
         }
 
         private void SetUpMenuPanel() {
-            WorkArea.Controls.RemoveByKey("MenuPanel");
+            Controls.RemoveByKey("MenuPanel");
             MenuPanel = new UiPanel {
                 Name = "MenuPanel",
                 Dock = DockStyle.Top,
                 BackColor = Color.FromArgb(166, 166, 166),
                 Height = 25
             };
-            WorkArea.Controls.Add(MenuPanel);
+            Controls.Add(MenuPanel);
 
             IconButton openNodesBtn = new IconButton(@"../../Content/folder-open-icon.png", new Size(25, 25), DockStyle.Right);
-            openNodesBtn.Click += delegate (object sender, EventArgs e) {
-                EventManager.OpenTreeNodes(sender, e, FileTree.Nodes);
+            openNodesBtn.Click += (sender, ev) => {
+                OpenNodes(FileTree.Nodes);
             };
             MenuPanel.Controls.Add(openNodesBtn);
 
             IconButton closeNodesBtn = new IconButton(@"../../Content/folder-close-icon.png", new Size(25, 25), DockStyle.Right);
-            closeNodesBtn.Click += delegate (object sender, EventArgs e) {
-                EventManager.CloseTreeNodes(sender, e, FileTree.Nodes[0].Nodes);
+            closeNodesBtn.Click += (sender, ev) => {
+                foreach (TreeNode node in FileTree.Nodes[0].Nodes)
+                {
+                    node.Collapse(false);
+                }
             };
             MenuPanel.Controls.Add(closeNodesBtn);
 
             IconButton refreshNodesBtn = new IconButton(@"../../Content/refresh-icon.png", new Size(25, 25), DockStyle.Left);
-            refreshNodesBtn.Click += delegate (object sender, EventArgs e) {
-                EventManager.RefreshFileTree(sender, e, this);
+            refreshNodesBtn.Click += (sender, ev) => {
+                SetUpTreeView();
             };
             MenuPanel.Controls.Add(refreshNodesBtn);
+        }
+
+        private void OpenNodes(TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                node.Expand();
+                OpenNodes(node?.Nodes);
+            }
         }
     }
 }

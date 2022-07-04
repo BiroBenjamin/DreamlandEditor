@@ -77,7 +77,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Managers\DebugManager.cs" />
-    <Compile Include="Managers\EventManager.cs" />
     <Compile Include="Managers\SystemPrefsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
@@ -99,10 +98,8 @@
     <Compile Include="UI\UIButtons\IconButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\UIButtons\IUiButton.cs" />
     <Compile Include="UI\UIButtons\NavigationButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\UIButtons\UiButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\UIPanels\DropdownPanel.cs">
