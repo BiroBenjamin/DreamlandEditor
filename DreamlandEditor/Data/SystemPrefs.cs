@@ -11,14 +11,16 @@ namespace DreamlandEditor.Data
         public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
         public bool isDevMode = true;
 
-        [XmlIgnore] public Dictionary<string, KeyValuePair<string, string>> FolderStructure = 
-            new Dictionary<string, KeyValuePair<string, string>>();
+        [XmlIgnore] public Dictionary<string, KeyValuePair<string, string>> FolderStructure;
 
         public SystemPrefs() 
         {
-            FolderStructure.Add("Map", new KeyValuePair<string, string> ($@"{rootPath}\Maps", "pdm"));
-            FolderStructure.Add("Item", new KeyValuePair<string, string> ($@"{rootPath}\Items", "pdi"));
-            FolderStructure.Add("Character", new KeyValuePair<string, string> ($@"{rootPath}\Characters", "pdc"));
+            FolderStructure = new Dictionary<string, KeyValuePair<string, string>>() 
+            {
+                { "Map", new KeyValuePair<string, string> ($@"{rootPath}\Maps", "pdm") },
+                { "Item", new KeyValuePair<string, string> ($@"{rootPath}\Items", "pdi") },
+                { "Character", new KeyValuePair<string, string> ($@"{rootPath}\Characters", "pdc") }
+            };
         }
         /*public SystemPrefs(SerializationInfo info, StreamingContext context) {
             rootPath = info.GetString("static.rootPath");
