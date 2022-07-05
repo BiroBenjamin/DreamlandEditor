@@ -116,22 +116,22 @@ namespace DreamlandEditor.UI
             };
             Controls.Add(MenuPanel);
 
-            IconButton openNodesBtn = new IconButton(@"../../Content/folder-open-icon.png", new Size(25, 25), DockStyle.Right);
-            openNodesBtn.Click += (sender, ev) => 
+            IconButton openNodesButton = new IconButton(@"../../Content/folder-open-icon.png", new Size(25, 25), DockStyle.Right);
+            openNodesButton.Click += (sender, ev) => 
             {
                 OpenNodes(FileTree.Nodes);
             };
-            MenuPanel.Controls.Add(openNodesBtn);
+            MenuPanel.Controls.Add(openNodesButton);
 
-            IconButton closeNodesBtn = new IconButton(@"../../Content/folder-close-icon.png", new Size(25, 25), DockStyle.Right);
-            closeNodesBtn.Click += (sender, ev) => 
+            IconButton closeNodesButton = new IconButton(@"../../Content/folder-close-icon.png", new Size(25, 25), DockStyle.Right);
+            closeNodesButton.Click += (sender, ev) => 
             {
                 foreach (TreeNode node in FileTree.Nodes[0].Nodes)
                 {
                     node.Collapse(false);
                 }
             };
-            MenuPanel.Controls.Add(closeNodesBtn);
+            MenuPanel.Controls.Add(closeNodesButton);
 
             IconButton addFileButton = new IconButton(@"../../Content/plus-icon.png", new Size(25, 25), DockStyle.Left);
             addFileButton.Click += (sender, ev) =>

@@ -11,7 +11,7 @@ namespace DreamlandEditor.Managers {
         public static SystemPrefs SetUpSystemPrefs() {
             try {
                 DeserializeSystemPrefs();
-            } catch (FileNotFoundException ex){
+            } catch (FileNotFoundException){
                 SerializeSystemPrefs();
             }
             return systemPrefs;
@@ -32,6 +32,7 @@ namespace DreamlandEditor.Managers {
             stream.Dispose();*/
 
             using (StreamWriter writer = new StreamWriter(path)) {
+                systemPrefs = new SystemPrefs();
                 serializer.Serialize(writer, systemPrefs);
             }
         }
