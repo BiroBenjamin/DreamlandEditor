@@ -1,12 +1,20 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DreamlandEditor.Data;
+using Microsoft.Xna.Framework;
 using MonoGame.Forms.Controls;
 
 namespace DreamlandEditor.Controls {
     public class SampleControl : MonoGameControl {
         const string WelcomeMessage = "Hello MonoGame.Forms!";
 
+        protected FileBase RenderableFile;
+
         protected override void Initialize() {
             base.Initialize();
+        }
+
+        public void SetRenderableObject(FileBase obj)
+        {
+            RenderableFile = obj;
         }
 
         protected override void Update(GameTime gameTime) {

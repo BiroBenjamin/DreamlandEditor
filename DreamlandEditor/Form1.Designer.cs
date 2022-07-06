@@ -26,16 +26,16 @@ namespace MonoGame.Forms.DX {
         private void InitializeComponent() {
             this.PanelNavbar = new System.Windows.Forms.Panel();
             this.ButtonFileNavbutton = new DreamlandEditor.UI.UIButtons.NavigationButton();
-            this.PanelSwitchEditorWindows = new System.Windows.Forms.Panel();
+            this.PanelSwitchWorkWindows = new System.Windows.Forms.Panel();
             this.ButtonSwitchToCharacterEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
-            this.ButtonSwitchToItemEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
-            this.ButtonSwitchToRenderWindow = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
-            this.RenderWindow = new DreamlandEditor.Controls.SampleControl();
+            this.ButtonSwitchToWorldObjectEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+            this.ButtonSwitchToMapEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+            this.MapEditor = new DreamlandEditor.Controls.SampleControl();
             this.FileExplorer = new DreamlandEditor.UI.FileExplorer();
             this.PanelItemExplorer = new DreamlandEditor.UI.UIPanels.ResizablePanel();
             this.PanelWorkArea = new System.Windows.Forms.Panel();
             this.PanelNavbar.SuspendLayout();
-            this.PanelSwitchEditorWindows.SuspendLayout();
+            this.PanelSwitchWorkWindows.SuspendLayout();
             this.PanelWorkArea.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,17 +67,17 @@ namespace MonoGame.Forms.DX {
             this.ButtonFileNavbutton.Text = "File";
             this.ButtonFileNavbutton.UseVisualStyleBackColor = false;
             // 
-            // PanelSwitchEditorWindows
+            // PanelSwitchWorkWindows
             // 
-            this.PanelSwitchEditorWindows.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.PanelSwitchEditorWindows.Controls.Add(this.ButtonSwitchToCharacterEditor);
-            this.PanelSwitchEditorWindows.Controls.Add(this.ButtonSwitchToItemEditor);
-            this.PanelSwitchEditorWindows.Controls.Add(this.ButtonSwitchToRenderWindow);
-            this.PanelSwitchEditorWindows.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelSwitchEditorWindows.Location = new System.Drawing.Point(0, 0);
-            this.PanelSwitchEditorWindows.Name = "PanelSwitchEditorWindows";
-            this.PanelSwitchEditorWindows.Size = new System.Drawing.Size(984, 25);
-            this.PanelSwitchEditorWindows.TabIndex = 1;
+            this.PanelSwitchWorkWindows.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.PanelSwitchWorkWindows.Controls.Add(this.ButtonSwitchToCharacterEditor);
+            this.PanelSwitchWorkWindows.Controls.Add(this.ButtonSwitchToWorldObjectEditor);
+            this.PanelSwitchWorkWindows.Controls.Add(this.ButtonSwitchToMapEditor);
+            this.PanelSwitchWorkWindows.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PanelSwitchWorkWindows.Location = new System.Drawing.Point(0, 0);
+            this.PanelSwitchWorkWindows.Name = "PanelSwitchWorkWindows";
+            this.PanelSwitchWorkWindows.Size = new System.Drawing.Size(984, 25);
+            this.PanelSwitchWorkWindows.TabIndex = 1;
             // 
             // ButtonSwitchToCharacterEditor
             // 
@@ -98,55 +98,55 @@ namespace MonoGame.Forms.DX {
             this.ButtonSwitchToCharacterEditor.Text = "Character Editor";
             this.ButtonSwitchToCharacterEditor.UseVisualStyleBackColor = false;
             // 
-            // ButtonSwitchToItemEditor
+            // ButtonSwitchToWorldObjectEditor
             // 
-            this.ButtonSwitchToItemEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonSwitchToItemEditor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonSwitchToItemEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.ButtonSwitchToItemEditor.FlatAppearance.BorderSize = 0;
-            this.ButtonSwitchToItemEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonSwitchToItemEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonSwitchToItemEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSwitchToItemEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            this.ButtonSwitchToItemEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToItemEditor.Location = new System.Drawing.Point(75, 0);
-            this.ButtonSwitchToItemEditor.Name = "ButtonSwitchToItemEditor";
-            this.ButtonSwitchToItemEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToItemEditor.Size = new System.Drawing.Size(75, 25);
-            this.ButtonSwitchToItemEditor.TabIndex = 1;
-            this.ButtonSwitchToItemEditor.Text = "Item Editor";
-            this.ButtonSwitchToItemEditor.UseVisualStyleBackColor = false;
+            this.ButtonSwitchToWorldObjectEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToWorldObjectEditor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonSwitchToWorldObjectEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.ButtonSwitchToWorldObjectEditor.FlatAppearance.BorderSize = 0;
+            this.ButtonSwitchToWorldObjectEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonSwitchToWorldObjectEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonSwitchToWorldObjectEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSwitchToWorldObjectEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            this.ButtonSwitchToWorldObjectEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonSwitchToWorldObjectEditor.Location = new System.Drawing.Point(75, 0);
+            this.ButtonSwitchToWorldObjectEditor.Name = "ButtonSwitchToWorldObjectEditor";
+            this.ButtonSwitchToWorldObjectEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.ButtonSwitchToWorldObjectEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToWorldObjectEditor.TabIndex = 1;
+            this.ButtonSwitchToWorldObjectEditor.Text = "World Object Editor";
+            this.ButtonSwitchToWorldObjectEditor.UseVisualStyleBackColor = false;
             // 
-            // ButtonSwitchToRenderWindow
+            // ButtonSwitchToMapEditor
             // 
-            this.ButtonSwitchToRenderWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonSwitchToRenderWindow.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonSwitchToRenderWindow.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.ButtonSwitchToRenderWindow.FlatAppearance.BorderSize = 0;
-            this.ButtonSwitchToRenderWindow.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonSwitchToRenderWindow.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonSwitchToRenderWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSwitchToRenderWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            this.ButtonSwitchToRenderWindow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToRenderWindow.Location = new System.Drawing.Point(0, 0);
-            this.ButtonSwitchToRenderWindow.Name = "ButtonSwitchToRenderWindow";
-            this.ButtonSwitchToRenderWindow.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToRenderWindow.Size = new System.Drawing.Size(75, 25);
-            this.ButtonSwitchToRenderWindow.TabIndex = 0;
-            this.ButtonSwitchToRenderWindow.Text = "Render Window";
-            this.ButtonSwitchToRenderWindow.UseVisualStyleBackColor = false;
+            this.ButtonSwitchToMapEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToMapEditor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonSwitchToMapEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.ButtonSwitchToMapEditor.FlatAppearance.BorderSize = 0;
+            this.ButtonSwitchToMapEditor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonSwitchToMapEditor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonSwitchToMapEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSwitchToMapEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            this.ButtonSwitchToMapEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonSwitchToMapEditor.Location = new System.Drawing.Point(0, 0);
+            this.ButtonSwitchToMapEditor.Name = "ButtonSwitchToMapEditor";
+            this.ButtonSwitchToMapEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.ButtonSwitchToMapEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToMapEditor.TabIndex = 0;
+            this.ButtonSwitchToMapEditor.Text = "Render Window";
+            this.ButtonSwitchToMapEditor.UseVisualStyleBackColor = false;
             // 
-            // RenderWindow
+            // MapEditor
             // 
-            this.RenderWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RenderWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RenderWindow.Location = new System.Drawing.Point(0, 25);
-            this.RenderWindow.Margin = new System.Windows.Forms.Padding(2);
-            this.RenderWindow.MouseHoverUpdatesOnly = false;
-            this.RenderWindow.Name = "RenderWindow";
-            this.RenderWindow.Size = new System.Drawing.Size(984, 511);
-            this.RenderWindow.TabIndex = 0;
-            this.RenderWindow.Text = "Sample Control";
+            this.MapEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MapEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MapEditor.Location = new System.Drawing.Point(0, 25);
+            this.MapEditor.Margin = new System.Windows.Forms.Padding(2);
+            this.MapEditor.MouseHoverUpdatesOnly = false;
+            this.MapEditor.Name = "MapEditor";
+            this.MapEditor.Size = new System.Drawing.Size(984, 511);
+            this.MapEditor.TabIndex = 0;
+            this.MapEditor.Text = "Sample Control";
             // 
             // FileExplorer
             // 
@@ -170,8 +170,8 @@ namespace MonoGame.Forms.DX {
             // 
             // PanelWorkArea
             // 
-            this.PanelWorkArea.Controls.Add(this.RenderWindow);
-            this.PanelWorkArea.Controls.Add(this.PanelSwitchEditorWindows);
+            this.PanelWorkArea.Controls.Add(this.MapEditor);
+            this.PanelWorkArea.Controls.Add(this.PanelSwitchWorkWindows);
             this.PanelWorkArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelWorkArea.Location = new System.Drawing.Point(200, 25);
             this.PanelWorkArea.Name = "PanelWorkArea";
@@ -193,7 +193,7 @@ namespace MonoGame.Forms.DX {
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dreamland Editor";
             this.PanelNavbar.ResumeLayout(false);
-            this.PanelSwitchEditorWindows.ResumeLayout(false);
+            this.PanelSwitchWorkWindows.ResumeLayout(false);
             this.PanelWorkArea.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -201,15 +201,15 @@ namespace MonoGame.Forms.DX {
 
         #endregion
 
-        private DreamlandEditor.Controls.SampleControl RenderWindow;
+        private DreamlandEditor.Controls.SampleControl MapEditor;
         private System.Windows.Forms.Panel PanelNavbar;
         private DreamlandEditor.UI.UIPanels.ResizablePanel PanelItemExplorer;
         private DreamlandEditor.UI.FileExplorer FileExplorer;
         private DreamlandEditor.UI.UIButtons.NavigationButton ButtonFileNavbutton;
-        private System.Windows.Forms.Panel PanelSwitchEditorWindows;
+        private System.Windows.Forms.Panel PanelSwitchWorkWindows;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToCharacterEditor;
-        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToItemEditor;
-        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToRenderWindow;
+        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToWorldObjectEditor;
+        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToMapEditor;
         private System.Windows.Forms.Panel PanelWorkArea;
     }
 }

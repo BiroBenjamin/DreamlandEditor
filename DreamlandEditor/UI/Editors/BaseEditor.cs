@@ -1,8 +1,11 @@
-﻿using System.Drawing;
+﻿using DreamlandEditor.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.Editors {
-    class BaseEditor : UserControl {
+    public class BaseEditor : UserControl {
+        protected FileBase RenderableFile;
+
         public BaseEditor() {
             InitializeComponent();
         }
@@ -12,10 +15,15 @@ namespace DreamlandEditor.UI.Editors {
             // 
             // BaseEditor
             // 
-            this.BackColor = Color.FromArgb(191, 191, 191); ;
+            this.BackColor = Color.FromArgb(191, 191, 191);
             this.Name = "BaseEditor";
             this.ResumeLayout(false);
 
+        }
+
+        public void SetRenderableObject(FileBase obj)
+        {
+            RenderableFile = obj;
         }
     }
 }

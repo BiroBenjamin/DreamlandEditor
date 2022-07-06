@@ -1,9 +1,12 @@
 ﻿using DreamlandEditor.Controls;
 using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
+using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,17 +16,20 @@ namespace DreamlandEditor.UI
 {
     public class FileExplorer : ResizablePanel 
     {
+        private SystemPrefs systemPrefs = new SystemPrefs();
+
         private UiPanel MenuPanel { get; set; }
         private TreeView FileTree { get; set; }
 
-        private SystemPrefs systemPrefs = new SystemPrefs();
+        private Panel EditorsArea { get; set; }
 
         public FileExplorer() 
         {
         }
-        public FileExplorer(SystemPrefs systemPrefs) : base() 
+
+        private void InitializeComponents() 
         {
-            this.systemPrefs = systemPrefs;
+            SetupLayout(DockStyle.Right);
         }
 
         public void AddSystemPrefs(SystemPrefs systemPrefs) 
@@ -32,10 +38,11 @@ namespace DreamlandEditor.UI
             InitializeComponents();
         }
 
-        private void InitializeComponents() 
+        public void AddEditors(Panel editorsArea)
         {
-            SetupLayout(DockStyle.Right);
+            EditorsArea = editorsArea;
         }
+
         public void SetUpTreeView() 
         {
             Controls.Remove(FileTree);
@@ -91,6 +98,9 @@ namespace DreamlandEditor.UI
                 FileInfo file = new FileInfo(node.FullPath);
                 foreach (FileInfo fl in directory.GetFiles()) 
                 {
+                    string ext = Path.GetExtension(fl.Name).Replace(".", "");
+                    if (!systemPrefs.extensions.Contains(ext)) return;
+
                     TreeNode newNode = new TreeNode(fl.Name);
                     node.Nodes.Add(newNode);
                 }
@@ -136,7 +146,7 @@ namespace DreamlandEditor.UI
             IconButton addFileButton = new IconButton(@"../../Content/plus-icon.png", new Size(25, 25), DockStyle.Left);
             addFileButton.Click += (sender, ev) =>
             {
-                DialogResult result = new CreateNewItemWindow(systemPrefs).ShowDialog();
+                DialogResult result = new CreateNewWindow(systemPrefs, EditorsArea).ShowDialog();
                 if (result == DialogResult.Cancel) return;
                 SetUpTreeView();
             };

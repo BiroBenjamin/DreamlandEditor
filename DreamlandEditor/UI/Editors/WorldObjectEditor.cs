@@ -2,10 +2,10 @@
 using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.Editors {
-    class ItemEditor : BaseEditor {
+    class WorldObjectEditor : BaseEditor {
         private UiPanel uiPanel1;
 
-        public ItemEditor() : base() {
+        public WorldObjectEditor() : base() {
             InitializeComponent();
         }
 
@@ -24,8 +24,8 @@ namespace DreamlandEditor.UI.Editors {
             // 
             // ItemEditor
             // 
-            this.BackColor = System.Drawing.Color.Green;
-            this.Name = "ItemEditor";
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.Name = "WorldObjectEditor";
             this.Size = new System.Drawing.Size(1248, 806);
             this.ResumeLayout(false);
 

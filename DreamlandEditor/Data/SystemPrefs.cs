@@ -5,32 +5,31 @@ using System.Xml.Serialization;
 namespace DreamlandEditor.Data
 {
     [Serializable]
-    public class SystemPrefs /*: ISerializable*/ 
+    public class SystemPrefs 
     {
         public string rootPath = @"C:\Temp";
         public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
         public bool isDevMode = true;
 
-        [XmlIgnore] public Dictionary<string, KeyValuePair<string, string>> FolderStructure;
+        [XmlIgnore] public Dictionary<string, string[]> FolderStructure;
+        [XmlIgnore] public List<string> extensions = new List<string>();
 
         public SystemPrefs() 
         {
-            FolderStructure = new Dictionary<string, KeyValuePair<string, string>>() 
+            FolderStructure = new Dictionary<string, string[]>() 
             {
-                { "Map", new KeyValuePair<string, string> ($@"{rootPath}\Maps", "pdm") },
-                { "Item", new KeyValuePair<string, string> ($@"{rootPath}\Items", "pdi") },
-                { "Character", new KeyValuePair<string, string> ($@"{rootPath}\Characters", "pdc") }
+                { "Map", new string[2] {$@"{rootPath}\Maps", "pdmap" } },
+                //{ "Item", new string[2] {$@"{rootPath}\Items", "pdx" } },
+                { "Character", new string[2] {$@"{rootPath}\Characters", "pdx" } },
+                { "World Object", new string[2] {$@"{rootPath}\WorldObjects", "pdx" } },
             };
-        }
-        /*public SystemPrefs(SerializationInfo info, StreamingContext context) {
-            rootPath = info.GetString("static.rootPath");
-            isDevMode = info.GetBoolean("static.isDevMode");
+
+            foreach(KeyValuePair<string, string[]> file in FolderStructure)
+            {
+                extensions.Add(file.Value[1]);
+            }
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context) {
-            info.AddValue("static.rootPath", rootPath, typeof(string));
-            info.AddValue("static.isDevMode", isDevMode, typeof(bool));
-        }*/
         public override string ToString() 
         {
             return $"[ rootPath: {rootPath} ]" +

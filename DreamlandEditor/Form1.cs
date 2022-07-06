@@ -12,7 +12,7 @@ namespace MonoGame.Forms.DX {
     {
         SystemPrefs systemPrefs = new SystemPrefs();
 
-        private ItemEditor ItemEditor { get; set; }
+        private WorldObjectEditor WorldObjectEditor { get; set; }
         private CharacterEditor CharacterEditor { get; set; }
 
         private DropdownPanel PanelFileDropdown { get; set; } = new DropdownPanel();
@@ -63,16 +63,19 @@ namespace MonoGame.Forms.DX {
         }
 
         private void SetupEditors() {
-            ButtonSwitchToRenderWindow.SetActive();
-            ButtonSwitchToRenderWindow.SetupEvents(PanelWorkArea.Controls, RenderWindow);
+            ButtonSwitchToMapEditor.SetActive();
+            ButtonSwitchToMapEditor.SetupEvents(PanelWorkArea.Controls, MapEditor);
 
-            ItemEditor = new ItemEditor();
-            PanelWorkArea.Controls.Add(ItemEditor);
-            ButtonSwitchToItemEditor.SetupEvents(PanelWorkArea.Controls, ItemEditor);
+            WorldObjectEditor = new WorldObjectEditor();
+            PanelWorkArea.Controls.Add(WorldObjectEditor);
+            ButtonSwitchToWorldObjectEditor.SetupEvents(PanelWorkArea.Controls, WorldObjectEditor);
 
             CharacterEditor = new CharacterEditor();
             PanelWorkArea.Controls.Add(CharacterEditor);
             ButtonSwitchToCharacterEditor.SetupEvents(PanelWorkArea.Controls, CharacterEditor);
+
+
+            FileExplorer.AddEditors(PanelWorkArea);
         }
 
         private void SetupDropdownPanel(IUiButton dropdownButton, DropdownPanel dropdownPanel, Point position, 

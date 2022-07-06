@@ -24,32 +24,34 @@ namespace DreamlandEditor.Controlers {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.ListBoxDebugMessages = new System.Windows.Forms.ListBox();
+            this.TextBoxLogboard = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // ListBoxDebugMessages
+            // TextBoxLogboard
             // 
-            this.ListBoxDebugMessages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ListBoxDebugMessages.FormattingEnabled = true;
-            this.ListBoxDebugMessages.Location = new System.Drawing.Point(0, 0);
-            this.ListBoxDebugMessages.Name = "ListBoxDebugMessages";
-            this.ListBoxDebugMessages.Size = new System.Drawing.Size(800, 450);
-            this.ListBoxDebugMessages.TabIndex = 0;
+            this.TextBoxLogboard.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBoxLogboard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxLogboard.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxLogboard.Multiline = true;
+            this.TextBoxLogboard.Name = "TextBoxLogboard";
+            this.TextBoxLogboard.Size = new System.Drawing.Size(800, 450);
+            this.TextBoxLogboard.TabIndex = 0;
             // 
             // DebugWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.ListBoxDebugMessages);
+            this.Controls.Add(this.TextBoxLogboard);
             this.Name = "DebugWindow";
             this.Text = "Debug Window";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox ListBoxDebugMessages;
+        private System.Windows.Forms.TextBox TextBoxLogboard;
     }
 }

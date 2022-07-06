@@ -6,8 +6,6 @@ namespace DreamlandEditor.UI.UIButtons
 {
     class WindowChangeButton : Button, IUiButton
     {
-        private ControlCollection changeableWindows;
-
         public WindowChangeButton() :base() 
         {
             FlatStyle = FlatStyle.Flat;
