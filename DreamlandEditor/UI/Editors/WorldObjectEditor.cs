@@ -1,34 +1,48 @@
-﻿using DreamlandEditor.UI.UIPanels;
+﻿using DreamlandEditor.Data;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.Editors {
-    class WorldObjectEditor : BaseEditor {
-        private UiPanel uiPanel1;
+namespace DreamlandEditor.UI.Editors
+{
+    public partial class WorldObjectEditor : UserControl
+    {
+        WorldObject worldObject;
 
-        public WorldObjectEditor() : base() {
+        public WorldObjectEditor()
+        {
             InitializeComponent();
         }
 
-        private void InitializeComponent() {
-            this.uiPanel1 = new DreamlandEditor.UI.UIPanels.UiPanel();
-            this.SuspendLayout();
-            // 
-            // uiPanel1
-            // 
-            this.uiPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.uiPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uiPanel1.Location = new System.Drawing.Point(110, 110);
-            this.uiPanel1.Name = "uiPanel1";
-            this.uiPanel1.Size = new System.Drawing.Size(200, 100);
-            this.uiPanel1.TabIndex = 0;
-            // 
-            // ItemEditor
-            // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.Name = "WorldObjectEditor";
-            this.Size = new System.Drawing.Size(1248, 806);
-            this.ResumeLayout(false);
+        public void RenderUI()
+        {
+            TextBoxID.Text = worldObject.ID;
+            TextBoxName.Text = worldObject.Name;
+            CheckBoxIsInteractable.Checked = worldObject.IsInteractable;
+            ChechBoxHasCollision.Checked = worldObject.IsCollidable;
+        }
 
+        public void SetRenderableObject(BaseFile obj)
+        {
+            worldObject = (WorldObject)obj;
+        }
+
+        public void ChechBoxHasCollision_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ChechBoxHasCollision.Checked)
+            {
+                GroupBoxCollisionLocation.Enabled = false;
+                GroupBoxCollisionSize.Enabled = false;
+                return;
+            }
+            GroupBoxCollisionLocation.Enabled = true;
+            GroupBoxCollisionSize.Enabled = true;
         }
     }
 }

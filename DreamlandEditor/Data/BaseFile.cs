@@ -6,19 +6,13 @@ using System.Threading.Tasks;
 
 namespace DreamlandEditor.Data
 {
-    public class FileBase
+    public class BaseFile
     {
         public string ID { get; set; }
         public string Name { get; set; }
 
-        public FileBase()
+        public BaseFile()
         {
-        }
-
-        public FileBase(string id, string name)
-        {
-            ID = id;
-            Name = name;
         }
     }
 }

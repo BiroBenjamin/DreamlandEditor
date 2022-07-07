@@ -66,11 +66,17 @@ namespace MonoGame.Forms.DX {
             ButtonSwitchToMapEditor.SetActive();
             ButtonSwitchToMapEditor.SetupEvents(PanelWorkArea.Controls, MapEditor);
 
-            WorldObjectEditor = new WorldObjectEditor();
+            WorldObjectEditor = new WorldObjectEditor
+            {
+                Dock = DockStyle.Fill
+            };
             PanelWorkArea.Controls.Add(WorldObjectEditor);
             ButtonSwitchToWorldObjectEditor.SetupEvents(PanelWorkArea.Controls, WorldObjectEditor);
 
-            CharacterEditor = new CharacterEditor();
+            CharacterEditor = new CharacterEditor
+            {
+                Dock = DockStyle.Fill
+            };
             PanelWorkArea.Controls.Add(CharacterEditor);
             ButtonSwitchToCharacterEditor.SetupEvents(PanelWorkArea.Controls, CharacterEditor);
 

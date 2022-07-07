@@ -3,27 +3,18 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.Editors {
-    public class BaseEditor : UserControl {
-        protected FileBase RenderableFile;
+    public partial class BaseEditor : UserControl {
+        protected BaseFile RenderableFile;
 
         public BaseEditor() {
             InitializeComponent();
         }
 
-        private void InitializeComponent() {
-            this.SuspendLayout();
-            // 
-            // BaseEditor
-            // 
-            this.BackColor = Color.FromArgb(191, 191, 191);
-            this.Name = "BaseEditor";
-            this.ResumeLayout(false);
-
-        }
-
-        public void SetRenderableObject(FileBase obj)
+        public void SetRenderableObject(BaseFile obj)
         {
             RenderableFile = obj;
+            RenderUI();
         }
+        public void RenderUI() { }
     }
 }

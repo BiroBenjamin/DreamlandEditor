@@ -24,7 +24,6 @@ namespace DreamlandEditor.Managers
                 BinaryFormatter formatter = new BinaryFormatter();
                 obj = (T)formatter.Deserialize(stream);
             }
-            DebugManager.Log(obj.ToString());
 
             return obj;
         }

@@ -82,7 +82,7 @@
     <Compile Include="Controls\DebugWindow.Designer.cs">
       <DependentUpon>DebugWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\FileBase.cs" />
+    <Compile Include="Data\BaseFile.cs" />
     <Compile Include="Data\SystemPrefs.cs" />
     <Compile Include="Controls\RenderWindow.cs">
       <SubType>Component</SubType>
@@ -102,11 +102,20 @@
     <Compile Include="UI\Editors\BaseEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\Editors\BaseEditor.Designer.cs">
+      <DependentUpon>BaseEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Editors\CharacterEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\Editors\CharacterEditor.Designer.cs">
+      <DependentUpon>CharacterEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Editors\WorldObjectEditor.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\WorldObjectEditor.Designer.cs">
+      <DependentUpon>WorldObjectEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FileExplorer.cs">
       <SubType>Component</SubType>

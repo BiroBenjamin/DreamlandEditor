@@ -6,13 +6,13 @@ namespace DreamlandEditor.Controls {
     public class SampleControl : MonoGameControl {
         const string WelcomeMessage = "Hello MonoGame.Forms!";
 
-        protected FileBase RenderableFile;
+        protected BaseFile RenderableFile;
 
         protected override void Initialize() {
             base.Initialize();
         }
 
-        public void SetRenderableObject(FileBase obj)
+        public void SetRenderableObject(BaseFile obj)
         {
             RenderableFile = obj;
         }

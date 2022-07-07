@@ -81,7 +81,7 @@ namespace DreamlandEditor.Controls
                 return;
             }
 
-            FileBase file = new FileBase();
+            BaseFile file = new BaseFile();
             switch (key)
             {
                 case "Map":

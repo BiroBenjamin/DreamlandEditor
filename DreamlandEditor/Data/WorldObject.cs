@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace DreamlandEditor.Data
 {
     [Serializable]
-    public class WorldObject : FileBase, ISerializable
+    public class WorldObject : BaseFile, ISerializable
     {
         public string ImagePath { get; set; } = null;
         public Point Location { get; set; } = new Point(0, 0);
