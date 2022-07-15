@@ -54,6 +54,7 @@
             this.NudCollisionHeight = new System.Windows.Forms.NumericUpDown();
             this.NudCollisionWidth = new System.Windows.Forms.NumericUpDown();
             this.ButtonSave = new System.Windows.Forms.Button();
+            this.FolderBrowserImage = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ImageWObject)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudSize)).BeginInit();
             this.GroupBoxCollision.SuspendLayout();
@@ -67,8 +68,9 @@
             // 
             // ImageWObject
             // 
+            this.ImageWObject.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ImageWObject.BackColor = System.Drawing.Color.White;
-            this.ImageWObject.Location = new System.Drawing.Point(45, 45);
+            this.ImageWObject.Location = new System.Drawing.Point(330, 155);
             this.ImageWObject.Name = "ImageWObject";
             this.ImageWObject.Size = new System.Drawing.Size(200, 200);
             this.ImageWObject.TabIndex = 0;
@@ -76,17 +78,19 @@
             // 
             // TextBoxID
             // 
+            this.TextBoxID.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.TextBoxID.Enabled = false;
-            this.TextBoxID.Location = new System.Drawing.Point(45, 266);
+            this.TextBoxID.Location = new System.Drawing.Point(330, 376);
             this.TextBoxID.Name = "TextBoxID";
             this.TextBoxID.Size = new System.Drawing.Size(200, 20);
             this.TextBoxID.TabIndex = 1;
             // 
             // LabelID
             // 
+            this.LabelID.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelID.AutoSize = true;
             this.LabelID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelID.Location = new System.Drawing.Point(48, 248);
+            this.LabelID.Location = new System.Drawing.Point(333, 358);
             this.LabelID.Name = "LabelID";
             this.LabelID.Size = new System.Drawing.Size(25, 15);
             this.LabelID.TabIndex = 2;
@@ -94,16 +98,18 @@
             // 
             // TextBoxName
             // 
-            this.TextBoxName.Location = new System.Drawing.Point(45, 305);
+            this.TextBoxName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TextBoxName.Location = new System.Drawing.Point(330, 415);
             this.TextBoxName.Name = "TextBoxName";
             this.TextBoxName.Size = new System.Drawing.Size(200, 20);
             this.TextBoxName.TabIndex = 3;
             // 
             // LabelName
             // 
+            this.LabelName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelName.AutoSize = true;
             this.LabelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelName.Location = new System.Drawing.Point(48, 287);
+            this.LabelName.Location = new System.Drawing.Point(333, 397);
             this.LabelName.Name = "LabelName";
             this.LabelName.Size = new System.Drawing.Size(49, 15);
             this.LabelName.TabIndex = 4;
@@ -111,9 +117,10 @@
             // 
             // LabelImagePath
             // 
+            this.LabelImagePath.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelImagePath.AutoSize = true;
             this.LabelImagePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelImagePath.Location = new System.Drawing.Point(274, 75);
+            this.LabelImagePath.Location = new System.Drawing.Point(559, 185);
             this.LabelImagePath.Name = "LabelImagePath";
             this.LabelImagePath.Size = new System.Drawing.Size(51, 15);
             this.LabelImagePath.TabIndex = 5;
@@ -121,13 +128,16 @@
             // 
             // TextBoxImagePath
             // 
-            this.TextBoxImagePath.Location = new System.Drawing.Point(271, 94);
+            this.TextBoxImagePath.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TextBoxImagePath.Enabled = false;
+            this.TextBoxImagePath.Location = new System.Drawing.Point(556, 204);
             this.TextBoxImagePath.Name = "TextBoxImagePath";
             this.TextBoxImagePath.Size = new System.Drawing.Size(199, 20);
             this.TextBoxImagePath.TabIndex = 6;
             // 
             // ButtonChooseImage
             // 
+            this.ButtonChooseImage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ButtonChooseImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
             this.ButtonChooseImage.FlatAppearance.BorderSize = 0;
             this.ButtonChooseImage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
@@ -135,13 +145,14 @@
             this.ButtonChooseImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonChooseImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ButtonChooseImage.ForeColor = System.Drawing.Color.Black;
-            this.ButtonChooseImage.Location = new System.Drawing.Point(440, 95);
+            this.ButtonChooseImage.Location = new System.Drawing.Point(725, 205);
             this.ButtonChooseImage.Margin = new System.Windows.Forms.Padding(0);
             this.ButtonChooseImage.Name = "ButtonChooseImage";
             this.ButtonChooseImage.Size = new System.Drawing.Size(30, 18);
             this.ButtonChooseImage.TabIndex = 7;
             this.ButtonChooseImage.Text = "...";
             this.ButtonChooseImage.UseVisualStyleBackColor = false;
+            this.ButtonChooseImage.Click += new System.EventHandler(this.ButtonChooseImage_Click);
             // 
             // ChechBoxHasCollision
             // 
@@ -160,9 +171,10 @@
             // 
             // LabelSize
             // 
+            this.LabelSize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelSize.AutoSize = true;
             this.LabelSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelSize.Location = new System.Drawing.Point(274, 120);
+            this.LabelSize.Location = new System.Drawing.Point(559, 230);
             this.LabelSize.Name = "LabelSize";
             this.LabelSize.Size = new System.Drawing.Size(39, 15);
             this.LabelSize.TabIndex = 10;
@@ -170,12 +182,13 @@
             // 
             // NudSize
             // 
+            this.NudSize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NudSize.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.NudSize.Location = new System.Drawing.Point(428, 120);
+            this.NudSize.Location = new System.Drawing.Point(713, 230);
             this.NudSize.Maximum = new decimal(new int[] {
             300,
             0,
@@ -197,8 +210,9 @@
             // 
             // CheckBoxIsInteractable
             // 
+            this.CheckBoxIsInteractable.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.CheckBoxIsInteractable.AutoSize = true;
-            this.CheckBoxIsInteractable.Location = new System.Drawing.Point(455, 146);
+            this.CheckBoxIsInteractable.Location = new System.Drawing.Point(740, 256);
             this.CheckBoxIsInteractable.Name = "CheckBoxIsInteractable";
             this.CheckBoxIsInteractable.Size = new System.Drawing.Size(15, 14);
             this.CheckBoxIsInteractable.TabIndex = 13;
@@ -206,9 +220,10 @@
             // 
             // LabelIsInteractable
             // 
+            this.LabelIsInteractable.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelIsInteractable.AutoSize = true;
             this.LabelIsInteractable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelIsInteractable.Location = new System.Drawing.Point(274, 146);
+            this.LabelIsInteractable.Location = new System.Drawing.Point(559, 256);
             this.LabelIsInteractable.Name = "LabelIsInteractable";
             this.LabelIsInteractable.Size = new System.Drawing.Size(102, 15);
             this.LabelIsInteractable.TabIndex = 12;
@@ -226,11 +241,12 @@
             // 
             // GroupBoxCollision
             // 
+            this.GroupBoxCollision.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.GroupBoxCollision.Controls.Add(this.CheckBoxRenderCollision);
             this.GroupBoxCollision.Controls.Add(this.GroupBoxCollisionLocation);
             this.GroupBoxCollision.Controls.Add(this.GroupBoxCollisionSize);
             this.GroupBoxCollision.Controls.Add(this.ChechBoxHasCollision);
-            this.GroupBoxCollision.Location = new System.Drawing.Point(260, 169);
+            this.GroupBoxCollision.Location = new System.Drawing.Point(545, 279);
             this.GroupBoxCollision.Name = "GroupBoxCollision";
             this.GroupBoxCollision.Size = new System.Drawing.Size(326, 157);
             this.GroupBoxCollision.TabIndex = 18;
@@ -339,13 +355,18 @@
             // 
             // ButtonSave
             // 
-            this.ButtonSave.Location = new System.Drawing.Point(102, 331);
+            this.ButtonSave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ButtonSave.Location = new System.Drawing.Point(387, 441);
             this.ButtonSave.Name = "ButtonSave";
             this.ButtonSave.Size = new System.Drawing.Size(75, 23);
             this.ButtonSave.TabIndex = 19;
             this.ButtonSave.Text = "Save";
             this.ButtonSave.UseVisualStyleBackColor = true;
             this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            // 
+            // FolderBrowserImage
+            // 
+            this.FolderBrowserImage.FileName = "openFileDialog1";
             // 
             // WorldObjectEditor
             // 
@@ -414,5 +435,6 @@
         private System.Windows.Forms.Label LabelCollisionY;
         private System.Windows.Forms.Label LabelCollisionX;
         private System.Windows.Forms.Button ButtonSave;
+        private System.Windows.Forms.OpenFileDialog FolderBrowserImage;
     }
 }

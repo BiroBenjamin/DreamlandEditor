@@ -1,22 +1,18 @@
 ﻿using DreamlandEditor.Controls;
-using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
-using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI 
+namespace DreamlandEditor.UI
 {
     public class FileExplorer : ResizablePanel 
     {
-        private SystemPrefs systemPrefs = new SystemPrefs();
+        //public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
 
         private UiPanel MenuPanel { get; set; }
         private TreeView FileTree { get; set; }
@@ -25,17 +21,12 @@ namespace DreamlandEditor.UI
 
         public FileExplorer() 
         {
+            InitializeComponents();
         }
 
         private void InitializeComponents() 
         {
             SetupLayout(DockStyle.Right);
-        }
-
-        public void AddSystemPrefs(SystemPrefs systemPrefs) 
-        {
-            this.systemPrefs = systemPrefs;
-            InitializeComponents();
         }
 
         public void AddEditors(Panel editorsArea)
@@ -65,7 +56,8 @@ namespace DreamlandEditor.UI
 
             FileTree.BeginUpdate();
 
-            TreeNode rootnode = new TreeNode(systemPrefs.rootPath);
+            string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects");
+            TreeNode rootnode = new TreeNode(rootPath);
             FileTree.Nodes.Add(rootnode);
             FillChildNodes(rootnode);
             FileTree.Nodes[0].Expand();
@@ -99,7 +91,7 @@ namespace DreamlandEditor.UI
                 foreach (FileInfo fl in directory.GetFiles()) 
                 {
                     string ext = Path.GetExtension(fl.Name).Replace(".", "");
-                    if (!systemPrefs.extensions.Contains(ext)) return;
+                    if (!SystemPrefsManager.SystemPrefs.extensions.Contains(ext)) return;
 
                     TreeNode newNode = new TreeNode(fl.Name);
                     node.Nodes.Add(newNode);
@@ -146,7 +138,7 @@ namespace DreamlandEditor.UI
             IconButton addFileButton = new IconButton(@"../../Content/plus-icon.png", new Size(25, 25), DockStyle.Left);
             addFileButton.Click += (sender, ev) =>
             {
-                DialogResult result = new CreateNewWindow(systemPrefs, EditorsArea).ShowDialog();
+                DialogResult result = new CreateNewWindow(SystemPrefsManager.SystemPrefs, EditorsArea).ShowDialog();
                 if (result == DialogResult.Cancel) return;
                 SetUpTreeView();
             };

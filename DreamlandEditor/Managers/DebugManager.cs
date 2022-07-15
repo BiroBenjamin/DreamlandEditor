@@ -5,10 +5,11 @@ using System.Windows.Forms;
 namespace DreamlandEditor.Managers {
     public static class DebugManager {
         private static DebugWindow debugWindow;
+        //public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
 
-        public static void ShowWindow(SystemPrefs systemPrefs, Form parentForm) {
-            if (systemPrefs.isDevMode) {
-                debugWindow = new DebugWindow(systemPrefs, parentForm);
+        public static void ShowWindow(Form parentForm) {
+            if (SystemPrefsManager.SystemPrefs.isDevMode) {
+                debugWindow = new DebugWindow(SystemPrefsManager.SystemPrefs, parentForm);
                 debugWindow.Show();
             }
         }

@@ -7,7 +7,7 @@ namespace DreamlandEditor.Data
     [Serializable]
     public class SystemPrefs 
     {
-        public string rootPath = @"C:\Temp";
+        [XmlIgnore] public string rootPath = @"C:\Temp";
         public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
         public bool isDevMode = true;
 
@@ -18,10 +18,10 @@ namespace DreamlandEditor.Data
         {
             FolderStructure = new Dictionary<string, string[]>() 
             {
-                { "Map", new string[2] {$@"{rootPath}\Maps", "pdmap" } },
-                //{ "Item", new string[2] {$@"{rootPath}\Items", "pdx" } },
-                { "Character", new string[2] {$@"{rootPath}\Characters", "pdx" } },
-                { "World Object", new string[2] {$@"{rootPath}\WorldObjects", "pdx" } },
+                { "Map", new string[2] {$@"{rootPath}\Objects\Maps", "dm" } },
+                //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "pdx" } },
+                { "Character", new string[2] {$@"{rootPath}\Objects\Characters", "dx" } },
+                { "World Object", new string[2] {$@"{rootPath}\Objects\WorldObjects", "dx" } },
             };
 
             foreach(KeyValuePair<string, string[]> file in FolderStructure)

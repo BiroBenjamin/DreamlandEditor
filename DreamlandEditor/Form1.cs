@@ -36,9 +36,9 @@ namespace MonoGame.Forms.DX {
             SetupEditors();
 
             systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
-            DebugManager.ShowWindow(systemPrefs, this);
+            DebugManager.ShowWindow(this);
 
-            FileExplorer.AddSystemPrefs(systemPrefs);
+            //FileExplorer.AddSystemPrefs(systemPrefs);
             FileExplorer.SetUpTreeView();
 
             PanelItemExplorer.SetupLayout(DockStyle.Top);

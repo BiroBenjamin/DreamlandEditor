@@ -1,4 +1,7 @@
 ﻿using DreamlandEditor.Data;
+using DreamlandEditor.UI;
+using DreamlandEditor.UI.Editors;
+using System;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -7,8 +10,8 @@ namespace DreamlandEditor.Managers
     public static class SystemPrefsManager 
     {
         private static readonly XmlSerializer serializer = new XmlSerializer(typeof(SystemPrefs));
-        private static readonly string path = @"../../SystemPrefs.xml";
-        private static SystemPrefs systemPrefs = new SystemPrefs();
+        private static readonly string path = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\SystemPrefs.xml";
+        public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
 
         public static SystemPrefs SetUpSystemPrefs() 
         {
@@ -20,22 +23,31 @@ namespace DreamlandEditor.Managers
             {
                 SerializeSystemPrefs();
             }
-            return systemPrefs;
+            //DistributeSystemPrefs(systemPrefs);
+
+            return SystemPrefs;
         }
         private static void DeserializeSystemPrefs() 
         {
             using (TextReader reader = new StreamReader(path)) 
             {
-                systemPrefs = (SystemPrefs)serializer.Deserialize(reader);
+                SystemPrefs = (SystemPrefs)serializer.Deserialize(reader);
             }
         }
         private static void SerializeSystemPrefs() 
         {
             using (StreamWriter writer = new StreamWriter(path)) 
             {
-                systemPrefs = new SystemPrefs();
-                serializer.Serialize(writer, systemPrefs);
+                SystemPrefs = new SystemPrefs();
+                serializer.Serialize(writer, SystemPrefs);
             }
         }
+
+        /*public static void DistributeSystemPrefs(SystemPrefs systemPrefs)
+        {
+            DebugManager.SystemPrefs = systemPrefs;
+            FileExplorer.SystemPrefs = systemPrefs;
+            BaseEditor.SystemPrefs = systemPrefs;
+        }*/
     }
 }
