@@ -71,7 +71,7 @@ namespace DreamlandEditor.Controls
         {
             return TextboxFileID.Text.Length == 0 || ComboboxFileType.SelectedItem == null;
         }
-        private void WriteToFile(string key, string[] filePath)
+        private void WriteToFile(string fileType, string[] filePath)
         {
             string path = Path.Combine(filePath[0], $"{TextboxFileID.Text}.{filePath[1]}");
 
@@ -81,19 +81,23 @@ namespace DreamlandEditor.Controls
                 return;
             }
 
-            BaseFile file = new BaseFile();
-            switch (key)
+            switch (fileType)
             {
                 case "Map":
                     
                     break;
                 case "World Object":
-                    file = new WorldObject()
+                    WorldObject file = new WorldObject
                     {
-                        ID = TextboxFileID.Text,
+                        FileType = fileType, 
+                        ID = TextboxFileID.Text, 
                         Name = TextboxFileName.Text
                     };
-                    FileManager<WorldObject>.SaveFile(path, (WorldObject)file);
+                    FileManager<WorldObject>.SaveFile(path, file);
+
+                    WorldObjectEditor editor = (WorldObjectEditor)FindEditorPanel(fileType);
+                    editor.SetRenderableObject(file, path);
+
                     break;
                 case "Character":
 
@@ -102,31 +106,22 @@ namespace DreamlandEditor.Controls
                     throw new Exception("File type does not exist");
             }
 
-            if (FindEditorPanel(key) is BaseEditor)
-            {
-                BaseEditor editor = (BaseEditor)FindEditorPanel(key);
-                editor.SetRenderableObject(file);
-            }
-            else
-            {
-                SampleControl editor = (SampleControl)FindEditorPanel(key);
-                editor.SetRenderableObject(file);
-            }
-            FindEditorButton(key).PerformClick();
+            FindEditorButton(fileType).PerformClick();
         }
-        private Control FindEditorPanel(string name)
+
+        private Control FindEditorPanel(string fileType)
         {
             foreach(Control window in EditorWindows)
             {
-                if (window.Name.Contains(name.Replace(" ", ""))) return window;
+                if (window.Name.Contains(fileType.Replace(" ", ""))) return window;
             }
             throw new Exception("No editor was found");
         }
-        private Button FindEditorButton(string name)
+        private Button FindEditorButton(string fileType)
         {
             foreach (Button button in EditorButtons)
             {
-                if (button.Name.Contains(name.Replace(" ", ""))) return button;
+                if (button.Name.Contains(fileType.Replace(" ", ""))) return button;
             }
             throw new Exception("No button was found");
         }

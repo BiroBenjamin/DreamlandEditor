@@ -53,6 +53,7 @@
             this.LabelCollisionHeight = new System.Windows.Forms.Label();
             this.NudCollisionHeight = new System.Windows.Forms.NumericUpDown();
             this.NudCollisionWidth = new System.Windows.Forms.NumericUpDown();
+            this.ButtonSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageWObject)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudSize)).BeginInit();
             this.GroupBoxCollision.SuspendLayout();
@@ -336,12 +337,23 @@
             this.NudCollisionWidth.Size = new System.Drawing.Size(120, 20);
             this.NudCollisionWidth.TabIndex = 16;
             // 
+            // ButtonSave
+            // 
+            this.ButtonSave.Location = new System.Drawing.Point(102, 331);
+            this.ButtonSave.Name = "ButtonSave";
+            this.ButtonSave.Size = new System.Drawing.Size(75, 23);
+            this.ButtonSave.TabIndex = 19;
+            this.ButtonSave.Text = "Save";
+            this.ButtonSave.UseVisualStyleBackColor = true;
+            this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            // 
             // WorldObjectEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.Controls.Add(this.ButtonSave);
             this.Controls.Add(this.GroupBoxCollision);
             this.Controls.Add(this.CheckBoxIsInteractable);
             this.Controls.Add(this.LabelIsInteractable);
@@ -401,5 +413,6 @@
         private System.Windows.Forms.NumericUpDown NudCollisionX;
         private System.Windows.Forms.Label LabelCollisionY;
         private System.Windows.Forms.Label LabelCollisionX;
+        private System.Windows.Forms.Button ButtonSave;
     }
 }

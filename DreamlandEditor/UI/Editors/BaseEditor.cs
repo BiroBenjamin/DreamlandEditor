@@ -9,12 +9,5 @@ namespace DreamlandEditor.UI.Editors {
         public BaseEditor() {
             InitializeComponent();
         }
-
-        public void SetRenderableObject(BaseFile obj)
-        {
-            RenderableFile = obj;
-            RenderUI();
-        }
-        public void RenderUI() { }
     }
 }

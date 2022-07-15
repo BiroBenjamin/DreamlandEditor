@@ -90,10 +90,10 @@ namespace MonoGame.Forms.DX {
             this.ButtonSwitchToCharacterEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonSwitchToCharacterEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.ButtonSwitchToCharacterEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToCharacterEditor.Location = new System.Drawing.Point(150, 0);
+            this.ButtonSwitchToCharacterEditor.Location = new System.Drawing.Point(205, 0);
             this.ButtonSwitchToCharacterEditor.Name = "ButtonSwitchToCharacterEditor";
             this.ButtonSwitchToCharacterEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToCharacterEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToCharacterEditor.Size = new System.Drawing.Size(108, 25);
             this.ButtonSwitchToCharacterEditor.TabIndex = 2;
             this.ButtonSwitchToCharacterEditor.Text = "Character Editor";
             this.ButtonSwitchToCharacterEditor.UseVisualStyleBackColor = false;
@@ -109,10 +109,10 @@ namespace MonoGame.Forms.DX {
             this.ButtonSwitchToWorldObjectEditor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonSwitchToWorldObjectEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.ButtonSwitchToWorldObjectEditor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonSwitchToWorldObjectEditor.Location = new System.Drawing.Point(75, 0);
+            this.ButtonSwitchToWorldObjectEditor.Location = new System.Drawing.Point(110, 0);
             this.ButtonSwitchToWorldObjectEditor.Name = "ButtonSwitchToWorldObjectEditor";
             this.ButtonSwitchToWorldObjectEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToWorldObjectEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToWorldObjectEditor.Size = new System.Drawing.Size(95, 25);
             this.ButtonSwitchToWorldObjectEditor.TabIndex = 1;
             this.ButtonSwitchToWorldObjectEditor.Text = "World Object Editor";
             this.ButtonSwitchToWorldObjectEditor.UseVisualStyleBackColor = false;
@@ -131,7 +131,7 @@ namespace MonoGame.Forms.DX {
             this.ButtonSwitchToMapEditor.Location = new System.Drawing.Point(0, 0);
             this.ButtonSwitchToMapEditor.Name = "ButtonSwitchToMapEditor";
             this.ButtonSwitchToMapEditor.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.ButtonSwitchToMapEditor.Size = new System.Drawing.Size(75, 25);
+            this.ButtonSwitchToMapEditor.Size = new System.Drawing.Size(110, 25);
             this.ButtonSwitchToMapEditor.TabIndex = 0;
             this.ButtonSwitchToMapEditor.Text = "Render Window";
             this.ButtonSwitchToMapEditor.UseVisualStyleBackColor = false;
