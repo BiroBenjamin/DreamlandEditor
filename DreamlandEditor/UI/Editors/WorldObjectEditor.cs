@@ -33,12 +33,6 @@ namespace DreamlandEditor.UI.Editors
             this.Enabled = true;
             FolderBrowserImage.ReadOnlyChecked = true;
 
-            TextBoxID.Text = worldObject.ID;
-            TextBoxName.Text = worldObject.Name;
-            CheckBoxIsInteractable.Checked = worldObject.IsInteractable;
-            ChechBoxHasCollision.Checked = worldObject.IsCollidable;
-            NudSize.Value = (decimal)(worldObject.Size.Width / worldObject.BaseSize.Width) * 100;
-
             string pathToSprites = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Sprites");
             DebugManager.Log(pathToSprites);
             if (!Directory.Exists(pathToSprites))
@@ -46,12 +40,25 @@ namespace DreamlandEditor.UI.Editors
                 Directory.CreateDirectory(pathToSprites);
             }
             FolderBrowserImage.InitialDirectory = pathToSprites;
+
+            TextBoxID.Text = worldObject.ID;
+            TextBoxName.Text = worldObject.Name;
+            TextBoxImagePath.Text = worldObject.ImagePath;
+            CheckBoxIsInteractable.Checked = worldObject.IsInteractable;
+            ChechBoxHasCollision.Checked = worldObject.IsCollidable;
+            NudSize.Value = (decimal)(worldObject.Size.Width / worldObject.BaseSize.Width) * 100;
+
+            if (!String.IsNullOrEmpty(worldObject.ImagePath)) {
+                ImageWObject.Load(worldObject.ImagePath);
+                ImageWObject.SizeMode = PictureBoxSizeMode.Zoom;
+            }
         }
 
         public void SetRenderableObject(BaseFile obj, string path)
         {
             worldObject = (WorldObject)obj;
             this.path = path;
+            DebugManager.Log(path);
             RenderUI();
         }
 
@@ -69,7 +76,16 @@ namespace DreamlandEditor.UI.Editors
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            WriteToFile();
+            try
+            {
+                WriteToFile();
+                MessageBox.Show("Save succesfull", "Save");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Save unsuccesfull.\r\nSee debug log for further information.", "Save");
+                DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}");
+            }
 
             FileManager<WorldObject>.SaveFile(path, worldObject);
         }

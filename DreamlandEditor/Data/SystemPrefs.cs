@@ -18,10 +18,10 @@ namespace DreamlandEditor.Data
         {
             FolderStructure = new Dictionary<string, string[]>() 
             {
-                { "Map", new string[2] {$@"{rootPath}\Objects\Maps", "dm" } },
-                //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "pdx" } },
-                { "Character", new string[2] {$@"{rootPath}\Objects\Characters", "dx" } },
-                { "World Object", new string[2] {$@"{rootPath}\Objects\WorldObjects", "dx" } },
+                { "Map", new string[2] {$@"{rootPath}\Objects\Maps", "map" } },
+                //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "dex" } },
+                { "Character", new string[2] {$@"{rootPath}\Objects\Characters", "dex" } },
+                { "World Object", new string[2] {$@"{rootPath}\Objects\WorldObjects", "dex" } },
             };
 
             foreach(KeyValuePair<string, string[]> file in FolderStructure)

@@ -27,12 +27,12 @@ namespace DreamlandEditor.Controls
             }
             ComboboxFileType.SelectedIndex = 0;
 
-            AddControls(editorsArea);
+            AddEditors(editorsArea);
         }
 
-        private void AddControls(Panel editorArea)
+        private void AddEditors(Panel editorsArea)
         {
-            foreach (Control component in editorArea.Controls)
+            foreach (Control component in editorsArea.Controls)
             {
                 if (component.Name.Contains("Editor"))
                 {

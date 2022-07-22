@@ -1,8 +1,11 @@
 ﻿using DreamlandEditor.Controls;
+using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
+using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,12 +15,12 @@ namespace DreamlandEditor.UI
 {
     public class FileExplorer : ResizablePanel 
     {
-        //public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
-
         private UiPanel MenuPanel { get; set; }
         private TreeView FileTree { get; set; }
 
         private Panel EditorsArea { get; set; }
+        private ICollection<Control> EditorWindows { get; set; } = new List<Control>();
+        private ICollection<Button> EditorButtons { get; set; } = new List<Button>();
 
         public FileExplorer() 
         {
@@ -32,6 +35,18 @@ namespace DreamlandEditor.UI
         public void AddEditors(Panel editorsArea)
         {
             EditorsArea = editorsArea;
+            foreach (Control component in editorsArea.Controls)
+            {
+                if (component.Name.Contains("Editor"))
+                {
+                    EditorWindows.Add(component);
+                    continue;
+                }
+                foreach (Button button in component.Controls)
+                {
+                    EditorButtons.Add(button);
+                }
+            }
         }
 
         public void SetUpTreeView() 
@@ -66,13 +81,54 @@ namespace DreamlandEditor.UI
         }
         private void ClickOnNode(object sender, TreeNodeMouseClickEventArgs e)
         {
-            string ext = Path.GetExtension(e.Node.Text);
-            if (ext.Length > 0)
+            bool isFile = Path.GetExtension(e.Node.Text).Length > 0;
+            if (isFile)
             {
-                // TODO: Add logic for opening files. Either on the renderwindow or in a new form.
-                DebugManager.Log(e.Node.FullPath);
+                string nodeParent = GetFileType(e.Node.FullPath);
+                string fileType = nodeParent.Substring(0, nodeParent.Length - 1);
+                switch (fileType)
+                {
+                    case "WorldObject":
+                        WorldObject file = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
+                        WorldObjectEditor editor = (WorldObjectEditor)FindEditorPanel(fileType);
+                        editor.SetRenderableObject(file, e.Node.FullPath);
+                        break;
+                }
+                DebugManager.Log(fileType);
+                FindEditorButton(fileType).PerformClick();
             }
         }
+        private string GetFileType(string nodePath)
+        {
+            IEnumerable<string> slicedNodePath = nodePath.Split('\\');
+            string[] rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects").Split('\\');
+            foreach(string elem in rootPath)
+            {
+                if (slicedNodePath.Contains(elem))
+                {
+                    slicedNodePath = slicedNodePath.Where(x => x != elem);
+                }
+            }
+
+            return slicedNodePath.First();
+        }
+        private Control FindEditorPanel(string fileType)
+        {
+            foreach (Control window in EditorWindows)
+            {
+                if (window.Name.Contains(fileType.Replace(" ", ""))) return window;
+            }
+            throw new Exception("No editor was found");
+        }
+        private Button FindEditorButton(string fileType)
+        {
+            foreach (Button button in EditorButtons)
+            {
+                if (button.Name.Contains(fileType.Replace(" ", ""))) return button;
+            }
+            throw new Exception("No button was found");
+        }
+
         private void FillChildNodes(TreeNode node) 
         {
             try 
