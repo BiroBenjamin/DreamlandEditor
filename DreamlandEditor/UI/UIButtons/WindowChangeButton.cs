@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace DreamlandEditor.UI.UIButtons
 {
-    class WindowChangeButton : Button, IUiButton
+    public class WindowChangeButton : Button, IUiButton
     {
         public WindowChangeButton() :base() 
         {

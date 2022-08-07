@@ -18,7 +18,7 @@ namespace DreamlandEditor.Data
         {
             FolderStructure = new Dictionary<string, string[]>() 
             {
-                { "Map", new string[2] {$@"{rootPath}\Objects\Maps", "map" } },
+                { "Map", new string[2] {$@"{rootPath}\Maps", "map" } },
                 //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "dex" } },
                 { "Character", new string[2] {$@"{rootPath}\Objects\Characters", "dex" } },
                 { "World Object", new string[2] {$@"{rootPath}\Objects\WorldObjects", "dex" } },
@@ -26,7 +26,11 @@ namespace DreamlandEditor.Data
 
             foreach(KeyValuePair<string, string[]> file in FolderStructure)
             {
-                extensions.Add(file.Value[1]);
+                string extension = file.Value[1];
+				if (!extensions.Contains(extension))
+				{
+                    extensions.Add(extension);
+				}
             }
         }
 

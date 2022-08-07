@@ -1,26 +1,17 @@
 ﻿using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.DirectoryServices;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Environment;
 
 namespace DreamlandEditor.UI.Editors
 {
-    public partial class WorldObjectEditor : UserControl
+	public partial class WorldObjectEditor : UserControl
     {
         private WorldObject worldObject;
         private string path;
-
-        //public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
+        private Bitmap image;
 
         public WorldObjectEditor()
         {
@@ -32,6 +23,12 @@ namespace DreamlandEditor.UI.Editors
         {
             this.Enabled = true;
             FolderBrowserImage.ReadOnlyChecked = true;
+
+            if (this.worldObject.ImagePath != null)
+            {
+                image = new Bitmap(worldObject.ImagePath);
+                worldObject.Size = image.Size;
+            }
 
             string pathToSprites = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Sprites");
             DebugManager.Log(pathToSprites);
@@ -46,11 +43,20 @@ namespace DreamlandEditor.UI.Editors
             TextBoxImagePath.Text = worldObject.ImagePath;
             CheckBoxIsInteractable.Checked = worldObject.IsInteractable;
             ChechBoxHasCollision.Checked = worldObject.IsCollidable;
-            NudSize.Value = (decimal)(worldObject.Size.Width / worldObject.BaseSize.Width) * 100;
+
+            //NudCollisionHeight.Maximum = worldObject.Size.Height;
+            NudCollisionHeight.Value = worldObject.CollisionSize.Height;
+            //NudCollisionWidth.Maximum = worldObject.Size.Width;
+            NudCollisionWidth.Value = worldObject.CollisionSize.Width;
+            //NudCollisionX.Maximum = worldObject.Location.X;
+            NudCollisionX.Value = worldObject.CollisionLocation.X;
+            //NudCollisionY.Maximum = worldObject.Location.Y;
+            NudCollisionY.Value = worldObject.CollisionLocation.Y;
+
+            //NudSize.Value = (decimal)(worldObject.Size.Width / worldObject.BaseSize.Width) * 100;
 
             if (!String.IsNullOrEmpty(worldObject.ImagePath)) {
-                ImageWObject.Load(worldObject.ImagePath);
-                ImageWObject.SizeMode = PictureBoxSizeMode.Zoom;
+                SetPicture(image);
             }
         }
 
@@ -64,14 +70,10 @@ namespace DreamlandEditor.UI.Editors
 
         public void ChechBoxHasCollision_CheckedChanged(object sender, EventArgs e)
         {
-            if (!ChechBoxHasCollision.Checked)
-            {
-                GroupBoxCollisionLocation.Enabled = false;
-                GroupBoxCollisionSize.Enabled = false;
-                return;
-            }
-            GroupBoxCollisionLocation.Enabled = true;
-            GroupBoxCollisionSize.Enabled = true;
+            GroupBoxCollisionLocation.Enabled = ChechBoxHasCollision.Checked;
+            GroupBoxCollisionSize.Enabled = ChechBoxHasCollision.Checked;
+            CheckBoxRenderCollision.Checked = ChechBoxHasCollision.Checked;
+            CheckBoxRenderCollision.Enabled = false;
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
@@ -92,8 +94,11 @@ namespace DreamlandEditor.UI.Editors
 
         private void WriteToFile()
         {
+			if (!string.IsNullOrEmpty(worldObject.ImagePath))
+			{
+                worldObject.ImagePath = TextBoxImagePath.Text;
+            }
             worldObject.Name = TextBoxName.Text;
-            worldObject.ImagePath = TextBoxImagePath.Text;
             worldObject.CollisionLocation = new Point((int)NudCollisionX.Value, (int)NudCollisionY.Value);
             worldObject.CollisionSize = new Size((int)NudCollisionWidth.Value, (int)NudCollisionHeight.Value);
             worldObject.IsInteractable = CheckBoxIsInteractable.Checked;
@@ -109,11 +114,44 @@ namespace DreamlandEditor.UI.Editors
 
             if (result == DialogResult.OK)
             {
-                ImageWObject.Load(FolderBrowserImage.FileName);
-                TextBoxImagePath.Text = FolderBrowserImage.FileName;
-
-                ImageWObject.SizeMode = PictureBoxSizeMode.Zoom;
+                worldObject.ImagePath = FolderBrowserImage.FileName;
+                SetPicture(new Bitmap(FolderBrowserImage.FileName));
             }
         }
+        private void SetPicture(Bitmap image)
+		{
+            ImageWObject.Image = image;
+            TextBoxImagePath.Text = worldObject.ImagePath;
+            ImageWObject.SizeMode = PictureBoxSizeMode.Zoom;
+            //SetMaxCollisionCoordinates(worldObject.Size.Width, worldObject.Size.Height, worldObject.Size.Width, worldObject.Size.Height);
+        }
+        private void SetMaxCollisionCoordinates(int x, int y, int width, int height)
+		{
+            NudCollisionX.Maximum = x;
+            NudCollisionY.Maximum = y;
+            NudCollisionWidth.Maximum = width;
+            NudCollisionHeight.Maximum = height;
+        }
+
+        private void DrawCollision(object sender, EventArgs e)
+		{
+            Pen pen = new Pen(Color.Red);
+            Graphics graphics = ImageWObject.CreateGraphics();
+            ImageWObject.Refresh();
+            if (CheckBoxRenderCollision.Checked)
+			{
+                graphics.DrawRectangle(
+                    pen, 
+                    new Rectangle(
+                        (int)(NudCollisionX.Value * ImageWObject.Width / worldObject.Size.Width), 
+                        (int)(NudCollisionY.Value * ImageWObject.Height / worldObject.Size.Height), 
+                        (int)(NudCollisionWidth.Value * ImageWObject.Width / worldObject.Size.Width - 1), 
+                        (int)(NudCollisionHeight.Value * ImageWObject.Height / worldObject.Size.Height - 1)));
+                //NudCollisionX.Maximum = worldObject.Size.Width - NudCollisionWidth.Value;
+                //NudCollisionY.Maximum = worldObject.Size.Height - NudCollisionHeight.Value;
+            }
+            graphics.Dispose();
+            pen.Dispose();
+		}
     }
 }

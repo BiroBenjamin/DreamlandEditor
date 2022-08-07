@@ -1,5 +1,6 @@
 ﻿using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
+using DreamlandEditor.UI;
 using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 namespace MonoGame.Forms.DX {
     public partial class Form1 : Form 
     {
-        SystemPrefs systemPrefs = new SystemPrefs();
+		readonly SystemPrefs systemPrefs = new SystemPrefs();
 
         private WorldObjectEditor WorldObjectEditor { get; set; }
         private CharacterEditor CharacterEditor { get; set; }
@@ -38,10 +39,8 @@ namespace MonoGame.Forms.DX {
             systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
             DebugManager.ShowWindow(this);
 
-            //FileExplorer.AddSystemPrefs(systemPrefs);
             FileExplorer.SetUpTreeView();
-
-            PanelItemExplorer.SetupLayout(DockStyle.Top);
+            ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor);
 
             SetupButtonEvents();
             SetupDropdownPanel(ButtonFileNavbutton, PanelFileDropdown, new Point(1, PanelNavbar.Height),

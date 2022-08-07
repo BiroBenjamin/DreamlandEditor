@@ -120,6 +120,12 @@
     <Compile Include="UI\FileExplorer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ItemExplorer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ItemExplorer.Designer.cs">
+      <DependentUpon>ItemExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UIButtons\DropdownUiButton.cs">
       <SubType>Component</SubType>
     </Compile>
