@@ -7,16 +7,18 @@ namespace DreamlandEditor.Controls
     public class SampleControl : MonoGameControl 
     {
 
-        protected BaseFile RenderableFile;
+        private Map RenderableFile;
+        private string Path;
 
         protected override void Initialize() 
         {
             base.Initialize();
         }
 
-        public void SetRenderableObject(BaseFile obj)
+        public void LoadMap(Map obj, string path)
         {
             RenderableFile = obj;
+            Path = path;
         }
 
         protected override void Update(GameTime gameTime) 

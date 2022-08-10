@@ -1,4 +1,5 @@
 ﻿using DreamlandEditor.Data;
+using DreamlandEditor.Managers;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -8,12 +9,9 @@ namespace DreamlandEditor.Controlers
 {
     public partial class DebugWindow : Form 
     {
-        private readonly SystemPrefs systemPrefs;
-
-        public DebugWindow(SystemPrefs systemPrefs, Form parentForm) 
+        public DebugWindow(Form parentForm) 
         {
             InitializeComponent();
-            this.systemPrefs = systemPrefs;
 
             FormClosing += OnFormClosing;
             parentForm.FormClosing += OnFormClosing;
@@ -28,7 +26,7 @@ namespace DreamlandEditor.Controlers
             catch (DirectoryNotFoundException e)
             {
                 Debug.WriteLine(e.Message);
-                Directory.CreateDirectory(systemPrefs.debugLogPath);
+                Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.debugLogPath);
                 CreateLogFile();
             }
         }
@@ -40,14 +38,14 @@ namespace DreamlandEditor.Controlers
             }
             string fileName = String.Format("{0:MM-dd-yyyy_HH-mm-ss}.log", DateTime.Now);
 
-            using (FileStream stream = File.Create(Path.Combine(systemPrefs.debugLogPath, fileName))) 
+            using (FileStream stream = File.Create(Path.Combine(SystemPrefsManager.SystemPrefs.debugLogPath, fileName))) 
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
                     writer.Write(TextBoxLogboard.Text);
                 }
             }
-            Debug.WriteLine(Path.Combine(systemPrefs.debugLogPath, fileName));
+            Debug.WriteLine(Path.Combine(SystemPrefsManager.SystemPrefs.debugLogPath, fileName));
         }
 
         public void AddLog(string text) 

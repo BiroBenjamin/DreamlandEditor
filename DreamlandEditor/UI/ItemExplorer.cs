@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DreamlandEditor.UI
@@ -16,6 +17,7 @@ namespace DreamlandEditor.UI
 	{
 		private WindowChangeButton MapEditorButton;
 		private SampleControl MapEditor;
+		private PictureBox DraggedImage;
 		private bool IsDragging = false;
 
 		private UiPanel WorkArea;
@@ -34,10 +36,12 @@ namespace DreamlandEditor.UI
 			SetupPanels();
 		}
 
-		public void SetRenderWindow(SampleControl renderWindow, WindowChangeButton mapEditorButton)
+		public void SetRenderWindow(SampleControl renderWindow, WindowChangeButton mapEditorButton, PictureBox draggedImage)
 		{
 			MapEditor = renderWindow;
 			MapEditorButton = mapEditorButton;
+			DraggedImage = draggedImage;
+			DraggedImage.Size = new Size(64, 64);
 		}
 
 		private void SetupPanels()
@@ -159,10 +163,29 @@ namespace DreamlandEditor.UI
 			if (IsDragging)
 			{
 				IsDragging = false;
+				DraggedImage.Visible = false;
 				return;
 			}
 			MapEditorButton.PerformClick();
+			DraggedImage.Image = ((PictureBox)sender).Image;
+			DraggedImage.SizeMode = PictureBoxSizeMode.Zoom;
 			IsDragging = true;
+		}
+		public void MoveItem(object sender, MouseEventArgs ev)
+		{
+			if (!IsDragging) return;
+			DraggedImage.Visible = true;
+			DraggedImage.BringToFront();
+			DraggedImage.Top = ev.Y + 5;
+			DraggedImage.Left = ev.X + 10;
+		}
+		public void RemoveItem(object sender, MouseEventArgs ev)
+		{
+			if(ev.Button == MouseButtons.Right)
+			{
+				IsDragging = false;
+				DraggedImage.Visible = false;
+			}
 		}
 	}
 }

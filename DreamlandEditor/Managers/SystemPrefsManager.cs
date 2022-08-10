@@ -23,7 +23,6 @@ namespace DreamlandEditor.Managers
             {
                 SerializeSystemPrefs();
             }
-            //DistributeSystemPrefs(systemPrefs);
 
             return SystemPrefs;
         }
@@ -42,12 +41,5 @@ namespace DreamlandEditor.Managers
                 serializer.Serialize(writer, SystemPrefs);
             }
         }
-
-        /*public static void DistributeSystemPrefs(SystemPrefs systemPrefs)
-        {
-            DebugManager.SystemPrefs = systemPrefs;
-            FileExplorer.SystemPrefs = systemPrefs;
-            BaseEditor.SystemPrefs = systemPrefs;
-        }*/
     }
 }

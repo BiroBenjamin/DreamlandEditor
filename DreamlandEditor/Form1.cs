@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace MonoGame.Forms.DX {
     public partial class Form1 : Form 
     {
-		readonly SystemPrefs systemPrefs = new SystemPrefs();
+        private PictureBox DraggedImage { get; set; } = new PictureBox();
 
         private WorldObjectEditor WorldObjectEditor { get; set; }
         private CharacterEditor CharacterEditor { get; set; }
@@ -36,11 +36,14 @@ namespace MonoGame.Forms.DX {
             InitializeComponent();
             SetupEditors();
 
-            systemPrefs = SystemPrefsManager.SetUpSystemPrefs();
             DebugManager.ShowWindow(this);
 
             FileExplorer.SetUpTreeView();
-            ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor);
+            ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor, DraggedImage);
+            MapEditor.Controls.Add(DraggedImage);
+            DraggedImage.Visible = false;
+            MapEditor.MouseMove += ItemExplorer.MoveItem;
+            MapEditor.MouseClick += ItemExplorer.RemoveItem;
 
             SetupButtonEvents();
             SetupDropdownPanel(ButtonFileNavbutton, PanelFileDropdown, new Point(1, PanelNavbar.Height),

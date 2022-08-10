@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DreamlandEditor.Data.Enums;
+using DreamlandEditor.ExtensionClasses;
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -18,10 +20,10 @@ namespace DreamlandEditor.Data
         {
             FolderStructure = new Dictionary<string, string[]>() 
             {
-                { "Map", new string[2] {$@"{rootPath}\Maps", "map" } },
+                { FileTypesEnum.Map.GetDescription(), new string[2] {$@"{rootPath}\Maps", "map" } },
                 //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "dex" } },
-                { "Character", new string[2] {$@"{rootPath}\Objects\Characters", "dex" } },
-                { "World Object", new string[2] {$@"{rootPath}\Objects\WorldObjects", "dex" } },
+                { FileTypesEnum.Character.GetDescription(), new string[2] {$@"{rootPath}\Objects\Characters", "dex" } },
+                { FileTypesEnum.WorldObject.GetDescription(), new string[2] {$@"{rootPath}\Objects\WorldObjects", "dex" } },
             };
 
             foreach(KeyValuePair<string, string[]> file in FolderStructure)

@@ -176,7 +176,7 @@
 			this.ChechBoxHasCollision.TabIndex = 9;
 			this.ChechBoxHasCollision.UseVisualStyleBackColor = false;
 			this.ChechBoxHasCollision.CheckedChanged += new System.EventHandler(this.ChechBoxHasCollision_CheckedChanged);
-			this.ChechBoxHasCollision.CheckStateChanged += new System.EventHandler(this.DrawCollision);
+			this.ChechBoxHasCollision.CheckStateChanged += new System.EventHandler(this.RenderCollision);
 			// 
 			// LabelSize
 			// 
@@ -285,7 +285,7 @@
 			this.CheckBoxRenderCollision.TabIndex = 20;
 			this.CheckBoxRenderCollision.Text = "Render collision";
 			this.CheckBoxRenderCollision.UseVisualStyleBackColor = false;
-			this.CheckBoxRenderCollision.CheckStateChanged += new System.EventHandler(this.DrawCollision);
+			this.CheckBoxRenderCollision.CheckStateChanged += new System.EventHandler(this.RenderCollision);
 			// 
 			// GroupBoxCollisionLocation
 			// 
@@ -309,7 +309,7 @@
 			this.NudCollisionY.Name = "NudCollisionY";
 			this.NudCollisionY.Size = new System.Drawing.Size(160, 22);
 			this.NudCollisionY.TabIndex = 21;
-			this.NudCollisionY.ValueChanged += new System.EventHandler(this.DrawCollision);
+			this.NudCollisionY.ValueChanged += new System.EventHandler(this.RenderCollision);
 			// 
 			// NudCollisionX
 			// 
@@ -318,7 +318,7 @@
 			this.NudCollisionX.Name = "NudCollisionX";
 			this.NudCollisionX.Size = new System.Drawing.Size(160, 22);
 			this.NudCollisionX.TabIndex = 19;
-			this.NudCollisionX.ValueChanged += new System.EventHandler(this.DrawCollision);
+			this.NudCollisionX.ValueChanged += new System.EventHandler(this.RenderCollision);
 			// 
 			// LabelCollisionY
 			// 
@@ -375,7 +375,7 @@
 			this.NudCollisionHeight.Name = "NudCollisionHeight";
 			this.NudCollisionHeight.Size = new System.Drawing.Size(160, 22);
 			this.NudCollisionHeight.TabIndex = 17;
-			this.NudCollisionHeight.ValueChanged += new System.EventHandler(this.DrawCollision);
+			this.NudCollisionHeight.ValueChanged += new System.EventHandler(this.RenderCollision);
 			// 
 			// NudCollisionWidth
 			// 
@@ -384,7 +384,7 @@
 			this.NudCollisionWidth.Name = "NudCollisionWidth";
 			this.NudCollisionWidth.Size = new System.Drawing.Size(160, 22);
 			this.NudCollisionWidth.TabIndex = 16;
-			this.NudCollisionWidth.ValueChanged += new System.EventHandler(this.DrawCollision);
+			this.NudCollisionWidth.ValueChanged += new System.EventHandler(this.RenderCollision);
 			// 
 			// ButtonSave
 			// 

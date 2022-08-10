@@ -1,5 +1,7 @@
 ﻿using DreamlandEditor.Controls;
 using DreamlandEditor.Data;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
@@ -71,7 +73,7 @@ namespace DreamlandEditor.UI
 
             FileTree.BeginUpdate();
 
-            string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects");
+            string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath);
             TreeNode rootnode = new TreeNode(rootPath);
             FileTree.Nodes.Add(rootnode);
             FillChildNodes(rootnode);
@@ -86,14 +88,25 @@ namespace DreamlandEditor.UI
             {
                 string nodeParent = GetFileType(e.Node.FullPath);
                 string fileType = nodeParent.Substring(0, nodeParent.Length - 1);
-                switch (fileType)
-                {
-                    case "WorldObject":
-                        WorldObject file = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
-                        WorldObjectEditor editor = (WorldObjectEditor)FindEditorPanel(fileType);
-                        editor.SetRenderableObject(file, e.Node.FullPath);
-                        break;
+				if (FileTypesEnum.Map.ToString().Equals(fileType))
+				{
+                    Map map = FileManager<Map>.LoadFile(e.Node.FullPath);
+                    SampleControl mapEditor = (SampleControl)FindEditorPanel(fileType);
+                    mapEditor.LoadMap(map, e.Node.FullPath);
                 }
+                else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
+				{
+                    WorldObject worldObject = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
+                    WorldObjectEditor wOEditor = (WorldObjectEditor)FindEditorPanel(fileType);
+                    wOEditor.SetRenderableObject(worldObject, e.Node.FullPath);
+                }
+                else if (FileTypesEnum.Character.ToString().Equals(fileType))
+				{
+
+				}
+				else{
+                    throw new Exception("File type not found!");
+				}
                 DebugManager.Log(fileType);
                 FindEditorButton(fileType).PerformClick();
             }
@@ -194,7 +207,7 @@ namespace DreamlandEditor.UI
             IconButton addFileButton = new IconButton(@"../../Content/plus-icon.png", new Size(25, 25), DockStyle.Left);
             addFileButton.Click += (sender, ev) =>
             {
-                DialogResult result = new CreateNewWindow(SystemPrefsManager.SystemPrefs, EditorsArea).ShowDialog();
+                DialogResult result = new CreateNewWindow(EditorsArea).ShowDialog();
                 if (result == DialogResult.Cancel) return;
                 SetUpTreeView();
             };

@@ -1,8 +1,11 @@
 ﻿using DreamlandEditor.Data;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.Editors;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -10,23 +13,22 @@ namespace DreamlandEditor.Controls
 {
     public partial class CreateNewWindow : Form
     {
-        private readonly SystemPrefs systemPrefs;
-
-        //private Panel EditorsArea { get; set; }
         private ICollection<Control> EditorWindows { get; set; } = new List<Control>();
         private ICollection<Button> EditorButtons { get; set; } = new List<Button>();
 
-        public CreateNewWindow(SystemPrefs systemPrefs, Panel editorsArea)
+        public CreateNewWindow(Panel editorsArea)
         {
             InitializeComponent();
-            this.systemPrefs = systemPrefs;
-
-            foreach (var item in systemPrefs.FolderStructure)
-            {
-                ComboboxFileType.Items.Add(item.Key);
+			foreach (FileTypesEnum item in Enum.GetValues(typeof(FileTypesEnum)))
+			{
+                ComboboxFileType.Items.Add(item.GetDescription());
             }
             ComboboxFileType.SelectedIndex = 0;
-
+            foreach (TerrainTypesEnum item in Enum.GetValues(typeof(TerrainTypesEnum)))
+            {
+                ComboBoxTerrainType.Items.Add(item.GetDescription());
+            }
+            ComboBoxTerrainType.SelectedItem = TerrainTypesEnum.None.GetDescription();
             AddEditors(editorsArea);
         }
 
@@ -51,10 +53,11 @@ namespace DreamlandEditor.Controls
             if(FieldsAreEmpty())
             {
                 MessageBox.Show("No file was created!", "Unable to create file");
+                DebugManager.Log("No file was created due to empty fields.");
                 return;
             }
 
-            var filePath = systemPrefs.FolderStructure[ComboboxFileType.SelectedItem.ToString()];
+            var filePath = SystemPrefsManager.SystemPrefs.FolderStructure[ComboboxFileType.SelectedItem.ToString()];
 
             try
             {
@@ -77,33 +80,43 @@ namespace DreamlandEditor.Controls
 
             if (File.Exists(path))
             {
-                DebugManager.Log($"File {TextboxFileID.Text}.{filePath[1]} already exists!\nFile was not created!");
+                DebugManager.Log($"File {TextboxFileID.Text}.{filePath[1]} already exists!\r\nFile was not created!");
                 return;
             }
 
-            switch (fileType)
-            {
-                case "Map":
-                    
-                    break;
-                case "World Object":
-                    WorldObject file = new WorldObject
-                    {
-                        FileType = fileType, 
-                        ID = TextboxFileID.Text, 
-                        Name = TextboxFileName.Text
-                    };
-                    FileManager<WorldObject>.SaveFile(path, file);
+			if (FileTypesEnum.Map.GetDescription().Equals(fileType))
+			{
+                Map map = new Map()
+                {
+                    FileType = fileType,
+                    ID = TextboxFileID.Text,
+                    Name = TextboxFileName.Text,
+                    Size = new Size((int)NudMapWidth.Value, (int)NudMapHeight.Value),
+                    TerrainType = ComboBoxTerrainType.SelectedItem.ToString()
+                };
+                FileManager<Map>.SaveFile(path, map);
+                SampleControl mapEditor = (SampleControl)FindEditorPanel(fileType);
+                mapEditor.LoadMap(map, path);
+            }
+            else if (FileTypesEnum.WorldObject.GetDescription().Equals(fileType))
+			{
+                WorldObject worldObject = new WorldObject
+                {
+                    FileType = fileType,
+                    ID = TextboxFileID.Text,
+                    Name = TextboxFileName.Text
+                };
+                FileManager<WorldObject>.SaveFile(path, worldObject);
+                WorldObjectEditor editor = (WorldObjectEditor)FindEditorPanel(fileType);
+                editor.SetRenderableObject(worldObject, path);
+            }
+            else if (FileTypesEnum.Character.GetDescription().Equals(fileType))
+			{
 
-                    WorldObjectEditor editor = (WorldObjectEditor)FindEditorPanel(fileType);
-                    editor.SetRenderableObject(file, path);
-
-                    break;
-                case "Character":
-
-                  break;
-                default:
-                    throw new Exception("File type does not exist");
+			}
+			else
+			{
+                throw new Exception("File type does not exist");
             }
 
             FindEditorButton(fileType).PerformClick();
@@ -129,6 +142,27 @@ namespace DreamlandEditor.Controls
         private void SelectedValueChanged(object sender, EventArgs e)
         {
             LabelFileName.Text = $"{ComboboxFileType.SelectedItem} Name: ";
+			if (FileTypesEnum.Map.GetDescription().Equals(ComboboxFileType.SelectedItem))
+			{
+                HidePanels();
+                PanelMapDetails.Visible = true;
+            }
+            else if (FileTypesEnum.WorldObject.GetDescription().Equals(ComboboxFileType.SelectedItem))
+			{
+                HidePanels();
+            }
+            else if (FileTypesEnum.Character.GetDescription().Equals(ComboboxFileType.SelectedItem))
+			{
+                HidePanels();
+            }
+			else
+			{
+                throw new Exception("File type not found!");
+			}
         }
+        private void HidePanels()
+		{
+            PanelMapDetails.Visible = false;
+		}
     }
 }

@@ -21,7 +21,7 @@ namespace DreamlandEditor.Managers
 				catch(Exception ex)
 				{
                     MessageBox.Show("Unexpected error during save.\nSee log file for further info.", "Error");
-                    DebugManager.Log($"Error at file saving\n{ex.Message}");
+                    DebugManager.Log($"Error at file saving\r\n{ex.StackTrace}");
 				}
             }
         }

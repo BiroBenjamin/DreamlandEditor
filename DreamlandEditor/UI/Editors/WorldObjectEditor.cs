@@ -21,10 +21,10 @@ namespace DreamlandEditor.UI.Editors
 
         public void RenderUI()
         {
-            this.Enabled = true;
+            Enabled = true;
             FolderBrowserImage.ReadOnlyChecked = true;
 
-            if (this.worldObject.ImagePath != null)
+            if (worldObject.ImagePath != null)
             {
                 image = new Bitmap(worldObject.ImagePath);
                 worldObject.Size = image.Size;
@@ -133,7 +133,7 @@ namespace DreamlandEditor.UI.Editors
             NudCollisionHeight.Maximum = height;
         }
 
-        private void DrawCollision(object sender, EventArgs e)
+        private void RenderCollision(object sender, EventArgs e)
 		{
             Pen pen = new Pen(Color.Red);
             Graphics graphics = ImageWObject.CreateGraphics();
