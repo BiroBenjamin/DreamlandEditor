@@ -92,10 +92,26 @@ namespace DreamlandEditor.Controls
                     ID = TextboxFileID.Text,
                     Name = TextboxFileName.Text,
                     Size = new Size((int)NudMapWidth.Value, (int)NudMapHeight.Value),
-                    TerrainType = ComboBoxTerrainType.SelectedItem.ToString()
                 };
+                if (ComboBoxTerrainType.SelectedItem.ToString() != TerrainTypesEnum.None.GetDescription())
+                {
+                    WorldObject terrainType = (WorldObject)ItemsManager.GetById(ComboBoxTerrainType.SelectedItem.ToString());
+                    for (int i = 0; i < NudMapWidth.Value; i++)
+                    {
+                        for (int j = 0; j < NudMapHeight.Value; j++)
+                        {
+                            map.WorldObjects.Add(new WorldObject()
+                            {
+                                Size = terrainType.Size,
+                                Location = new Point(i * terrainType.Size.Width, j * terrainType.Size.Height),
+                                ImagePath = terrainType.ImagePath
+
+                            });
+                        }
+                    }
+                }
                 FileManager<Map>.SaveFile(path, map);
-                SampleControl mapEditor = (SampleControl)FindEditorPanel(fileType);
+                MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
                 mapEditor.LoadMap(map, path);
             }
             else if (FileTypesEnum.WorldObject.GetDescription().Equals(fileType))

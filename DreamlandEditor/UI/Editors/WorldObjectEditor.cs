@@ -24,10 +24,14 @@ namespace DreamlandEditor.UI.Editors
             Enabled = true;
             FolderBrowserImage.ReadOnlyChecked = true;
 
-            if (worldObject.ImagePath != null)
+            try
             {
                 image = new Bitmap(worldObject.ImagePath);
                 worldObject.Size = image.Size;
+            }
+            catch
+            {
+                DebugManager.Log($"Could not find the image in path {worldObject.ImagePath}");
             }
 
             string pathToSprites = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Sprites");

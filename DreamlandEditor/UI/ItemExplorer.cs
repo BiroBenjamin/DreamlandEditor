@@ -3,6 +3,8 @@ using DreamlandEditor.Data;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,8 +18,9 @@ namespace DreamlandEditor.UI
 	public partial class ItemExplorer : ResizablePanel
 	{
 		private WindowChangeButton MapEditorButton;
-		private SampleControl MapEditor;
+		private MapEditor MapEditor;
 		private PictureBox DraggedImage;
+		private System.Drawing.Point DraggedImageOffset;
 		private bool IsDragging = false;
 
 		private UiPanel WorkArea;
@@ -26,19 +29,22 @@ namespace DreamlandEditor.UI
 
 		private ComboBox TypeDropdown;
 		private readonly string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects");
-		private List<BaseFile> Items = new List<BaseFile>();
 		
 		public ItemExplorer()
 		{
+			DraggedImageOffset = new System.Drawing.Point(5, 8);
+
 			InitializeComponent();
 			SetupLayout(DockStyle.Top);
 
 			SetupPanels();
 		}
 
-		public void SetRenderWindow(SampleControl renderWindow, WindowChangeButton mapEditorButton, PictureBox draggedImage)
+		public void SetRenderWindow(MapEditor renderWindow, WindowChangeButton mapEditorButton, PictureBox draggedImage)
 		{
 			MapEditor = renderWindow;
+			MapEditor.MouseMove += MoveItem;
+			MapEditor.MouseClick += RemoveItem;
 			MapEditorButton = mapEditorButton;
 			DraggedImage = draggedImage;
 			DraggedImage.Size = new Size(64, 64);
@@ -62,7 +68,7 @@ namespace DreamlandEditor.UI
 			WorkArea.Controls.Add(ChangeTypePanel);
 
 			SetupChangeTypeCombobox();
-			SetupItems(ItemsPanel, Items);
+			SetupItems(ItemsPanel, ItemsManager.Items);
 		}
 		private void SetupChangeTypeCombobox()
 		{
@@ -87,11 +93,11 @@ namespace DreamlandEditor.UI
 				DebugManager.Log(((ListControl)sender).SelectedValue.ToString());
 				if(selectedValue.Equals("All"))
 				{
-					SetupItems(ItemsPanel, Items);
+					SetupItems(ItemsPanel, ItemsManager.Items);
 					return;
 				}
 				string path = Path.Combine(rootPath, selectedValue);
-				var filteredItems = Items.Where(x => x.FilePath.StartsWith(path)).ToList();
+				var filteredItems = ItemsManager.Items.Where(x => x.FilePath.StartsWith(path)).ToList();
 				SetupItems(ItemsPanel, filteredItems);
 			};
 		}
@@ -103,8 +109,8 @@ namespace DreamlandEditor.UI
 				{
 					dropdownTypes.Add(dir.FullName.Remove(0, rootPath.Length + 1));
 					if (dir.GetFiles().Length != 0) 
-					{ 
-						Items.AddRange(CycleFiles(dir));
+					{
+						ItemsManager.Items.AddRange(CycleFiles(dir));
 					}
 
 					continue;
@@ -130,15 +136,21 @@ namespace DreamlandEditor.UI
 			itemsPanel.Controls.Clear();
 			foreach (BaseFile item in items)
 			{
-				Bitmap image = item.ImagePath == null ? null : new Bitmap(item.ImagePath);
 				PictureBox pictureBox = new PictureBox()
 				{
 					Dock = DockStyle.Left,
-					Image = image,
 					BorderStyle = BorderStyle.FixedSingle,
 					Width = Height,
 					SizeMode = PictureBoxSizeMode.Zoom,
 				};
+                try
+                {
+					pictureBox.Image = item.ImagePath == null ? null : new Bitmap(item.ImagePath);
+                }
+                catch
+                {
+					DebugManager.Log($"Could not find the image for {item.ID}");
+                }
 
 				pictureBox.SizeChanged += (sender, ev) =>
 				{
@@ -146,38 +158,44 @@ namespace DreamlandEditor.UI
 				};
 				pictureBox.MouseEnter += (sender, ev) =>
 				{
-					((PictureBox)sender).BackColor = Color.White;
+					((PictureBox)sender).BackColor = System.Drawing.Color.White;
 				};
 				pictureBox.MouseLeave += (sender, ev) =>
 				{
-					((PictureBox)sender).BackColor = Color.FromArgb(0, 0, 0, 0);
+					((PictureBox)sender).BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
 				};
-				pictureBox.Click += ClickOnItem;
+				pictureBox.Click += delegate(object sender, EventArgs ev)
+                {
+					ClickOnItem(sender, ev, item);
+                };
 
 				itemsPanel.Controls.Add(pictureBox);
 			}
 		}
 
-		private void ClickOnItem(object sender, EventArgs ev)
+		private void ClickOnItem(object sender, EventArgs ev, BaseFile item)
 		{
+			if (!MapEditor.IsLoaded) return;
 			if (IsDragging)
 			{
 				IsDragging = false;
 				DraggedImage.Visible = false;
+				MapEditor.ItemInQueue = null;
 				return;
 			}
 			MapEditorButton.PerformClick();
 			DraggedImage.Image = ((PictureBox)sender).Image;
 			DraggedImage.SizeMode = PictureBoxSizeMode.Zoom;
 			IsDragging = true;
+			MapEditor.ItemInQueue = item;
 		}
 		public void MoveItem(object sender, MouseEventArgs ev)
 		{
 			if (!IsDragging) return;
 			DraggedImage.Visible = true;
 			DraggedImage.BringToFront();
-			DraggedImage.Top = ev.Y + 5;
-			DraggedImage.Left = ev.X + 10;
+			DraggedImage.Top = ev.Y + DraggedImageOffset.Y;
+			DraggedImage.Left = ev.X + DraggedImageOffset.X;
 		}
 		public void RemoveItem(object sender, MouseEventArgs ev)
 		{
@@ -185,6 +203,13 @@ namespace DreamlandEditor.UI
 			{
 				IsDragging = false;
 				DraggedImage.Visible = false;
+				MapEditor.ItemInQueue = null;
+				return;
+			}else if (ev.Button == MouseButtons.Left)
+            {
+				Vector2 mousePosition = new Vector2(MapEditor.GetMousePosition().X, MapEditor.GetMousePosition().Y);
+				var relativeMousePosition = Vector2.Transform(mousePosition, Matrix.Invert(MapEditor.TransformMatrix));
+				DebugManager.Log($"{mousePosition.ToPoint()} --> {relativeMousePosition.ToPoint()}");
 			}
 		}
 	}

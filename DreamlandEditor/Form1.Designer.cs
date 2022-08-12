@@ -31,7 +31,7 @@ namespace MonoGame.Forms.DX {
 			this.ButtonSwitchToWorldObjectEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
 			this.ButtonSwitchToMapEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
 			this.PanelWorkArea = new System.Windows.Forms.Panel();
-			this.MapEditor = new DreamlandEditor.Controls.SampleControl();
+			this.MapEditor = new DreamlandEditor.Controls.MapEditor();
 			this.FileExplorer = new DreamlandEditor.UI.FileExplorer();
 			this.ItemExplorer = new DreamlandEditor.UI.ItemExplorer();
 			this.PanelNavbar.SuspendLayout();
@@ -213,7 +213,7 @@ namespace MonoGame.Forms.DX {
 
         #endregion
 
-        private DreamlandEditor.Controls.SampleControl MapEditor;
+        private DreamlandEditor.Controls.MapEditor MapEditor;
         private System.Windows.Forms.Panel PanelNavbar;
         private DreamlandEditor.UI.FileExplorer FileExplorer;
         private DreamlandEditor.UI.UIButtons.NavigationButton ButtonFileNavbutton;

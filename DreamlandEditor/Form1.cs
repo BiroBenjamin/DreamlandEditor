@@ -33,17 +33,15 @@ namespace MonoGame.Forms.DX {
 
         public Form1() 
         {
+            DebugManager.ShowWindow(this);
+
             InitializeComponent();
             SetupEditors();
-
-            DebugManager.ShowWindow(this);
 
             FileExplorer.SetUpTreeView();
             ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor, DraggedImage);
             MapEditor.Controls.Add(DraggedImage);
             DraggedImage.Visible = false;
-            MapEditor.MouseMove += ItemExplorer.MoveItem;
-            MapEditor.MouseClick += ItemExplorer.RemoveItem;
 
             SetupButtonEvents();
             SetupDropdownPanel(ButtonFileNavbutton, PanelFileDropdown, new Point(1, PanelNavbar.Height),

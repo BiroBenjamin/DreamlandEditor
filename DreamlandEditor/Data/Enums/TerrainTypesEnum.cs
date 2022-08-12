@@ -7,8 +7,8 @@ namespace DreamlandEditor.Data.Enums
 		[Description("None")]
 		None,
 		[Description("Grass")]
-		Grass,
+		GrassTile,
 		[Description("Water")]
-		Water,
+		WaterTile,
 	}
 }

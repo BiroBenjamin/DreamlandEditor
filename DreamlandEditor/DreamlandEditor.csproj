@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DreamlandEditor</RootNamespace>
     <AssemblyName>DreamlandEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -71,6 +71,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="Controls\CreateNewWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,7 +89,7 @@
     <Compile Include="Data\Enums\TerrainTypesEnum.cs" />
     <Compile Include="Data\Map.cs" />
     <Compile Include="Data\SystemPrefs.cs" />
-    <Compile Include="Controls\RenderWindow.cs">
+    <Compile Include="Controls\MapEditor.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Data\WorldObject.cs" />
@@ -101,6 +102,7 @@
     </Compile>
     <Compile Include="Managers\DebugManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
+    <Compile Include="Managers\ItemsManager.cs" />
     <Compile Include="Managers\SystemPrefsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

@@ -1,7 +1,6 @@
 ﻿using DreamlandEditor.Controls;
 using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
-using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
@@ -91,7 +90,7 @@ namespace DreamlandEditor.UI
 				if (FileTypesEnum.Map.ToString().Equals(fileType))
 				{
                     Map map = FileManager<Map>.LoadFile(e.Node.FullPath);
-                    SampleControl mapEditor = (SampleControl)FindEditorPanel(fileType);
+                    MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
                     mapEditor.LoadMap(map, e.Node.FullPath);
                 }
                 else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
