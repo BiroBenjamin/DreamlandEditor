@@ -1,4 +1,5 @@
 ﻿using DreamlandEditor.UI.UIPanels;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,6 +7,10 @@ namespace DreamlandEditor.UI.UIButtons
 {
     public class WindowChangeButton : Button, IUiButton
     {
+        public string ButtonFor { get; set; }
+        public static ICollection<WindowChangeButton> ButtonsToCoordinate { get; set; }
+        public static ICollection<Control> PanelsToCoordinate { get; set; }
+
         public WindowChangeButton() :base() 
         {
             FlatStyle = FlatStyle.Flat;
@@ -18,6 +23,9 @@ namespace DreamlandEditor.UI.UIButtons
 
             Dock = DockStyle.Left;
             Padding = new Padding(0, 1, 0, 1);
+
+            ButtonsToCoordinate = new List<WindowChangeButton>();
+            PanelsToCoordinate = new List<Control>();
         }
 
         public void SetActive() {
@@ -35,16 +43,19 @@ namespace DreamlandEditor.UI.UIButtons
             FlatAppearance.BorderColor = Color.FromArgb(166, 166, 166);
         }
 
-        public void SetDropdownPanel(UiPanel panel)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetupEvents(ControlCollection controls, Control panelToShow)
+        public void SetupEvents(Control panelToShow)
         {
             Click += (sender, ev) =>
             {
-                foreach (Control control in controls)
+                foreach(WindowChangeButton button in ButtonsToCoordinate)
+                {
+                    button.SetInactive();
+                }
+                foreach (Control panel in PanelsToCoordinate)
+                {
+                    panel.Visible = false;
+                }
+                /*foreach (Control control in controls)
                 {
                     if (!(control is Panel))
                     {
@@ -55,7 +66,7 @@ namespace DreamlandEditor.UI.UIButtons
                     {
                         (button as WindowChangeButton).SetInactive();
                     }
-                }
+                }*/
                 SetActive();
                 panelToShow.Visible = true;
             };

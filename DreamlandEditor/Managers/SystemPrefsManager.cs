@@ -1,6 +1,5 @@
 ﻿using DreamlandEditor.Data;
 using DreamlandEditor.UI;
-using DreamlandEditor.UI.Editors;
 using System;
 using System.IO;
 using System.Xml.Serialization;
@@ -15,15 +14,20 @@ namespace DreamlandEditor.Managers
 
         public static SystemPrefs SetUpSystemPrefs() 
         {
-            try 
+            if (!File.Exists(path))
+            {
+                SerializeSystemPrefs();
+                return SystemPrefs;
+            }
+            DeserializeSystemPrefs();
+            /*try 
             {
                 DeserializeSystemPrefs();
             } 
             catch (FileNotFoundException)
             {
                 SerializeSystemPrefs();
-            }
-
+            }*/
             return SystemPrefs;
         }
         private static void DeserializeSystemPrefs() 

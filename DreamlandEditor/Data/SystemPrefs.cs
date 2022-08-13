@@ -9,7 +9,7 @@ namespace DreamlandEditor.Data
     [Serializable]
     public class SystemPrefs 
     {
-        [XmlIgnore] public string rootPath = @"C:\Temp";
+        [XmlIgnore] public string rootPath = @"..\TempFolder";
         public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
         public bool isDevMode = true;
 
@@ -24,6 +24,7 @@ namespace DreamlandEditor.Data
                 //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "dex" } },
                 { FileTypesEnum.Character.GetDescription(), new string[2] {$@"{rootPath}\Objects\Characters", "dex" } },
                 { FileTypesEnum.WorldObject.GetDescription(), new string[2] {$@"{rootPath}\Objects\WorldObjects", "dex" } },
+                { FileTypesEnum.Tile.GetDescription(), new string[2] {$@"{rootPath}\Objects\Tiles", "dex" } },
             };
 
             foreach(KeyValuePair<string, string[]> file in FolderStructure)

@@ -1,4 +1,5 @@
 ﻿using DreamlandEditor.Data;
+using DreamlandEditor.Data.GameFiles;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -15,13 +16,13 @@ namespace DreamlandEditor.Managers
             {
 				try
 				{
-                    (obj as BaseFile).FilePath = path;
+                    (obj as IBaseFile).FilePath = path;
                     serializer.Serialize(writer, obj);
 				}
 				catch(Exception ex)
 				{
                     MessageBox.Show("Unexpected error during save.\nSee log file for further info.", "Error");
-                    DebugManager.Log($"Error at file saving\r\n{ex.StackTrace}");
+                    DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}\r\n{ex.StackTrace}");
 				}
             }
         }
@@ -38,7 +39,7 @@ namespace DreamlandEditor.Managers
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unexpected error during Load.\nSee log file for further info.", "Error");
-                    DebugManager.Log($"Error at file loading\n{ex.Message}");
+                    DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}\r\n{ex.StackTrace}");
                 }
             }
 

@@ -1,8 +1,9 @@
 ﻿using DreamlandEditor.Controls;
+using DreamlandEditor.Controls.Editors;
 using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.Managers;
-using DreamlandEditor.UI.Editors;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
 using System;
@@ -16,12 +17,10 @@ namespace DreamlandEditor.UI
 {
     public class FileExplorer : ResizablePanel 
     {
-        private UiPanel MenuPanel { get; set; }
-        private TreeView FileTree { get; set; }
-
-        private Panel EditorsArea { get; set; }
-        private ICollection<Control> EditorWindows { get; set; } = new List<Control>();
-        private ICollection<Button> EditorButtons { get; set; } = new List<Button>();
+        private UiPanel MenuPanel;
+        private TreeView FileTree;
+        private ICollection<Control> EditorWindows = new List<Control>();
+        private ICollection<WindowChangeButton> EditorButtons = new List<WindowChangeButton>();
 
         public FileExplorer() 
         {
@@ -33,9 +32,9 @@ namespace DreamlandEditor.UI
             SetupLayout(DockStyle.Right);
         }
 
-        public void AddEditors(Panel editorsArea)
+        public void AddEditors(ICollection<Control> editorWindows, ICollection<WindowChangeButton> editorButtons)
         {
-            EditorsArea = editorsArea;
+            /*EditorsArea = editorsArea;
             foreach (Control component in editorsArea.Controls)
             {
                 if (component.Name.Contains("Editor"))
@@ -47,7 +46,9 @@ namespace DreamlandEditor.UI
                 {
                     EditorButtons.Add(button);
                 }
-            }
+            }*/
+            EditorWindows = editorWindows;
+            EditorButtons = editorButtons;
         }
 
         public void SetUpTreeView() 
@@ -66,7 +67,7 @@ namespace DreamlandEditor.UI
             Controls.Add(FileTree);
             SetUpMenuPanel();
         }
-        private void UpdateTreeView() 
+        public void UpdateTreeView() 
         {
             FileTree.NodeMouseDoubleClick += ClickOnNode;
 
@@ -91,22 +92,22 @@ namespace DreamlandEditor.UI
 				{
                     Map map = FileManager<Map>.LoadFile(e.Node.FullPath);
                     MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
-                    mapEditor.LoadMap(map, e.Node.FullPath);
+                    mapEditor.LoadMap(map);
                 }
                 else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
 				{
                     WorldObject worldObject = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
-                    WorldObjectEditor wOEditor = (WorldObjectEditor)FindEditorPanel(fileType);
-                    wOEditor.SetRenderableObject(worldObject, e.Node.FullPath);
+                    WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
+                    worldObjectEditor.SetRenderableObject(worldObject, e.Node.FullPath);
                 }
                 else if (FileTypesEnum.Character.ToString().Equals(fileType))
 				{
 
 				}
 				else{
-                    throw new Exception("File type not found!");
+                    MessageBox.Show("That type of file can't be opened!", "Can't open");
+                    return;
 				}
-                DebugManager.Log(fileType);
                 FindEditorButton(fileType).PerformClick();
             }
         }
@@ -128,7 +129,8 @@ namespace DreamlandEditor.UI
         {
             foreach (Control window in EditorWindows)
             {
-                if (window.Name.Contains(fileType.Replace(" ", ""))) return window;
+                IBaseEditor editor = (IBaseEditor)window;
+                if (editor.EditorFor.Equals(fileType)) return window;
             }
             throw new Exception("No editor was found");
         }
@@ -136,7 +138,8 @@ namespace DreamlandEditor.UI
         {
             foreach (Button button in EditorButtons)
             {
-                if (button.Name.Contains(fileType.Replace(" ", ""))) return button;
+                IUiButton editorButton = (IUiButton)button;
+                if (editorButton.ButtonFor.Equals(fileType)) return button;
             }
             throw new Exception("No button was found");
         }
@@ -176,7 +179,8 @@ namespace DreamlandEditor.UI
 
         private void SetUpMenuPanel() 
         {
-            Controls.RemoveByKey("MenuPanel");
+            //Controls.RemoveByKey("MenuPanel");
+            Controls.Remove(MenuPanel);
             MenuPanel = new UiPanel 
             {
                 Name = "MenuPanel",
@@ -186,14 +190,14 @@ namespace DreamlandEditor.UI
             };
             Controls.Add(MenuPanel);
 
-            IconButton openNodesButton = new IconButton(@"../../Content/folder-open-icon.png", new Size(25, 25), DockStyle.Right);
+            IconButton openNodesButton = new IconButton(new Bitmap(ImagePaths.OpenFolder), new Size(25, 25), DockStyle.Right);
             openNodesButton.Click += (sender, ev) => 
             {
                 OpenNodes(FileTree.Nodes);
             };
             MenuPanel.Controls.Add(openNodesButton);
 
-            IconButton closeNodesButton = new IconButton(@"../../Content/folder-close-icon.png", new Size(25, 25), DockStyle.Right);
+            IconButton closeNodesButton = new IconButton(new Bitmap(ImagePaths.CloseFolder), new Size(25, 25), DockStyle.Right);
             closeNodesButton.Click += (sender, ev) => 
             {
                 foreach (TreeNode node in FileTree.Nodes[0].Nodes)
@@ -203,16 +207,16 @@ namespace DreamlandEditor.UI
             };
             MenuPanel.Controls.Add(closeNodesButton);
 
-            IconButton addFileButton = new IconButton(@"../../Content/plus-icon.png", new Size(25, 25), DockStyle.Left);
+            IconButton addFileButton = new IconButton(new Bitmap(ImagePaths.Plus), new Size(25, 25), DockStyle.Left);
             addFileButton.Click += (sender, ev) =>
             {
-                DialogResult result = new CreateNewWindow(EditorsArea).ShowDialog();
+                DialogResult result = new CreateNewWindow(EditorButtons, EditorWindows).ShowDialog();
                 if (result == DialogResult.Cancel) return;
                 SetUpTreeView();
             };
             MenuPanel.Controls.Add(addFileButton);
 
-            IconButton refreshNodesBtn = new IconButton(@"../../Content/refresh-icon.png", new Size(25, 25), DockStyle.Left);
+            IconButton refreshNodesBtn = new IconButton(new Bitmap(ImagePaths.Refresh), new Size(25, 25), DockStyle.Left);
             refreshNodesBtn.Click += (sender, ev) => 
             {
                 SetUpTreeView();

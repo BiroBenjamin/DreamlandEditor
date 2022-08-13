@@ -6,9 +6,7 @@ namespace DreamlandEditor.UI.UIPanels
 {
     public class ResizablePanel : UiPanel 
     {
-        private Panel ResizeArea { get; set; }
-        //protected Panel WorkArea { get; set; }
-
+        private Panel ResizeArea;
         private bool allowResize = false;
 
         public ResizablePanel() : base()
@@ -17,10 +15,7 @@ namespace DreamlandEditor.UI.UIPanels
 
         public void SetupLayout(DockStyle resizeAreaPosition) {
             SetupResizeArea(resizeAreaPosition);
-            //SetupWorkArea();
-
             Controls.Add(ResizeArea);
-            //Controls.Add(WorkArea);
         }
 
         private void SetupResizeArea(DockStyle dockType) {
@@ -68,11 +63,5 @@ namespace DreamlandEditor.UI.UIPanels
                 allowResize = false;
             };
         }
-
-        /*private void SetupWorkArea() {
-            WorkArea = new Panel { 
-                Dock = DockStyle.Fill
-            };
-        }*/
     }
 }

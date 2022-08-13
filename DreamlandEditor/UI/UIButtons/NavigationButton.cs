@@ -6,6 +6,8 @@ namespace DreamlandEditor.UI.UIButtons
 {
     public class NavigationButton : Button, IUiButton
     {
+        public string ButtonFor { get; set; } = null;
+
         public NavigationButton() : base() 
         {
             FlatStyle = FlatStyle.Flat;

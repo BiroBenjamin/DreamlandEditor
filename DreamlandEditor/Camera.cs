@@ -7,16 +7,17 @@ namespace DreamlandEditor
 {
     public class Camera
     {
-        Vector2 Position;
-        Vector2 velocity;
-        Texture2D Texture;
-        float speed = 3f;
-        KeyboardState keyState = new KeyboardState();
         public Rectangle Rectangle
         {
             get { return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height); }
         }
         public Matrix Transform { get; private set; }
+
+        private Vector2 Position;
+        private Vector2 velocity;
+        private Texture2D Texture;
+        private float speed = 3f;
+        private KeyboardState keyState = new KeyboardState();
 
         public Camera(GraphicsDevice graphicsDevice)
         {

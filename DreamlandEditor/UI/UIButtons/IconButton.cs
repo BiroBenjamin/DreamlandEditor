@@ -8,9 +8,11 @@ namespace DreamlandEditor.UI.UIButtons
     {
         private Image icon;
 
-        public IconButton(string path, Size size, DockStyle dockStyle) 
+        public string ButtonFor { get; set; } = null;
+
+        public IconButton(Image image, Size size, DockStyle dockStyle) 
         {
-            Image img = Image.FromFile(path);
+            Image img = image;
             Size iconSize = new Size((int)(size.Width * 0.8), (int)(size.Height * 0.8));
             icon = new Bitmap(img, iconSize);
 
@@ -30,23 +32,8 @@ namespace DreamlandEditor.UI.UIButtons
             Dock = dockStyle;
             Padding = new Padding(0);
             
-            BackColor = Color.FromArgb(166, 166, 166);
+            BackColor = Color.FromArgb(0, 0, 0, 0);
             ForeColor = Color.FromArgb(13, 13, 13);
-        }
-
-        public void SetActive()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetInactive()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetDropdownPanel(UiPanel panel)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

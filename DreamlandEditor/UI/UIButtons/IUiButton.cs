@@ -6,9 +6,8 @@ namespace DreamlandEditor.UI.UIButtons
 {
     public interface IUiButton
     {
+        string ButtonFor { get; set; }
+
         event EventHandler Click;
-        void SetActive();
-        void SetInactive();
-        void SetDropdownPanel(UiPanel panel);
     }
 }

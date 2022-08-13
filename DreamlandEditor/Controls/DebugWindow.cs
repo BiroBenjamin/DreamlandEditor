@@ -12,14 +12,18 @@ namespace DreamlandEditor.Controlers
         public DebugWindow(Form parentForm) 
         {
             InitializeComponent();
-
             FormClosing += OnFormClosing;
             parentForm.FormClosing += OnFormClosing;
         }
 
         private void OnFormClosing(object sender, EventArgs ev)
         {
-            try
+            if (!Directory.Exists(SystemPrefsManager.SystemPrefs.debugLogPath))
+            {
+                Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.debugLogPath);
+            }
+            CreateLogFile();
+            /*try
             {
                 CreateLogFile();
             }
@@ -28,16 +32,12 @@ namespace DreamlandEditor.Controlers
                 Debug.WriteLine(e.Message);
                 Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.debugLogPath);
                 CreateLogFile();
-            }
+            }*/
         }
         private void CreateLogFile() 
         {
-            if(TextBoxLogboard.Text.Length < 1) 
-            {
-                return;
-            }
+            if(TextBoxLogboard.Text.Length < 1) return;
             string fileName = String.Format("{0:MM-dd-yyyy_HH-mm-ss}.log", DateTime.Now);
-
             using (FileStream stream = File.Create(Path.Combine(SystemPrefsManager.SystemPrefs.debugLogPath, fileName))) 
             {
                 using (StreamWriter writer = new StreamWriter(stream))
@@ -45,20 +45,21 @@ namespace DreamlandEditor.Controlers
                     writer.Write(TextBoxLogboard.Text);
                 }
             }
-            Debug.WriteLine(Path.Combine(SystemPrefsManager.SystemPrefs.debugLogPath, fileName));
         }
 
         public void AddLog(string text) 
         {
-            try 
+            TextBoxLogboard.AppendText(String.Format("[{0:HH:mm:ss}] \r\n {1}", DateTime.Now, text));
+            TextBoxLogboard.AppendText(Environment.NewLine);
+            /*try 
             {
-                TextBoxLogboard.AppendText(String.Format("[{0:HH:mm:ss}] --- {1}", DateTime.Now, text));
+                TextBoxLogboard.AppendText(String.Format("[{0:HH:mm:ss}] \r\n {1}", DateTime.Now, text));
                 TextBoxLogboard.AppendText(Environment.NewLine);
             }
             catch(Exception e) 
             {
                 Debug.WriteLine(e.Message);
-            }
+            }*/
         }
     }
 }

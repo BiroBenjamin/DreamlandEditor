@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace DreamlandEditor.Data.Enums
 {
-	public enum FileTypesEnum
+    public enum FileTypesEnum
 	{
 		[Description("Map")]
 		Map,
@@ -15,5 +10,7 @@ namespace DreamlandEditor.Data.Enums
 		Character,
 		[Description("World Object")]
 		WorldObject,
+		[Description("Tile")]
+		Tile,
 	}
 }

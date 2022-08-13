@@ -34,6 +34,7 @@ namespace DreamlandEditor.Controlers {
             this.TextBoxLogboard.Location = new System.Drawing.Point(0, 0);
             this.TextBoxLogboard.Multiline = true;
             this.TextBoxLogboard.Name = "TextBoxLogboard";
+            this.TextBoxLogboard.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TextBoxLogboard.Size = new System.Drawing.Size(800, 450);
             this.TextBoxLogboard.TabIndex = 0;
             // 

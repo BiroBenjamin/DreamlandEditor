@@ -1,31 +1,64 @@
-﻿using DreamlandEditor.Data;
-using System;
+﻿using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.ExtensionClasses;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DreamlandEditor.Managers
 {
     public static class ItemsManager
     {
-        public static List<BaseFile> Items = new List<BaseFile>();
+        public static ICollection<WorldObject> WorldObjects= new List<WorldObject>();
 
-        public static BaseFile ContainsById(string id)
+        public static IBaseFile GetById(string id)
         {
-            foreach(BaseFile item in Items)
-            {
-                if(item.ID == id) return item;
-            }
-            return null;
+            return WorldObjects.Where(x => x.ID == id).FirstOrDefault();
         }
-        public static BaseFile GetById(string id)
+
+        public static ICollection<WorldObject> FilterByObjectType(string objectType)
         {
-            foreach(BaseFile item in Items)
+            List<WorldObject> filteredItems = new List<WorldObject>();
+            foreach (var item in WorldObjects)
             {
-                if(item.ID == id) return item;
+                if (objectType.Contains((item).ObjectType))
+                {
+                    filteredItems.Add(item);
+                }
             }
-            return null;
+            return filteredItems;
+        }
+
+        public static void LoadItems()
+        {
+            DirectoryInfo directory = new DirectoryInfo(Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects"));
+            CycleDirectories(directory);
+        }
+        private static void CycleDirectories(DirectoryInfo directory)
+        {
+            foreach (DirectoryInfo dir in DirectoryManager.GetDirectories(directory))
+            {
+                if (dir.GetDirectories().Length == 0)
+                {
+                    if (dir.GetFiles().Length != 0)
+                    {
+                        WorldObjects.AddRange(CycleFiles(dir));
+                    }
+
+                    continue;
+                }
+                CycleDirectories(dir);
+            }
+        }
+        private static List<WorldObject> CycleFiles(DirectoryInfo folder)
+        {
+            List<WorldObject> files = new List<WorldObject>();
+            foreach (FileInfo file in folder.GetFiles())
+            {
+                if (!SystemPrefsManager.SystemPrefs.extensions.Contains(file.Extension.Remove(0, 1))) continue;
+                string fileName = Path.Combine(folder.FullName, file.Name);
+                files.Add(FileManager<WorldObject>.LoadFile(fileName));
+            }
+            return files;
         }
     }
 }
