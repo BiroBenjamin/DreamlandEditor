@@ -14,9 +14,10 @@ namespace DreamlandEditor.Data.GameFiles
         public string ImagePath { get; set; }
         public string FilePath { get; set; }
         public string ObjectType { get; set; }
+        public int ZIndex { get; set; }
         [XmlIgnore] public Texture2D Texture { get; set; }
         public Point Position { get; set; }
-        public Point CollisionLocation { get; set; } = new Point(0, 0);
+        public Point CollisionPosition { get; set; } = new Point(0, 0);
         [XmlIgnore] public Size BaseSize { get; private set; } = new Size(32, 32);
         public Size Size { get; set; } = new Size(64, 64);
         public Size CollisionSize { get; set; } = new Size(0, 0);
@@ -37,20 +38,37 @@ namespace DreamlandEditor.Data.GameFiles
         {
             return new WorldObject()
             {
+                FileType = FileType,
                 ID = ID,
-                Texture = Texture,
-                Size = Size,
-                Position = Position,
                 Name = Name,
                 ImagePath = ImagePath,
-                FileType = FileType,
-                BaseSize = BaseSize,
-                CollisionLocation = CollisionLocation,
-                CollisionSize = CollisionSize,
                 FilePath = FilePath,
-                IsCollidable = IsCollidable,
+                ObjectType = ObjectType,
+                ZIndex = ZIndex,
+                Texture = Texture,
+                Position = Position,
+                CollisionPosition = CollisionPosition,
+                BaseSize = BaseSize,
+                Size = Size,
+                CollisionSize = CollisionSize,
                 IsInteractable = IsInteractable,
+                IsCollidable = IsCollidable,
             };
+        }
+
+        public Microsoft.Xna.Framework.Rectangle GetCollision()
+        {
+            return new Microsoft.Xna.Framework.Rectangle(
+                Position.X + CollisionPosition.X,
+                Position.Y + CollisionPosition.Y,
+                CollisionSize.Width,
+                CollisionSize.Height);
+        }
+
+        public bool CursorIntersects(Microsoft.Xna.Framework.Vector2 cursor)
+        {
+            return cursor.X > Position.X && cursor.X < Size.Width + Position.X &&
+                cursor.Y > Position.Y && cursor.Y < Size.Height + Position.Y;
         }
     }
 }

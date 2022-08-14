@@ -9,7 +9,7 @@ namespace DreamlandEditor.Data
     [Serializable]
     public class SystemPrefs 
     {
-        [XmlIgnore] public string rootPath = @"..\TempFolder";
+        [XmlIgnore] public string rootPath = @"..\..\..\TempFolder";
         public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
         public bool isDevMode = true;
 

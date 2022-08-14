@@ -25,7 +25,7 @@ namespace MonoGame.Forms.DX {
         /// </summary>
         private void InitializeComponent() {
             this.PanelNavbar = new System.Windows.Forms.Panel();
-            this.ButtonFileNavbutton = new DreamlandEditor.UI.UIButtons.NavigationButton();
+            this.ButtonSaveNavbutton = new DreamlandEditor.UI.UIButtons.NavigationButton();
             this.PanelSwitchWorkWindows = new System.Windows.Forms.Panel();
             this.ButtonSwitchToCharacterEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
             this.ButtonSwitchToWorldObjectEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
@@ -34,41 +34,41 @@ namespace MonoGame.Forms.DX {
             this.MapEditor = new DreamlandEditor.Controls.Editors.MapEditor();
             this.FileExplorer = new DreamlandEditor.UI.FileExplorer();
             this.ItemExplorer = new DreamlandEditor.UI.ItemExplorer();
-            this.PanelMapEditorMisc = new DreamlandEditor.UI.UIPanels.UiPanel();
             this.LabelCursorPosition = new System.Windows.Forms.Label();
             this.PanelNavbar.SuspendLayout();
             this.PanelSwitchWorkWindows.SuspendLayout();
             this.PanelWorkArea.SuspendLayout();
-            this.PanelMapEditorMisc.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelNavbar
             // 
             this.PanelNavbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.PanelNavbar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelNavbar.Controls.Add(this.ButtonFileNavbutton);
+            this.PanelNavbar.Controls.Add(this.LabelCursorPosition);
+            this.PanelNavbar.Controls.Add(this.ButtonSaveNavbutton);
             this.PanelNavbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelNavbar.Location = new System.Drawing.Point(0, 0);
             this.PanelNavbar.Name = "PanelNavbar";
             this.PanelNavbar.Size = new System.Drawing.Size(1184, 25);
             this.PanelNavbar.TabIndex = 1;
             // 
-            // ButtonFileNavbutton
+            // ButtonSaveNavbutton
             // 
-            this.ButtonFileNavbutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.ButtonFileNavbutton.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonFileNavbutton.FlatAppearance.BorderSize = 0;
-            this.ButtonFileNavbutton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
-            this.ButtonFileNavbutton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
-            this.ButtonFileNavbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFileNavbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            this.ButtonFileNavbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.ButtonFileNavbutton.Location = new System.Drawing.Point(0, 0);
-            this.ButtonFileNavbutton.Name = "ButtonFileNavbutton";
-            this.ButtonFileNavbutton.Size = new System.Drawing.Size(50, 23);
-            this.ButtonFileNavbutton.TabIndex = 0;
-            this.ButtonFileNavbutton.Text = "File";
-            this.ButtonFileNavbutton.UseVisualStyleBackColor = false;
+            this.ButtonSaveNavbutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSaveNavbutton.ButtonFor = null;
+            this.ButtonSaveNavbutton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ButtonSaveNavbutton.FlatAppearance.BorderSize = 0;
+            this.ButtonSaveNavbutton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.ButtonSaveNavbutton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
+            this.ButtonSaveNavbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSaveNavbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.ButtonSaveNavbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.ButtonSaveNavbutton.Location = new System.Drawing.Point(0, 0);
+            this.ButtonSaveNavbutton.Name = "ButtonSaveNavbutton";
+            this.ButtonSaveNavbutton.Size = new System.Drawing.Size(50, 23);
+            this.ButtonSaveNavbutton.TabIndex = 0;
+            this.ButtonSaveNavbutton.Text = "Save";
+            this.ButtonSaveNavbutton.UseVisualStyleBackColor = false;
             // 
             // PanelSwitchWorkWindows
             // 
@@ -85,6 +85,7 @@ namespace MonoGame.Forms.DX {
             // ButtonSwitchToCharacterEditor
             // 
             this.ButtonSwitchToCharacterEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToCharacterEditor.ButtonFor = null;
             this.ButtonSwitchToCharacterEditor.Dock = System.Windows.Forms.DockStyle.Left;
             this.ButtonSwitchToCharacterEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
             this.ButtonSwitchToCharacterEditor.FlatAppearance.BorderSize = 0;
@@ -104,6 +105,7 @@ namespace MonoGame.Forms.DX {
             // ButtonSwitchToWorldObjectEditor
             // 
             this.ButtonSwitchToWorldObjectEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToWorldObjectEditor.ButtonFor = null;
             this.ButtonSwitchToWorldObjectEditor.Dock = System.Windows.Forms.DockStyle.Left;
             this.ButtonSwitchToWorldObjectEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
             this.ButtonSwitchToWorldObjectEditor.FlatAppearance.BorderSize = 0;
@@ -123,6 +125,7 @@ namespace MonoGame.Forms.DX {
             // ButtonSwitchToMapEditor
             // 
             this.ButtonSwitchToMapEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.ButtonSwitchToMapEditor.ButtonFor = null;
             this.ButtonSwitchToMapEditor.Dock = System.Windows.Forms.DockStyle.Left;
             this.ButtonSwitchToMapEditor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
             this.ButtonSwitchToMapEditor.FlatAppearance.BorderSize = 0;
@@ -142,7 +145,6 @@ namespace MonoGame.Forms.DX {
             // PanelWorkArea
             // 
             this.PanelWorkArea.Controls.Add(this.MapEditor);
-            this.PanelWorkArea.Controls.Add(this.PanelMapEditorMisc);
             this.PanelWorkArea.Controls.Add(this.PanelSwitchWorkWindows);
             this.PanelWorkArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelWorkArea.Location = new System.Drawing.Point(200, 25);
@@ -152,17 +154,18 @@ namespace MonoGame.Forms.DX {
             // 
             // MapEditor
             // 
+            this.MapEditor.AllowDrop = true;
             this.MapEditor.Camera = null;
             this.MapEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MapEditor.EditorFor = "Map";
             this.MapEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MapEditor.IsLoaded = false;
             this.MapEditor.ItemInQueue = null;
-            this.MapEditor.Location = new System.Drawing.Point(0, 53);
+            this.MapEditor.Location = new System.Drawing.Point(0, 25);
             this.MapEditor.MapFile = null;
-            this.MapEditor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MapEditor.Margin = new System.Windows.Forms.Padding(2);
             this.MapEditor.MouseHoverUpdatesOnly = false;
             this.MapEditor.Name = "MapEditor";
-            this.MapEditor.Size = new System.Drawing.Size(984, 461);
+            this.MapEditor.Size = new System.Drawing.Size(984, 489);
             this.MapEditor.TabIndex = 0;
             this.MapEditor.Text = "Sample Control";
             // 
@@ -184,33 +187,23 @@ namespace MonoGame.Forms.DX {
             this.ItemExplorer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ItemExplorer.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ItemExplorer.Location = new System.Drawing.Point(0, 539);
-            this.ItemExplorer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ItemExplorer.Margin = new System.Windows.Forms.Padding(2);
             this.ItemExplorer.MaximumSize = new System.Drawing.Size(1500, 204);
             this.ItemExplorer.MinimumSize = new System.Drawing.Size(2, 82);
             this.ItemExplorer.Name = "ItemExplorer";
             this.ItemExplorer.Size = new System.Drawing.Size(1184, 122);
             this.ItemExplorer.TabIndex = 2;
             // 
-            // PanelMapEditorMisc
-            // 
-            this.PanelMapEditorMisc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.PanelMapEditorMisc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelMapEditorMisc.Controls.Add(this.LabelCursorPosition);
-            this.PanelMapEditorMisc.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelMapEditorMisc.Location = new System.Drawing.Point(0, 25);
-            this.PanelMapEditorMisc.Name = "PanelMapEditorMisc";
-            this.PanelMapEditorMisc.Size = new System.Drawing.Size(984, 28);
-            this.PanelMapEditorMisc.TabIndex = 2;
-            // 
             // LabelCursorPosition
             // 
-            this.LabelCursorPosition.AutoSize = true;
+            this.LabelCursorPosition.Dock = System.Windows.Forms.DockStyle.Right;
             this.LabelCursorPosition.ForeColor = System.Drawing.Color.White;
-            this.LabelCursorPosition.Location = new System.Drawing.Point(930, 6);
+            this.LabelCursorPosition.Location = new System.Drawing.Point(1121, 0);
             this.LabelCursorPosition.Name = "LabelCursorPosition";
-            this.LabelCursorPosition.Size = new System.Drawing.Size(41, 13);
-            this.LabelCursorPosition.TabIndex = 0;
+            this.LabelCursorPosition.Size = new System.Drawing.Size(61, 23);
+            this.LabelCursorPosition.TabIndex = 1;
             this.LabelCursorPosition.Text = "CurPos";
+            this.LabelCursorPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -222,15 +215,13 @@ namespace MonoGame.Forms.DX {
             this.Controls.Add(this.ItemExplorer);
             this.Controls.Add(this.PanelNavbar);
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dreamland Editor";
             this.PanelNavbar.ResumeLayout(false);
             this.PanelSwitchWorkWindows.ResumeLayout(false);
             this.PanelWorkArea.ResumeLayout(false);
-            this.PanelMapEditorMisc.ResumeLayout(false);
-            this.PanelMapEditorMisc.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -240,14 +231,13 @@ namespace MonoGame.Forms.DX {
         private DreamlandEditor.Controls.Editors.MapEditor MapEditor;
         private System.Windows.Forms.Panel PanelNavbar;
         private DreamlandEditor.UI.FileExplorer FileExplorer;
-        private DreamlandEditor.UI.UIButtons.NavigationButton ButtonFileNavbutton;
+        private DreamlandEditor.UI.UIButtons.NavigationButton ButtonSaveNavbutton;
         private System.Windows.Forms.Panel PanelSwitchWorkWindows;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToCharacterEditor;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToWorldObjectEditor;
         private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToMapEditor;
         private System.Windows.Forms.Panel PanelWorkArea;
 		private DreamlandEditor.UI.ItemExplorer ItemExplorer;
-        private DreamlandEditor.UI.UIPanels.UiPanel PanelMapEditorMisc;
         private System.Windows.Forms.Label LabelCursorPosition;
     }
 }

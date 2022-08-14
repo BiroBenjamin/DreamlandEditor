@@ -19,7 +19,7 @@ namespace DreamlandEditor.UI
 	{
 		private WindowChangeButton MapEditorButton;
 		private MapEditor MapEditor;
-		private bool IsDragging = false;
+		//private bool IsDragging = false;
 		private UiPanel WorkArea;
 		private UiPanel MiscPanel;
 		private UiPanel ItemsPanel;
@@ -36,7 +36,7 @@ namespace DreamlandEditor.UI
 		public void SetRenderWindow(MapEditor renderWindow, WindowChangeButton mapEditorButton)
 		{
 			MapEditor = renderWindow;
-			MapEditor.MouseClick += RemoveItem;
+			//MapEditor.MouseClick += RemoveItem;
 			MapEditorButton = mapEditorButton;
 		}
 
@@ -151,17 +151,17 @@ namespace DreamlandEditor.UI
 		private void ClickOnItem(object sender, EventArgs ev, IBaseFile item)
 		{
 			if (!MapEditor.IsLoaded) return;
-			if (IsDragging)
+			if (MapEditor.IsDragging)
 			{
-				IsDragging = false;
+				MapEditor.IsDragging = false;
 				MapEditor.ItemInQueue = null;
 				return;
 			}
 			MapEditorButton.PerformClick();
-			IsDragging = true;
+			MapEditor.IsDragging = true;
 			MapEditor.ItemInQueue = item;
 		}
-		public void RemoveItem(object sender, MouseEventArgs ev)
+		/*public void RemoveItem(object sender, MouseEventArgs ev)
 		{
 			if(ev.Button == MouseButtons.Right)
 			{
@@ -177,6 +177,6 @@ namespace DreamlandEditor.UI
 				WorldObject newItem = (WorldObject)MapEditor.ItemInQueue.Clone();
 				MapEditor.MapFile.WorldObjects.Add(newItem);
 			}
-		}
+		}*/
 	}
 }

@@ -129,6 +129,7 @@
     <Compile Include="UI\ItemExplorer.Designer.cs">
       <DependentUpon>ItemExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Misc\UITreeNode.cs" />
     <Compile Include="UI\UIButtons\IconButton.cs">
       <SubType>Component</SubType>
     </Compile>

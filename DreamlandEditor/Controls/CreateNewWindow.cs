@@ -73,10 +73,11 @@ namespace DreamlandEditor.Controls
                     ID = TextboxFileID.Text,
                     Name = TextboxFileName.Text,
                     Size = new Size((int)NudMapWidth.Value, (int)NudMapHeight.Value),
+                    FilePath = path,
                 };
                 if (ComboBoxTerrainType.SelectedItem.ToString() != "None")
                 {
-                    WorldObject tileType = (WorldObject)ItemsManager.GetById(ComboBoxTerrainType.SelectedItem.ToString());
+                    WorldObject tileType = (WorldObject)ItemsManager.GetById<WorldObject>(ComboBoxTerrainType.SelectedItem.ToString());
                     if(tileType == null)
                     {
                         MessageBox.Show("The selected tile type was not found!", "Object not found");
@@ -96,7 +97,8 @@ namespace DreamlandEditor.Controls
                         }
                     }
                 }
-                FileManager<Map>.SaveFile(path, map);
+                FileManager.SaveFile(map);
+                ItemsManager.Maps.Add(map);
                 MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
                 mapEditor.LoadMap(map);
             }
@@ -109,10 +111,12 @@ namespace DreamlandEditor.Controls
                     ID = TextboxFileID.Text,
                     Name = TextboxFileName.Text,
                     ObjectType = FileTypesEnum.WorldObject.ToString(),
+                    FilePath = path,
                 };
-                FileManager<WorldObject>.SaveFile(path, worldObject);
+                FileManager.SaveFile(worldObject);
+                ItemsManager.WorldObjects.Add(worldObject);
                 WorldObjectEditor editor = (WorldObjectEditor)FindEditorPanel(fileType);
-                editor.SetRenderableObject(worldObject, path);
+                editor.SetRenderableObject(worldObject);
             }
             //Character
             else if (FileTypesEnum.Character.GetDescription().Equals(fileType))
@@ -135,8 +139,10 @@ namespace DreamlandEditor.Controls
                     ImagePath = TextBoxImagePath.Text,
                     Size = ImageTile.Image.Size,
                     ObjectType = FileTypesEnum.Tile.ToString(),
+                    FilePath = path,
                 };
-                FileManager<WorldObject>.SaveFile(path, tile);
+                FileManager.SaveFile(tile);
+                ItemsManager.WorldObjects.Add(tile);
                 return;
             }
             else

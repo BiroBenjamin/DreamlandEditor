@@ -16,7 +16,7 @@ namespace DreamlandEditor
         private Vector2 Position;
         private Vector2 velocity;
         private Texture2D Texture;
-        private float speed = 3f;
+        private float speed = 6f;
         private KeyboardState keyState = new KeyboardState();
 
         public Camera(GraphicsDevice graphicsDevice)

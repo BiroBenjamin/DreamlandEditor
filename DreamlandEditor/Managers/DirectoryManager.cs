@@ -18,7 +18,7 @@ namespace DreamlandEditor.Managers
         public static List<string> GetDirectoryNamesOnThatLevel(string path)
         {
             List<string> names = new List<string>();
-            if (!Directory.Exists(path)) return null;
+            if (!Directory.Exists(path)) return names;
             foreach(string item in Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly))
             {
                 string[] subStrings = item.Split('\\');

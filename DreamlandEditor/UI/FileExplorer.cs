@@ -4,6 +4,7 @@ using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.Managers;
+using DreamlandEditor.UI.Misc;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
 using System;
@@ -12,6 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace DreamlandEditor.UI
 {
@@ -74,7 +76,7 @@ namespace DreamlandEditor.UI
             FileTree.BeginUpdate();
 
             string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath);
-            TreeNode rootnode = new TreeNode(rootPath);
+            UITreeNode rootnode = new UITreeNode(rootPath);
             FileTree.Nodes.Add(rootnode);
             FillChildNodes(rootnode);
             FileTree.Nodes[0].Expand();
@@ -90,15 +92,27 @@ namespace DreamlandEditor.UI
                 string fileType = nodeParent.Substring(0, nodeParent.Length - 1);
 				if (FileTypesEnum.Map.ToString().Equals(fileType))
 				{
-                    Map map = FileManager<Map>.LoadFile(e.Node.FullPath);
+                    /*Map map = (Map)FileManager.LoadFile<Map>(e.Node.FullPath);
+                    MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
+                    mapEditor.LoadMap(map);*/
+                    Map selectedMap = ItemsManager.Maps
+                        .Where(x => x.FilePath == e.Node.FullPath)
+                        .FirstOrDefault();
+                    Map map = (Map)ItemsManager.GetById<Map>(selectedMap.ID);
                     MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
                     mapEditor.LoadMap(map);
                 }
                 else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
 				{
-                    WorldObject worldObject = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
+                    /*WorldObject worldObject = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
                     WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
-                    worldObjectEditor.SetRenderableObject(worldObject, e.Node.FullPath);
+                    worldObjectEditor.SetRenderableObject(worldObject);*/
+                    WorldObject selectedWorldObject = ItemsManager.WorldObjects
+                        .Where(x => x.FilePath == e.Node.FullPath)
+                        .FirstOrDefault();
+                    WorldObject worldObject = (WorldObject)ItemsManager.GetById<WorldObject>(selectedWorldObject.ID);
+                    WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
+                    worldObjectEditor.SetRenderableObject(worldObject);
                 }
                 else if (FileTypesEnum.Character.ToString().Equals(fileType))
 				{
@@ -144,14 +158,14 @@ namespace DreamlandEditor.UI
             throw new Exception("No button was found");
         }
 
-        private void FillChildNodes(TreeNode node) 
+        private void FillChildNodes(UITreeNode node) 
         {
             try 
             {
                 DirectoryInfo directory = new DirectoryInfo(node.FullPath);
                 foreach (DirectoryInfo dir in directory.GetDirectories()) 
                 {
-                    TreeNode newNode = new TreeNode(dir.Name);
+                    UITreeNode newNode = new UITreeNode(dir.Name);
                     node.Nodes.Add(newNode);
                     if (!IsDirectoryEmpty(node.FullPath)) 
                     {
@@ -163,9 +177,7 @@ namespace DreamlandEditor.UI
                 {
                     string ext = Path.GetExtension(fl.Name).Replace(".", "");
                     if (!SystemPrefsManager.SystemPrefs.extensions.Contains(ext)) return;
-
-                    TreeNode newNode = new TreeNode(fl.Name);
-                    node.Nodes.Add(newNode);
+                    LoadItem(node, fl.Name);
                 }
             } catch (Exception e) 
             {
@@ -175,6 +187,26 @@ namespace DreamlandEditor.UI
         private bool IsDirectoryEmpty(string path) 
         {
             return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
+        private void LoadItem(UITreeNode node, string fileName)
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load(Path.Combine(node.FullPath, fileName));
+            string xmlType = document.DocumentElement.Name;
+            if (new Map().GetType().Name.Equals(xmlType))
+            {
+                Map item = (Map)FileManager.LoadFile<Map>(Path.Combine(node.FullPath, fileName));
+                UITreeNode newNode = new UITreeNode(fileName, item);
+                node.Nodes.Add(newNode);
+                ItemsManager.Maps.Add(item);
+            }
+            else if (new WorldObject().GetType().Name.Equals(xmlType))
+            {
+                WorldObject item = (WorldObject)FileManager.LoadFile<WorldObject>(Path.Combine(node.FullPath, fileName));
+                UITreeNode newNode = new UITreeNode(fileName, item);
+                node.Nodes.Add(newNode);
+                ItemsManager.WorldObjects.Add(item);
+            }
         }
 
         private void SetUpMenuPanel() 
@@ -200,7 +232,7 @@ namespace DreamlandEditor.UI
             IconButton closeNodesButton = new IconButton(new Bitmap(ImagePaths.CloseFolder), new Size(25, 25), DockStyle.Right);
             closeNodesButton.Click += (sender, ev) => 
             {
-                foreach (TreeNode node in FileTree.Nodes[0].Nodes)
+                foreach (UITreeNode node in FileTree.Nodes[0].Nodes)
                 {
                     node.Collapse(false);
                 }
@@ -226,7 +258,7 @@ namespace DreamlandEditor.UI
 
         private void OpenNodes(TreeNodeCollection nodes)
         {
-            foreach (TreeNode node in nodes)
+            foreach (UITreeNode node in nodes)
             {
                 node.Expand();
                 OpenNodes(node?.Nodes);

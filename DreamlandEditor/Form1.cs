@@ -22,21 +22,19 @@ namespace MonoGame.Forms.DX
         {
             InitializeComponent();
             DebugManager.ShowWindow(this);
-            ItemsManager.LoadItems();
+            //ItemsManager.LoadItems();
 
             SetupEditors();
 
             FileExplorer.SetUpTreeView();
             ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor);
-            IconButton saveMapButton = new IconButton(new Bitmap(ImagePaths.Save), new Size(25, 25), DockStyle.Left);
-            saveMapButton.Click += (sender, ev) =>
+            ButtonSaveNavbutton.Click += (sender, ev) =>
             {
                 if (!String.IsNullOrEmpty(MapEditor.MapFile.FilePath))
                 {
-                    FileManager<Map>.SaveFile(MapEditor.MapFile.FilePath, MapEditor.MapFile);
+                    ItemsManager.SaveItems();
                 }
             };
-            PanelMapEditorMisc.Controls.Add(saveMapButton);
         }
 
         private void SetupEditors() {

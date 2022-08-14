@@ -3,16 +3,27 @@ using DreamlandEditor.ExtensionClasses;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace DreamlandEditor.Managers
 {
     public static class ItemsManager
     {
-        public static ICollection<WorldObject> WorldObjects= new List<WorldObject>();
+        public static ICollection<WorldObject> WorldObjects = new List<WorldObject>();
+        public static ICollection<Map> Maps = new List<Map>();
 
-        public static IBaseFile GetById(string id)
+        public static IBaseFile GetById<T>(string id) where T : IBaseFile
         {
-            return WorldObjects.Where(x => x.ID == id).FirstOrDefault();
+            if(typeof(T) == typeof(WorldObject))
+            {
+                return WorldObjects.Where(x => x.ID == id).FirstOrDefault();
+            }
+            else if (typeof(T) == typeof(Map))
+            {
+                return Maps.Where(x => x.ID == id).FirstOrDefault();
+            }
+
+            return null;
         }
 
         public static ICollection<WorldObject> FilterByObjectType(string objectType)
@@ -56,9 +67,43 @@ namespace DreamlandEditor.Managers
             {
                 if (!SystemPrefsManager.SystemPrefs.extensions.Contains(file.Extension.Remove(0, 1))) continue;
                 string fileName = Path.Combine(folder.FullName, file.Name);
-                files.Add(FileManager<WorldObject>.LoadFile(fileName));
+                WorldObject obj = (WorldObject)FileManager.LoadFile<WorldObject>(fileName);
+                obj.FilePath = fileName;
+                DebugManager.Log(obj.FilePath);
+                files.Add(obj);
             }
             return files;
+        }
+
+        public static void SaveItems()
+        {
+            string errors = "";
+            foreach(WorldObject item in WorldObjects)
+            {
+                if (string.IsNullOrEmpty(item.FilePath))
+                {
+                    errors.Concat($"The following WorldObject: {item.ID} doesn't have a file path!\r\n{item.ID} has not been saved!");
+                    continue;
+                }
+                FileManager.SaveFile(item);
+            }
+            foreach (Map item in Maps)
+            {
+                if (string.IsNullOrEmpty(item.FilePath))
+                {
+                    errors.Concat($"The following WorldObject: {item.ID} doesn't have a file path!\r\n{item.ID} has not been saved!");
+                    continue;
+                }
+                FileManager.SaveFile(item);
+            }
+
+            if(errors.Length > 0)
+            {
+                MessageBox.Show(errors, "Error while saving");
+                DebugManager.Log(errors);
+                return;
+            }
+            MessageBox.Show("Save succesfull!", "Save");
         }
     }
 }

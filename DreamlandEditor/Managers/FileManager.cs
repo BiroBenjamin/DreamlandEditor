@@ -3,38 +3,42 @@ using DreamlandEditor.Data.GameFiles;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DreamlandEditor.Managers
 {
-    public static class FileManager<T>
+    public static class FileManager
     {
-        private static readonly XmlSerializer serializer = new XmlSerializer(typeof(T));
-        public static void SaveFile(string path, T obj)
+        public static void SaveFile<T>(T obj)
         {
-            using(StreamWriter writer = new StreamWriter(path))
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            try
             {
-				try
-				{
-                    (obj as IBaseFile).FilePath = path;
+                using (StreamWriter writer = new StreamWriter((obj as IBaseFile).FilePath))
+                {
+
                     serializer.Serialize(writer, obj);
-				}
-				catch(Exception ex)
-				{
-                    MessageBox.Show("Unexpected error during save.\nSee log file for further info.", "Error");
-                    DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}\r\n{ex.StackTrace}");
-				}
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unexpected error during save.\nSee log file for further info.", "Error");
+                DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}\r\n{ex.StackTrace}");
             }
         }
 
-        public static T LoadFile(string path)
+        public static IBaseFile LoadFile<T>(string path)
         {
-            T obj = default;
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+            IBaseFile loadedItem = default;
             using (StreamReader reader = new StreamReader(path))
             {
                 try
                 {
-                    obj = (T)serializer.Deserialize(reader);
+                    loadedItem = (IBaseFile)serializer.Deserialize(reader);
+                    loadedItem.FilePath = path;
                 }
                 catch (Exception ex)
                 {
@@ -43,7 +47,7 @@ namespace DreamlandEditor.Managers
                 }
             }
 
-            return obj;
+            return loadedItem;
         }
     }
 }

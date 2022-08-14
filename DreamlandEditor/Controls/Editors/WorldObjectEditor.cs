@@ -15,7 +15,6 @@ namespace DreamlandEditor.Controls.Editors
         public string EditorFor { get; set; }
         public WorldObject RenderableObject { get; set; }
 
-        private string path;
         private Bitmap image;
 
         public WorldObjectEditor()
@@ -55,16 +54,12 @@ namespace DreamlandEditor.Controls.Editors
             CheckBoxIsInteractable.Checked = RenderableObject.IsInteractable;
             ChechBoxHasCollision.Checked = RenderableObject.IsCollidable;
 
-            //NudCollisionHeight.Maximum = worldObject.Size.Height;
+            NudWidth.Value = RenderableObject.Size.Width;
+            NudHeight.Value = RenderableObject.Size.Height;
             NudCollisionHeight.Value = RenderableObject.CollisionSize.Height;
-            //NudCollisionWidth.Maximum = worldObject.Size.Width;
             NudCollisionWidth.Value = RenderableObject.CollisionSize.Width;
-            //NudCollisionX.Maximum = worldObject.Location.X;
-            NudCollisionX.Value = RenderableObject.CollisionLocation.X;
-            //NudCollisionY.Maximum = worldObject.Location.Y;
-            NudCollisionY.Value = RenderableObject.CollisionLocation.Y;
-
-            //NudSize.Value = (decimal)(worldObject.Size.Width / worldObject.BaseSize.Width) * 100;
+            NudCollisionX.Value = RenderableObject.CollisionPosition.X;
+            NudCollisionY.Value = RenderableObject.CollisionPosition.Y;
 
 
             if (!String.IsNullOrEmpty(RenderableObject.ImagePath)) {
@@ -72,11 +67,9 @@ namespace DreamlandEditor.Controls.Editors
             }
         }
 
-        public void SetRenderableObject(IBaseFile obj, string path)
+        public void SetRenderableObject(WorldObject obj)
         {
-            RenderableObject = (WorldObject)obj;
-            this.path = path;
-            DebugManager.Log(path);
+            RenderableObject = obj;
             RenderUI();
         }
 
@@ -101,7 +94,7 @@ namespace DreamlandEditor.Controls.Editors
                 DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}");
             }
 
-            FileManager<WorldObject>.SaveFile(path, RenderableObject);
+            FileManager.SaveFile(RenderableObject);
         }
 
         private void WriteToFile()
@@ -111,12 +104,13 @@ namespace DreamlandEditor.Controls.Editors
                 RenderableObject.ImagePath = TextBoxImagePath.Text;
             }
             RenderableObject.Name = TextBoxName.Text;
-            RenderableObject.CollisionLocation = new Point((int)NudCollisionX.Value, (int)NudCollisionY.Value);
+            RenderableObject.CollisionPosition = new Point((int)NudCollisionX.Value, (int)NudCollisionY.Value);
             RenderableObject.CollisionSize = new Size((int)NudCollisionWidth.Value, (int)NudCollisionHeight.Value);
             RenderableObject.IsInteractable = CheckBoxIsInteractable.Checked;
             RenderableObject.IsCollidable = ChechBoxHasCollision.Checked;
+            RenderableObject.Size = new Size((int)NudWidth.Value, (int)NudHeight.Value);
 
-            double percentage = (double)NudSize.Value / 100;
+            double percentage = (double)NudWidth.Value / 100;
             RenderableObject.Size = new Size( (int)(RenderableObject.BaseSize.Width * percentage), (int)(RenderableObject.BaseSize.Height * percentage));
         }
 

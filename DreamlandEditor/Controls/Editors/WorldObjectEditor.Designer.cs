@@ -37,8 +37,8 @@
             this.TextBoxImagePath = new System.Windows.Forms.TextBox();
             this.ButtonChooseImage = new System.Windows.Forms.Button();
             this.ChechBoxHasCollision = new System.Windows.Forms.CheckBox();
-            this.LabelSize = new System.Windows.Forms.Label();
-            this.NudSize = new System.Windows.Forms.NumericUpDown();
+            this.LabelWidth = new System.Windows.Forms.Label();
+            this.NudWidth = new System.Windows.Forms.NumericUpDown();
             this.CheckBoxIsInteractable = new System.Windows.Forms.CheckBox();
             this.LabelIsInteractable = new System.Windows.Forms.Label();
             this.LabelCollisionWidth = new System.Windows.Forms.Label();
@@ -55,8 +55,10 @@
             this.NudCollisionWidth = new System.Windows.Forms.NumericUpDown();
             this.ButtonSave = new System.Windows.Forms.Button();
             this.FolderBrowserImage = new System.Windows.Forms.OpenFileDialog();
+            this.NudHeight = new System.Windows.Forms.NumericUpDown();
+            this.LabelHeight = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ImageWObject)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NudSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NudWidth)).BeginInit();
             this.GroupBoxCollision.SuspendLayout();
             this.GroupBoxCollisionLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudCollisionY)).BeginInit();
@@ -64,6 +66,7 @@
             this.GroupBoxCollisionSize.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudCollisionHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudCollisionWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NudHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // ImageWObject
@@ -170,40 +173,41 @@
             this.ChechBoxHasCollision.CheckedChanged += new System.EventHandler(this.ChechBoxHasCollision_CheckedChanged);
             this.ChechBoxHasCollision.CheckStateChanged += new System.EventHandler(this.RenderCollision);
             // 
-            // LabelSize
+            // LabelWidth
             // 
-            this.LabelSize.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LabelSize.AutoSize = true;
-            this.LabelSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelSize.Location = new System.Drawing.Point(559, 230);
-            this.LabelSize.Name = "LabelSize";
-            this.LabelSize.Size = new System.Drawing.Size(39, 15);
-            this.LabelSize.TabIndex = 10;
-            this.LabelSize.Text = "Size:";
+            this.LabelWidth.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LabelWidth.AutoSize = true;
+            this.LabelWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabelWidth.Location = new System.Drawing.Point(559, 232);
+            this.LabelWidth.Name = "LabelWidth";
+            this.LabelWidth.Size = new System.Drawing.Size(47, 15);
+            this.LabelWidth.TabIndex = 10;
+            this.LabelWidth.Text = "Width:";
             // 
-            // NudSize
+            // NudWidth
             // 
-            this.NudSize.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NudSize.Increment = new decimal(new int[] {
+            this.NudWidth.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.NudWidth.Enabled = false;
+            this.NudWidth.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.NudSize.Location = new System.Drawing.Point(713, 230);
-            this.NudSize.Maximum = new decimal(new int[] {
+            this.NudWidth.Location = new System.Drawing.Point(610, 230);
+            this.NudWidth.Maximum = new decimal(new int[] {
             300,
             0,
             0,
             0});
-            this.NudSize.Minimum = new decimal(new int[] {
+            this.NudWidth.Minimum = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            this.NudSize.Name = "NudSize";
-            this.NudSize.Size = new System.Drawing.Size(42, 20);
-            this.NudSize.TabIndex = 11;
-            this.NudSize.Value = new decimal(new int[] {
+            this.NudWidth.Name = "NudWidth";
+            this.NudWidth.Size = new System.Drawing.Size(42, 20);
+            this.NudWidth.TabIndex = 11;
+            this.NudWidth.Value = new decimal(new int[] {
             100,
             0,
             0,
@@ -374,18 +378,60 @@
             // 
             this.FolderBrowserImage.FileName = "openFileDialog1";
             // 
+            // NudHeight
+            // 
+            this.NudHeight.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.NudHeight.Enabled = false;
+            this.NudHeight.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NudHeight.Location = new System.Drawing.Point(715, 232);
+            this.NudHeight.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.NudHeight.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.NudHeight.Name = "NudHeight";
+            this.NudHeight.Size = new System.Drawing.Size(42, 20);
+            this.NudHeight.TabIndex = 20;
+            this.NudHeight.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // LabelHeight
+            // 
+            this.LabelHeight.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LabelHeight.AutoSize = true;
+            this.LabelHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabelHeight.Location = new System.Drawing.Point(658, 232);
+            this.LabelHeight.Name = "LabelHeight";
+            this.LabelHeight.Size = new System.Drawing.Size(53, 15);
+            this.LabelHeight.TabIndex = 21;
+            this.LabelHeight.Text = "Height:";
+            // 
             // WorldObjectEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.Controls.Add(this.LabelHeight);
+            this.Controls.Add(this.NudHeight);
             this.Controls.Add(this.ButtonSave);
             this.Controls.Add(this.GroupBoxCollision);
             this.Controls.Add(this.CheckBoxIsInteractable);
             this.Controls.Add(this.LabelIsInteractable);
-            this.Controls.Add(this.NudSize);
-            this.Controls.Add(this.LabelSize);
+            this.Controls.Add(this.NudWidth);
+            this.Controls.Add(this.LabelWidth);
             this.Controls.Add(this.ImageWObject);
             this.Controls.Add(this.LabelID);
             this.Controls.Add(this.TextBoxID);
@@ -397,7 +443,7 @@
             this.Name = "WorldObjectEditor";
             this.Size = new System.Drawing.Size(1200, 650);
             ((System.ComponentModel.ISupportInitialize)(this.ImageWObject)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NudSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NudWidth)).EndInit();
             this.GroupBoxCollision.ResumeLayout(false);
             this.GroupBoxCollision.PerformLayout();
             this.GroupBoxCollisionLocation.ResumeLayout(false);
@@ -408,6 +454,7 @@
             this.GroupBoxCollisionSize.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudCollisionHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudCollisionWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NudHeight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -424,8 +471,8 @@
         private System.Windows.Forms.TextBox TextBoxImagePath;
         private System.Windows.Forms.Button ButtonChooseImage;
         private System.Windows.Forms.CheckBox ChechBoxHasCollision;
-        private System.Windows.Forms.Label LabelSize;
-        private System.Windows.Forms.NumericUpDown NudSize;
+        private System.Windows.Forms.Label LabelWidth;
+        private System.Windows.Forms.NumericUpDown NudWidth;
         private System.Windows.Forms.CheckBox CheckBoxIsInteractable;
         private System.Windows.Forms.Label LabelIsInteractable;
         private System.Windows.Forms.Label LabelCollisionWidth;
@@ -442,5 +489,7 @@
         private System.Windows.Forms.Label LabelCollisionX;
         private System.Windows.Forms.Button ButtonSave;
         private System.Windows.Forms.OpenFileDialog FolderBrowserImage;
+        private System.Windows.Forms.NumericUpDown NudHeight;
+        private System.Windows.Forms.Label LabelHeight;
     }
 }
