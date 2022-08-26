@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>tree_medium</ID>
+  <Name>TreeMedium</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\tree_medium.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\tree_medium.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>2060</X>
+    <Y>2022</Y>
+  </Position>
+  <CollisionPosition>
+    <X>33</X>
+    <Y>97</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>104</Width>
+    <Height>120</Height>
+  </Size>
+  <CollisionSize>
+    <Width>38</Width>
+    <Height>19</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>true</IsCollidable>
+</WorldObject>

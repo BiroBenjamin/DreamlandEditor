@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using DreamlandEditor.Data.Attributes;
+using System.ComponentModel;
 
 namespace DreamlandEditor.Data.Enums
 {
@@ -6,11 +7,11 @@ namespace DreamlandEditor.Data.Enums
 	{
 		[Description("Map")]
 		Map,
-		[Description("Character")]
+		[Description("Character"), Displayable]
 		Character,
-		[Description("World Object")]
+		[Description("World Object"), Displayable]
 		WorldObject,
-		[Description("Tile")]
+		[Description("Tile"), Displayable]
 		Tile,
 	}
 }

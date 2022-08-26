@@ -1,5 +1,7 @@
 ﻿using DreamlandEditor.Controls.Editors;
 using DreamlandEditor.Data;
+using DreamlandEditor.Data.Attributes;
+using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
@@ -19,24 +21,25 @@ namespace DreamlandEditor.UI
 	{
 		private WindowChangeButton MapEditorButton;
 		private MapEditor MapEditor;
-		//private bool IsDragging = false;
 		private UiPanel WorkArea;
 		private UiPanel MiscPanel;
 		private UiPanel ItemsPanel;
 		private ComboBox TypeDropdown;
-		private readonly string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects");
+		private TextBox filterField;
+		private Timer timer;
+		private readonly string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Objects");
 
 		public ItemExplorer()
 		{
 			InitializeComponent();
 			SetupLayout(DockStyle.Top);
 			SetupPanels();
+			SetupTimer();
 		}
 
 		public void SetRenderWindow(MapEditor renderWindow, WindowChangeButton mapEditorButton)
 		{
 			MapEditor = renderWindow;
-			//MapEditor.MouseClick += RemoveItem;
 			MapEditorButton = mapEditorButton;
 		}
 
@@ -47,18 +50,25 @@ namespace DreamlandEditor.UI
 
 			ItemsPanel = new UiPanel() { Dock = DockStyle.Fill };
 			WorkArea.Controls.Add(ItemsPanel);
-			ItemsPanel.HorizontalScroll.Enabled = true;
-			ItemsPanel.VerticalScroll.Enabled = false;
+			ItemsPanel.AutoScroll = false;
+			ItemsPanel.HorizontalScroll.Enabled = false;
+			ItemsPanel.HorizontalScroll.Visible = false;
+			ItemsPanel.VerticalScroll.Visible = false;
+			ItemsPanel.HorizontalScroll.Maximum = 0;
+			ItemsPanel.AutoScroll = true;
 
 			MiscPanel = new UiPanel()
 			{
 				Dock = DockStyle.Top,
-				Height = 23,
+				Height = 25,
 			};
 			WorkArea.Controls.Add(MiscPanel);
 
 			SetupChangeTypeCombobox();
-			SetupItems(ItemsPanel, ItemsManager.WorldObjects);
+			SetupFilterField();
+			SetupItems(ItemsManager.WorldObjects
+				.Union(ItemsManager.GetTiles())
+				.ToList());
 		}
 		private void SetupChangeTypeCombobox()
 		{
@@ -67,61 +77,124 @@ namespace DreamlandEditor.UI
 				FlatStyle = FlatStyle.Flat,
 				DropDownStyle = ComboBoxStyle.DropDownList,
 				Dock = DockStyle.Left,
-				Width = 200,
+				Width = 250,
+				Height = 25,
 			};
 			MiscPanel.Controls.Add(TypeDropdown);
 
 			List<string> dropdownTypes = new List<string>() { "All" };
-			DirectoryInfo directory = new DirectoryInfo(rootPath);
-			string directoryName = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects");
-			dropdownTypes.AddRange(DirectoryManager.GetDirectoryNamesOnThatLevel(directoryName));
-			
-
+			dropdownTypes.AddRange(typeof(FileTypesEnum).GetDescriptionOfAll(typeof(DisplayableAttribute)));
 			TypeDropdown.DataSource = dropdownTypes;
-
 			TypeDropdown.SelectedValueChanged += (sender, ev) =>
 			{
 				string selectedValue = ((ListControl)sender).SelectedValue.ToString();
 				if(selectedValue.Equals("All"))
 				{
-					SetupItems(ItemsPanel, ItemsManager.WorldObjects);
+					SetupItems(ItemsManager.WorldObjects
+						.Union(ItemsManager.GetTiles()).ToList()
+						.Where(x => x.Name.ToLower()
+							.Contains(filterField.Text.ToLower()))
+						.ToList());
 					return;
 				}
-				string path = Path.Combine(rootPath, selectedValue);
-				ICollection<WorldObject> filteredItems = ItemsManager.FilterByObjectType(selectedValue);
-				SetupItems(ItemsPanel, filteredItems);
+				else if (selectedValue.Equals(FileTypesEnum.WorldObject.GetDescription()))
+				{
+					List<WorldObject> filteredItems = ItemsManager.WorldObjects
+						.Where(x => x.Name.ToLower()
+							.Contains(filterField.Text.ToLower()))
+						.ToList();
+					SetupItems(filteredItems);
+				}
+				else if (selectedValue.Equals(FileTypesEnum.Tile.ToString()))
+				{
+					List<WorldObject> filteredItems = ItemsManager.GetTiles()
+						.Where(x => x.Name.ToLower()
+							.Contains(filterField.Text.ToLower()))
+						.ToList();
+					SetupItems(filteredItems);
+				}
 			};
 		}
-
-		private void SetupItems(UiPanel itemsPanel, ICollection<WorldObject> items)
+		private void SetupFilterField()
 		{
-			itemsPanel.Controls.Clear();
+			filterField = new TextBox()
+			{
+				Dock = DockStyle.Left,
+				Width = 250,
+				Height = 25,
+			};
+			MiscPanel.Controls.Add(filterField);
+			filterField.TextChanged += (sender, ev) => {
+				timer.Stop();
+				timer.Tag = ((TextBox)sender).Text;
+				timer.Start();
+			};
+		}
+		private void SetupTimer()
+		{
+			timer = new Timer();
+			timer.Interval = 500;
+			timer.Tick += (sender, ev) =>
+			{
+				Timer timer = sender as Timer;
+				if (timer == null) return;
+				string[] filters = timer.Tag.ToString().Split(' ');
+				SetFilter(filters);
+				timer.Stop();
+			};
+		}
+		private void SetFilter(string[] filters)
+		{
+			if (TypeDropdown.SelectedValue.ToString().Equals("All"))
+			{
+				var items = ItemsManager.WorldObjects.Union(ItemsManager.GetTiles()).ToList();
+				foreach(string filter in filters)
+				{
+					items = items.Where(x => x.Name.ToLower()
+						.Contains(filter.ToLower())).ToList();
+				}
+					
+				SetupItems(items);
+			}
+			else if (TypeDropdown.SelectedValue.ToString().Equals(FileTypesEnum.Tile.GetDescription()))
+			{
+				var items = ((List<WorldObject>)ItemsManager.GetCollectionByType(TypeDropdown.SelectedValue.ToString()));
+				foreach(string filter in filters)
+				{
+					items = items.Where(x => x.Name.ToLower()
+						.Contains(filter.ToLower())).ToList();
+				}
+				SetupItems(items);
+			}
+		}
+
+		public void SetupItems(ICollection<WorldObject> items)
+		{
+			ItemsPanel.Controls.Clear();
 			foreach (IBaseFile item in items)
 			{
-				if(item == null)
-                {
-					continue;
-                }
+				if (item == null) continue;
 				Panel itemBackground = new Panel()
 				{
 					Dock = DockStyle.Left,
-					BorderStyle = BorderStyle.FixedSingle,
 					Width = Height,
+					BorderStyle = BorderStyle.FixedSingle,
 					BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0)
 				};
-				itemsPanel.Controls.Add(itemBackground);
+				ItemsPanel.Controls.Add(itemBackground);
 				PictureBox pictureBox = new PictureBox()
 				{
 					Dock = DockStyle.Fill,
-					SizeMode = PictureBoxSizeMode.CenterImage,
-				};
-				pictureBox.Image = (item.ImagePath == null ?
+					SizeMode = PictureBoxSizeMode.Zoom,
+					Image = (String.IsNullOrEmpty(item.ImagePath) ?
 						new Bitmap(@"../../Content/not-found.png") :
-						new Bitmap(item.ImagePath));
+						new Bitmap(item.ImagePath)),
+				};
 				itemBackground.Controls.Add(pictureBox);
+				new ToolTip().SetToolTip(pictureBox, item.Name == null ? "???" : item.Name);
 				Label itemName = new Label()
 				{
-					Text = (item.Name == null ? "???" : item.Name),
+					Text = item.Name == null ? "???" : item.Name,
 					TextAlign = ContentAlignment.MiddleCenter,
 					Dock = DockStyle.Bottom,
 					BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0),
@@ -161,22 +234,5 @@ namespace DreamlandEditor.UI
 			MapEditor.IsDragging = true;
 			MapEditor.ItemInQueue = item;
 		}
-		/*public void RemoveItem(object sender, MouseEventArgs ev)
-		{
-			if(ev.Button == MouseButtons.Right)
-			{
-				IsDragging = false;
-				MapEditor.ItemInQueue = null;
-				return;
-			}else if (ev.Button == MouseButtons.Left)
-            {
-				if (MapEditor.ItemInQueue == null) return;
-				Vector2 mousePosition = new Vector2(MapEditor.GetMousePosition().X, MapEditor.GetMousePosition().Y);
-				Vector2 relativeMousePosition = Vector2.Transform(mousePosition, Matrix.Invert(MapEditor.Camera.Transform));
-				MapEditor.ItemInQueue.Position = new System.Drawing.Point((int)relativeMousePosition.X, (int)relativeMousePosition.Y);
-				WorldObject newItem = (WorldObject)MapEditor.ItemInQueue.Clone();
-				MapEditor.MapFile.WorldObjects.Add(newItem);
-			}
-		}*/
 	}
 }

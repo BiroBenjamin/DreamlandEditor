@@ -1,7 +1,5 @@
-﻿using DreamlandEditor.Data;
-using DreamlandEditor.Data.Enums;
+﻿using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
-using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
 using System;
 using System.Drawing;
@@ -39,17 +37,20 @@ namespace DreamlandEditor.Controls.Editors
                 DebugManager.Log($"Could not find the image in path {RenderableObject.ImagePath}");
             }
 
-            string pathToSprites = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Sprites");
-            DebugManager.Log(pathToSprites);
-            if (!Directory.Exists(pathToSprites))
+            string pathToSprites = RenderableObject.ImagePath == null ?
+                Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites") :
+                RenderableObject.ImagePath;
+            if (!Directory.Exists(Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites")))
             {
-                Directory.CreateDirectory(pathToSprites);
+                Directory.CreateDirectory(Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites"));
             }
             FolderBrowserImage.InitialDirectory = pathToSprites;
 
             TextBoxID.Text = RenderableObject.ID;
             TextBoxName.Text = RenderableObject.Name;
-            TextBoxImagePath.Text = RenderableObject.ImagePath;
+            TextBoxImagePath.Text = RenderableObject.ImagePath == null ?
+                Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites") :
+                RenderableObject.ImagePath;
 
             CheckBoxIsInteractable.Checked = RenderableObject.IsInteractable;
             ChechBoxHasCollision.Checked = RenderableObject.IsCollidable;
@@ -63,7 +64,7 @@ namespace DreamlandEditor.Controls.Editors
 
 
             if (!String.IsNullOrEmpty(RenderableObject.ImagePath)) {
-                SetPicture(image);
+                SetPicture();
             }
         }
 
@@ -85,6 +86,11 @@ namespace DreamlandEditor.Controls.Editors
         {
             try
             {
+				if (String.IsNullOrEmpty(RenderableObject.ImagePath))
+				{
+                    MessageBox.Show("Please set an image!", "No image");
+                    return;
+				}
                 WriteToFile();
                 MessageBox.Show("Save succesfull", "Save");
             }
@@ -95,6 +101,7 @@ namespace DreamlandEditor.Controls.Editors
             }
 
             FileManager.SaveFile(RenderableObject);
+            ItemsManager.UpdateInMaps(RenderableObject);
         }
 
         private void WriteToFile()
@@ -108,10 +115,7 @@ namespace DreamlandEditor.Controls.Editors
             RenderableObject.CollisionSize = new Size((int)NudCollisionWidth.Value, (int)NudCollisionHeight.Value);
             RenderableObject.IsInteractable = CheckBoxIsInteractable.Checked;
             RenderableObject.IsCollidable = ChechBoxHasCollision.Checked;
-            RenderableObject.Size = new Size((int)NudWidth.Value, (int)NudHeight.Value);
-
-            double percentage = (double)NudWidth.Value / 100;
-            RenderableObject.Size = new Size( (int)(RenderableObject.BaseSize.Width * percentage), (int)(RenderableObject.BaseSize.Height * percentage));
+            RenderableObject.Size = image.Size;
         }
 
         private void ButtonChooseImage_Click(object sender, EventArgs e)
@@ -121,22 +125,16 @@ namespace DreamlandEditor.Controls.Editors
             if (result == DialogResult.OK)
             {
                 RenderableObject.ImagePath = FolderBrowserImage.FileName;
-                SetPicture(new Bitmap(FolderBrowserImage.FileName));
+                image = new Bitmap(RenderableObject.ImagePath);
+                SetPicture();
+                RenderableObject.Size = image.Size;
             }
         }
-        private void SetPicture(Bitmap image)
+        private void SetPicture()
 		{
             ImageWObject.Image = image;
             TextBoxImagePath.Text = RenderableObject.ImagePath;
             ImageWObject.SizeMode = PictureBoxSizeMode.Zoom;
-            //SetMaxCollisionCoordinates(worldObject.Size.Width, worldObject.Size.Height, worldObject.Size.Width, worldObject.Size.Height);
-        }
-        private void SetMaxCollisionCoordinates(int x, int y, int width, int height)
-		{
-            NudCollisionX.Maximum = x;
-            NudCollisionY.Maximum = y;
-            NudCollisionWidth.Maximum = width;
-            NudCollisionHeight.Maximum = height;
         }
 
         private void RenderCollision(object sender, EventArgs e)
@@ -153,8 +151,6 @@ namespace DreamlandEditor.Controls.Editors
                         (int)(NudCollisionY.Value * ImageWObject.Height / RenderableObject.Size.Height), 
                         (int)(NudCollisionWidth.Value * ImageWObject.Width / RenderableObject.Size.Width - 1), 
                         (int)(NudCollisionHeight.Value * ImageWObject.Height / RenderableObject.Size.Height - 1)));
-                //NudCollisionX.Maximum = worldObject.Size.Width - NudCollisionWidth.Value;
-                //NudCollisionY.Maximum = worldObject.Size.Height - NudCollisionHeight.Value;
             }
             graphics.Dispose();
             pen.Dispose();

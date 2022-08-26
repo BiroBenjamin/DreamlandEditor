@@ -18,9 +18,9 @@ namespace DreamlandEditor.Controlers
 
         private void OnFormClosing(object sender, EventArgs ev)
         {
-            if (!Directory.Exists(SystemPrefsManager.SystemPrefs.debugLogPath))
+            if (!Directory.Exists(SystemPrefsManager.SystemPrefs.DebugLogPath))
             {
-                Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.debugLogPath);
+                Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.DebugLogPath);
             }
             CreateLogFile();
             /*try
@@ -38,7 +38,7 @@ namespace DreamlandEditor.Controlers
         {
             if(TextBoxLogboard.Text.Length < 1) return;
             string fileName = String.Format("{0:MM-dd-yyyy_HH-mm-ss}.log", DateTime.Now);
-            using (FileStream stream = File.Create(Path.Combine(SystemPrefsManager.SystemPrefs.debugLogPath, fileName))) 
+            using (FileStream stream = File.Create(Path.Combine(SystemPrefsManager.SystemPrefs.DebugLogPath, fileName))) 
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {

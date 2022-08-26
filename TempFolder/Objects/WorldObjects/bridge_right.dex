@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>bridge_right</ID>
+  <Name>BridgeRight</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\bridge_right.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\bridge_right.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>0</X>
+    <Y>0</Y>
+  </Position>
+  <CollisionPosition>
+    <X>0</X>
+    <Y>0</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>64</Width>
+    <Height>64</Height>
+  </Size>
+  <CollisionSize>
+    <Width>0</Width>
+    <Height>0</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>false</IsCollidable>
+</WorldObject>

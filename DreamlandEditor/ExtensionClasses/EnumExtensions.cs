@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DreamlandEditor.Data.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,11 +16,20 @@ namespace DreamlandEditor.ExtensionClasses
 			return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
 		}
 
-		public static IEnumerable<string> GetDescriptionOfAll(this Type enumType)
+		public static IEnumerable<string> GetDescriptionOfAll(this Type enumType, Type attributeType = null)
 		{
-			var fields = enumType.GetFields()
-				.SelectMany(x => x.GetCustomAttributes(typeof(DescriptionAttribute), true).Cast<DescriptionAttribute>()).ToList();
-			return fields.Select(x => x.Description);
+			if (attributeType != null)
+			{
+				return enumType.GetFields()
+					.Where(x => x.IsDefined(attributeType))
+					.SelectMany(x => x.GetCustomAttributes(typeof(DescriptionAttribute), true)
+						.Cast<DescriptionAttribute>())
+					.Select(x => x.Description);
+			}
+			return enumType.GetFields()
+				.SelectMany(x => x.GetCustomAttributes(typeof(DescriptionAttribute), true)
+					.Cast<DescriptionAttribute>())
+				.Select(x => x.Description);
         }
 	}
 }

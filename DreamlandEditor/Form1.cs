@@ -1,19 +1,16 @@
 ﻿using DreamlandEditor.Controls.Editors;
-using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
-using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI;
 using DreamlandEditor.UI.UIButtons;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace MonoGame.Forms.DX
 {
-    public partial class Form1 : Form 
+	public partial class Form1 : Form 
     {
         private WorldObjectEditor WorldObjectEditor;
         private CharacterEditor CharacterEditor;
@@ -22,11 +19,11 @@ namespace MonoGame.Forms.DX
         {
             InitializeComponent();
             DebugManager.ShowWindow(this);
-            //ItemsManager.LoadItems();
 
             SetupEditors();
 
-            FileExplorer.SetUpTreeView();
+            FileExplorer.SetUpTreeView(true);
+            FileExplorer.ItemExplorer = ItemExplorer;
             ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor);
             ButtonSaveNavbutton.Click += (sender, ev) =>
             {
@@ -38,6 +35,7 @@ namespace MonoGame.Forms.DX
         }
 
         private void SetupEditors() {
+            MapEditor.GetLabels(LabelCursorPosition, LabelZoomAmount);
             ButtonSwitchToMapEditor.ButtonFor = FileTypesEnum.Map.ToString();
             ButtonSwitchToMapEditor.SetActive();
             ButtonSwitchToMapEditor.SetupEvents(MapEditor);

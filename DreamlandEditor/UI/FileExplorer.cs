@@ -3,6 +3,7 @@ using DreamlandEditor.Controls.Editors;
 using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
 using DreamlandEditor.UI.Misc;
 using DreamlandEditor.UI.UIButtons;
@@ -19,6 +20,8 @@ namespace DreamlandEditor.UI
 {
     public class FileExplorer : ResizablePanel 
     {
+        public ItemExplorer ItemExplorer { get; set; }
+
         private UiPanel MenuPanel;
         private TreeView FileTree;
         private ICollection<Control> EditorWindows = new List<Control>();
@@ -36,24 +39,11 @@ namespace DreamlandEditor.UI
 
         public void AddEditors(ICollection<Control> editorWindows, ICollection<WindowChangeButton> editorButtons)
         {
-            /*EditorsArea = editorsArea;
-            foreach (Control component in editorsArea.Controls)
-            {
-                if (component.Name.Contains("Editor"))
-                {
-                    EditorWindows.Add(component);
-                    continue;
-                }
-                foreach (Button button in component.Controls)
-                {
-                    EditorButtons.Add(button);
-                }
-            }*/
             EditorWindows = editorWindows;
             EditorButtons = editorButtons;
         }
 
-        public void SetUpTreeView() 
+        public void SetUpTreeView(bool isInitialLoad) 
         {
             Controls.Remove(FileTree);
             FileTree = new TreeView 
@@ -65,25 +55,48 @@ namespace DreamlandEditor.UI
                 Font = new Font("Microsoft Sans Serif", 9),
                 Padding = new Padding(20)
             };
-            UpdateTreeView();
+            UpdateTreeView(isInitialLoad);
+            ItemsManager.SortItems();
             Controls.Add(FileTree);
             SetUpMenuPanel();
         }
-        public void UpdateTreeView() 
+        public void UpdateTreeView(bool isInitialLoad) 
         {
-            FileTree.NodeMouseDoubleClick += ClickOnNode;
+            FileTree.NodeMouseClick += OpenContextMenu;
+            FileTree.NodeMouseDoubleClick += OpenFile;
 
             FileTree.BeginUpdate();
 
-            string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath);
+            string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath);
             UITreeNode rootnode = new UITreeNode(rootPath);
             FileTree.Nodes.Add(rootnode);
-            FillChildNodes(rootnode);
+            FillChildNodes(rootnode, isInitialLoad);
             FileTree.Nodes[0].Expand();
 
             FileTree.EndUpdate();
         }
-        private void ClickOnNode(object sender, TreeNodeMouseClickEventArgs e)
+        private void OpenContextMenu(object sender, TreeNodeMouseClickEventArgs ev)
+		{
+            if (ev.Button != MouseButtons.Right || Path.GetExtension(ev.Node.Text).Length < 1) return;
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            ContextMenuStrip = contextMenu;
+            ToolStripMenuItem item = new ToolStripMenuItem("Delete");
+            item.Click += (s, e) =>
+            {
+                DialogResult result = MessageBox.Show(
+                    $"Do you really want to delete {ev.Node.Text}?", "Delete file", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                if(result == DialogResult.Yes)
+				{
+                    File.Delete(ev.Node.FullPath);
+                    IBaseFile obj = (ev.Node as UITreeNode).Item;
+                    ItemsManager.RemoveItem(obj);
+                }
+            };
+            contextMenu.Items.Add(item);
+            contextMenu.Show();
+		}
+        private void OpenFile(object sender, TreeNodeMouseClickEventArgs e)
         {
             bool isFile = Path.GetExtension(e.Node.Text).Length > 0;
             if (isFile)
@@ -92,25 +105,19 @@ namespace DreamlandEditor.UI
                 string fileType = nodeParent.Substring(0, nodeParent.Length - 1);
 				if (FileTypesEnum.Map.ToString().Equals(fileType))
 				{
-                    /*Map map = (Map)FileManager.LoadFile<Map>(e.Node.FullPath);
-                    MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
-                    mapEditor.LoadMap(map);*/
                     Map selectedMap = ItemsManager.Maps
                         .Where(x => x.FilePath == e.Node.FullPath)
                         .FirstOrDefault();
-                    Map map = (Map)ItemsManager.GetById<Map>(selectedMap.ID);
+                    Map map = ItemsManager.GetMapById(selectedMap.ID, true).FirstOrDefault();
                     MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
                     mapEditor.LoadMap(map);
                 }
                 else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
 				{
-                    /*WorldObject worldObject = FileManager<WorldObject>.LoadFile(e.Node.FullPath);
-                    WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
-                    worldObjectEditor.SetRenderableObject(worldObject);*/
                     WorldObject selectedWorldObject = ItemsManager.WorldObjects
                         .Where(x => x.FilePath == e.Node.FullPath)
                         .FirstOrDefault();
-                    WorldObject worldObject = (WorldObject)ItemsManager.GetById<WorldObject>(selectedWorldObject.ID);
+                    WorldObject worldObject = ItemsManager.GetWorldObjectById(selectedWorldObject.ID, true).FirstOrDefault();
                     WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
                     worldObjectEditor.SetRenderableObject(worldObject);
                 }
@@ -119,7 +126,8 @@ namespace DreamlandEditor.UI
 
 				}
 				else{
-                    MessageBox.Show("That type of file can't be opened!", "Can't open");
+                    MessageBox.Show("That type of file can't be opened!", "Open error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
 				}
                 FindEditorButton(fileType).PerformClick();
@@ -128,7 +136,7 @@ namespace DreamlandEditor.UI
         private string GetFileType(string nodePath)
         {
             IEnumerable<string> slicedNodePath = nodePath.Split('\\');
-            string[] rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Objects").Split('\\');
+            string[] rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Objects").Split('\\');
             foreach(string elem in rootPath)
             {
                 if (slicedNodePath.Contains(elem))
@@ -158,7 +166,7 @@ namespace DreamlandEditor.UI
             throw new Exception("No button was found");
         }
 
-        private void FillChildNodes(UITreeNode node) 
+        private void FillChildNodes(UITreeNode node, bool isInitialLoad) 
         {
             try 
             {
@@ -169,15 +177,15 @@ namespace DreamlandEditor.UI
                     node.Nodes.Add(newNode);
                     if (!IsDirectoryEmpty(node.FullPath)) 
                     {
-                        FillChildNodes(newNode);
+                        FillChildNodes(newNode, isInitialLoad);
                     }
                 }
                 FileInfo file = new FileInfo(node.FullPath);
                 foreach (FileInfo fl in directory.GetFiles()) 
                 {
                     string ext = Path.GetExtension(fl.Name).Replace(".", "");
-                    if (!SystemPrefsManager.SystemPrefs.extensions.Contains(ext)) return;
-                    LoadItem(node, fl.Name);
+                    if (!SystemPrefsManager.SystemPrefs.Extensions.Contains(ext)) return;
+                    LoadItem(node, fl.Name, isInitialLoad);
                 }
             } catch (Exception e) 
             {
@@ -188,7 +196,7 @@ namespace DreamlandEditor.UI
         {
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
-        private void LoadItem(UITreeNode node, string fileName)
+        private void LoadItem(UITreeNode node, string fileName, bool isInitialLoad)
         {
             XmlDocument document = new XmlDocument();
             document.Load(Path.Combine(node.FullPath, fileName));
@@ -198,6 +206,7 @@ namespace DreamlandEditor.UI
                 Map item = (Map)FileManager.LoadFile<Map>(Path.Combine(node.FullPath, fileName));
                 UITreeNode newNode = new UITreeNode(fileName, item);
                 node.Nodes.Add(newNode);
+                if (!isInitialLoad) return;
                 ItemsManager.Maps.Add(item);
             }
             else if (new WorldObject().GetType().Name.Equals(xmlType))
@@ -205,13 +214,18 @@ namespace DreamlandEditor.UI
                 WorldObject item = (WorldObject)FileManager.LoadFile<WorldObject>(Path.Combine(node.FullPath, fileName));
                 UITreeNode newNode = new UITreeNode(fileName, item);
                 node.Nodes.Add(newNode);
-                ItemsManager.WorldObjects.Add(item);
+                if (!isInitialLoad) return;
+                if(item.FileType == FileTypesEnum.WorldObject.ToString())
+				{
+                    ItemsManager.WorldObjects.Add(item);
+                    return;
+				}
+                ItemsManager.AddTile(item);
             }
         }
 
         private void SetUpMenuPanel() 
         {
-            //Controls.RemoveByKey("MenuPanel");
             Controls.Remove(MenuPanel);
             MenuPanel = new UiPanel 
             {
@@ -244,14 +258,15 @@ namespace DreamlandEditor.UI
             {
                 DialogResult result = new CreateNewWindow(EditorButtons, EditorWindows).ShowDialog();
                 if (result == DialogResult.Cancel) return;
-                SetUpTreeView();
+                SetUpTreeView(false);
+                ItemExplorer.SetupItems(ItemsManager.WorldObjects.Union(ItemsManager.GetTiles()).ToList());
             };
             MenuPanel.Controls.Add(addFileButton);
 
             IconButton refreshNodesBtn = new IconButton(new Bitmap(ImagePaths.Refresh), new Size(25, 25), DockStyle.Left);
             refreshNodesBtn.Click += (sender, ev) => 
             {
-                SetUpTreeView();
+                SetUpTreeView(false);
             };
             MenuPanel.Controls.Add(refreshNodesBtn);
         }

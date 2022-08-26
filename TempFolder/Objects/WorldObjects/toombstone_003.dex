@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>toombstone_003</ID>
+  <Name>Toombstone003</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\toombstone_003.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\toombstone_003.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>1456</X>
+    <Y>2311</Y>
+  </Position>
+  <CollisionPosition>
+    <X>3</X>
+    <Y>24</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>32</Width>
+    <Height>40</Height>
+  </Size>
+  <CollisionSize>
+    <Width>26</Width>
+    <Height>13</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>true</IsCollidable>
+</WorldObject>

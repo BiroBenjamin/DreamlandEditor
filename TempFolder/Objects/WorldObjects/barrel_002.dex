@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>barrel_002</ID>
+  <Name>Barrel002</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\barrel_002.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\barrel_002.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>0</X>
+    <Y>0</Y>
+  </Position>
+  <CollisionPosition>
+    <X>3</X>
+    <Y>20</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>28</Width>
+    <Height>36</Height>
+  </Size>
+  <CollisionSize>
+    <Width>22</Width>
+    <Height>15</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>true</IsCollidable>
+</WorldObject>

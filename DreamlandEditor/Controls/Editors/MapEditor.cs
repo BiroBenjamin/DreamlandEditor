@@ -1,44 +1,62 @@
-﻿using DreamlandEditor.Data;
+﻿using DreamlandEditor.Components;
+using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.ExtensionClasses;
+using DreamlandEditor.Handlers;
 using DreamlandEditor.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Forms.Controls;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DreamlandEditor.Controls.Editors
 {
-    public class MapEditor : MonoGameControl, IBaseEditor 
+	public class MapEditor : MonoGameControl, IBaseEditor 
     {
         public string EditorFor { get; set; } = FileTypesEnum.Map.ToString();
         public bool IsLoaded { get; set; } = false;
         public bool IsDragging { get; set; } = false;
+        public bool IsCollisionDrawn { get; set; } = false;
         public IBaseFile ItemInQueue { get; set; } = null;
         public MouseState CurrentMouseState { get; set; }
         public MouseState LastMouseState { get; set; }
+        public Vector2 CurrentMousePosition { get; set; }
+        public KeyboardState CurrentKeyboardState { get; set; }
+        public KeyboardState LastKeyboardState { get; set; }
         public Camera Camera { get; set; }
         public Map MapFile { get; set; }
-        public Vector2 TranslatedMousePosition { get; set; }
+        public System.Windows.Forms.Label CursorPositionLabel { get; set; }
+        public System.Windows.Forms.Label ZoomAmountLabel { get; set; }
+
+        private bool _shouldUpdateMouse;
+
+        private DrawingHandler _drawingHandler;
 
         protected override void Initialize() 
         {
             base.Initialize();
             Camera = new Camera(Editor.graphics);
             MapFile = new Map();
-            IsLoaded = false;
         }
 
         public void LoadMap(Map obj)
         {
-            LoadTextures<WorldObject>(ItemsManager.WorldObjects);
             MapFile = obj;
+            _drawingHandler = new DrawingHandler(Editor.spriteBatch);
+            LoadTextures<WorldObject>(ItemsManager.GetTiles());
+            LoadTextures<WorldObject>(ItemsManager.WorldObjects);
             foreach (WorldObject item in MapFile.WorldObjects)
             {
-                string name = item.ImagePath.Split('.')[0];
+                string name = item.ImagePath == null ?
+                    ImagePaths.NotFound :
+                    item.ImagePath.Split('.')[0];
                 item.Texture = Editor.Content.Load<Texture2D>(name);
             }
+            LoadTextures<WorldObject>(MapFile.Tiles);
             LoadTextures<WorldObject>(MapFile.WorldObjects);
 
             IsLoaded = true;
@@ -47,147 +65,262 @@ namespace DreamlandEditor.Controls.Editors
         {
             foreach (WorldObject item in objects)
             {
-                string name = item.ImagePath == null ? ImagePaths.NotFound : item.ImagePath.Split('.')[0];
+                string name = item.ImagePath == null ?
+                    ImagePaths.NotFound :
+                    item.ImagePath.Split('.')[0];
                 item.Texture = Editor.Content.Load<Texture2D>(name);
             }
         }
-
-        protected override void Update(GameTime gameTime) 
+		#region UPDATE
+		protected override void Update(GameTime gameTime) 
         {
             base.Update(gameTime);
-            if (!IsLoaded) return;
+            if (!IsLoaded || !IsMouseInsideControlArea(0, 0, Width, Height)) return;
+            _shouldUpdateMouse = IsMouseInsideControlArea(Location.X, Location.Y, Width, Height);
 
-            TranslatedMousePosition = Vector2.Transform(
-                new Vector2(CurrentMouseState.Position.X, CurrentMouseState.Position.Y), 
-                Matrix.Invert(Camera.Transform));
+            CurrentMouseState = Mouse.GetState();
+            CurrentKeyboardState = Keyboard.GetState();
+            GetCurrentMousePosition();
+            RemoveObject();
+            ObjectPlacement();
+            HandleKeyboardInput();
             Camera.Update(gameTime, Width, Height);
+            SetLabels();
+            LastMouseState = CurrentMouseState;
+            LastKeyboardState = CurrentKeyboardState;
+        }
+        private void GetCurrentMousePosition()
+        {
+            CurrentMousePosition = new Vector2(CurrentMouseState.Position.X, CurrentMouseState.Position.Y);
+        }
+        private Vector2 TranslateMousePosition(Vector2 position)
+        {
+            return Vector2.Transform(position, Matrix.Invert(Camera.Transform));
+        }
+        private void ObjectPlacement()
+        {
+            if (CurrentMouseState.LeftButton == ButtonState.Pressed && LastMouseState.LeftButton == ButtonState.Released &&
+                IsDragging && ItemInQueue != null)
+            {
+                if (ItemInQueue.FileType.Equals(FileTypesEnum.WorldObject.ToString()))
+                {
+                    PlaceWorldObject(ItemInQueue as WorldObject);
+                }
+                else if (ItemInQueue.FileType.Equals(FileTypesEnum.Tile.ToString()))
+                {
+                    PlaceTile(ItemInQueue as WorldObject);
+                }
+            }
+        }
+        private void PlaceWorldObject(WorldObject item)
+        {
+            Vector2 centeredPosition = CenterMousePosition(item);
+            Vector2 transformedMousePosition = TranslateMousePosition(centeredPosition);
+            item.Position = new System.Drawing.Point((int)transformedMousePosition.X, (int)transformedMousePosition.Y);
+            WorldObject newItem = (WorldObject)item.Clone();
+            CountZIndex(newItem);
+            MapFile.WorldObjects.Add(newItem);
+        }
+        private void PlaceTile(WorldObject item)
+        {
+            Vector2 mousePosition = new Vector2(
+                    CurrentMousePosition.X - CurrentMousePosition.X % item.Size.Width,
+                    CurrentMousePosition.Y - CurrentMousePosition.Y % item.Size.Height);
+            Vector2 transformedMousePosition = GetSnapToGridPosition(mousePosition, item.Size.Width, item.Size.Height);
+            item.Position = new System.Drawing.Point((int)transformedMousePosition.X, (int)transformedMousePosition.Y);
+            WorldObject newItem = (WorldObject)item.Clone();
+            WorldObject removeableObject = MapFile.DoesItemIntersectOthers(newItem);
+            if (removeableObject != null)
+            {
+                MapFile.Tiles.Remove(removeableObject);
+            }
+            if (newItem.ObjectType == TileTypesEnum.DirtCliff.GetDescription())
+            {
+                CountZIndex(newItem);
+            }
+            MapFile.Tiles.Add(newItem);
+        }
+        private Vector2 CenterMousePosition(WorldObject item)
+        {
+            return new Vector2(CurrentMousePosition.X - item.Size.Width, CurrentMousePosition.Y - item.Size.Height);
+        }
+        private void CountZIndex(WorldObject item)
+        {
+            item.ZIndex = item.Position.Y + item.Size.Height;
+        }
+        private List<WorldObject> GetObjectsUnderCursor()
+        {
+            List<WorldObject> hoveredOverObjects = new List<WorldObject>();
+            for (int i = 0; i < MapFile.WorldObjects.Count; i++)
+            {
+                if (MapFile.WorldObjects[i].CursorIntersects(TranslateMousePosition(CurrentMousePosition)))
+                {
+                    hoveredOverObjects.Add(MapFile.WorldObjects[i]);
+                }
+            }
+            if (hoveredOverObjects.Count < 1)
+            {
+                for (int i = 0; i < MapFile.Tiles.Count; i++)
+                {
+                    if (MapFile.Tiles[i].CursorIntersects(TranslateMousePosition(CurrentMousePosition)))
+                    {
+                        hoveredOverObjects.Add(MapFile.Tiles[i]);
+                    }
+                }
+            }
+            return hoveredOverObjects;
+        }
+        private Vector2 GetSnapToGridPosition(Vector2 position, int itemWidth, int itemHeight)
+        {
+            Vector2 transformedPosition = TranslateMousePosition(position);
+            float x = transformedPosition.X - transformedPosition.X % itemWidth;
+            float y = transformedPosition.Y - transformedPosition.Y % itemHeight;
+            if (position.X < 0)
+            {
+                x = transformedPosition.X + transformedPosition.X % itemWidth;
+            }
+            if (position.Y < 0)
+            {
+                y = transformedPosition.Y + transformedPosition.Y % itemHeight;
+            }
+            return new Vector2(x, y);
         }
 
-        protected override void Draw() 
+        private void HandleKeyboardInput()
+		{
+            if (CurrentKeyboardState.IsKeyDown(Keys.C) && LastKeyboardState.IsKeyUp(Keys.C))
+			{
+                IsCollisionDrawn = !IsCollisionDrawn;
+            }
+        }
+
+        private void SetLabels()
+        {
+            CursorPositionLabel.Text =
+                $"X:{Math.Floor(TranslateMousePosition(CurrentMousePosition).X / 32)} " +
+                $"- Y:{Math.Floor(TranslateMousePosition(CurrentMousePosition).Y / 32)}";
+            ZoomAmountLabel.Text =
+                $"{Camera.GetZoomPercentage()}%";
+        }
+		#endregion
+		#region DRAW
+		protected override void Draw() 
         {
             base.Draw();
             if (!IsLoaded) return;
 
             Editor.spriteBatch.Begin(transformMatrix: Camera.Transform);
 
-            if (MapFile.WorldObjects != null) {
-                foreach (WorldObject item in MapFile.WorldObjects)
-                {
-                    Editor.spriteBatch.Draw(item.Texture, new Vector2(item.Position.X, item.Position.Y), Color.White);
-                    if (!item.IsCollidable) continue;
-                    DrawRectangle(item.GetCollision(), Color.Blue, 1);
-                }
-            }
-            DrawDraggedImage();
-            ManageMouseEvents();
+            CurrentMouseState = Mouse.GetState();
+            CurrentKeyboardState = Keyboard.GetState();
+
+            DrawObjects();
+            DrawDraggedImage(Width, Height);
+            if (!IsMouseInsideControlArea(0, 0, Width, Height)) return;
+            ClickOnObject();
+
+            LastMouseState = CurrentMouseState;
+            LastKeyboardState = CurrentKeyboardState;
 
             Editor.spriteBatch.End();
         }
-
-        private Point GetMousePosition()
+        private void DrawObjects()
         {
-            return CurrentMouseState.Position;
-        }
-
-        private void DrawDraggedImage()
-        {
-            if (ItemInQueue == null || (CurrentMouseState.Position.X < 0 || CurrentMouseState.Position.X > Width || CurrentMouseState.Position.Y < 0 || CurrentMouseState.Position.Y > Height))
+            if (MapFile.Tiles != null && MapFile.WorldObjects != null)
             {
-                return;
+                foreach (WorldObject tile in MapFile.Tiles.Union(MapFile.WorldObjects).OrderBy(x => x.ZIndex))
+                {
+                    Editor.spriteBatch.Draw(tile.Texture, new Vector2(tile.Position.X, tile.Position.Y), Color.White);
+                    if (!tile.IsCollidable) continue;
+                    DrawCollision(tile);
+                }
             }
+        }
+        private void DrawCollision(WorldObject obj)
+        {
+            if (!IsCollisionDrawn) return;
+            _drawingHandler.DrawRectangle(obj.GetCollision(), Color.Red, 1);
+        }
+        private void DrawDraggedImage(int screenWidth, int screenHeight)
+        {
+            if (ItemInQueue == null ||
+                (CurrentMouseState.Position.X < 0 || CurrentMouseState.Position.X > screenWidth ||
+                CurrentMouseState.Position.Y < 0 || CurrentMouseState.Position.Y > screenHeight)) return;
+            WorldObject item = (ItemInQueue as WorldObject);
             Vector2 mousePosition = new Vector2(CurrentMouseState.Position.X, CurrentMouseState.Position.Y);
             if (ItemInQueue.FileType == FileTypesEnum.Tile.ToString())
             {
                 mousePosition = new Vector2(
-                    CurrentMouseState.Position.X / (ItemInQueue as WorldObject).Size.Width * (ItemInQueue as WorldObject).Size.Width,
-                    CurrentMouseState.Position.Y / (ItemInQueue as WorldObject).Size.Height * (ItemInQueue as WorldObject).Size.Height);
-                Editor.spriteBatch.Draw(ItemInQueue.Texture, Vector2.Transform(mousePosition, Matrix.Invert(Camera.Transform)), Color.White);
-                DrawGrid(Vector2.Transform(mousePosition, Matrix.Invert(Camera.Transform)));
+                    mousePosition.X - mousePosition.X % item.Size.Width,
+                    mousePosition.Y - mousePosition.Y % item.Size.Height);
+                Vector2 transformedMousePosition = GetSnapToGridPosition(mousePosition, item.Size.Width, item.Size.Height);
+                Editor.spriteBatch.Draw(ItemInQueue.Texture, transformedMousePosition, Color.White);
+                DrawGrid(transformedMousePosition, item);
                 return;
             }
-            Editor.spriteBatch.Draw(ItemInQueue.Texture, Vector2.Transform(mousePosition, Matrix.Invert(Camera.Transform)), Color.White);
+            Vector2 centeredPosition = new Vector2(
+                mousePosition.X - item.Size.Width,
+                mousePosition.Y - item.Size.Height);
+            Editor.spriteBatch.Draw(ItemInQueue.Texture, Vector2.Transform(centeredPosition, Matrix.Invert(Camera.Transform)), Color.White);
         }
-
-        private void ManageMouseEvents()
+        private void DrawGrid(Vector2 mousePosition, WorldObject item)
         {
-            CurrentMouseState = Mouse.GetState();
-            RemoveObject();
-            PlaceObject();
-            ClickOnObject();
-            LastMouseState = CurrentMouseState;
+            for (int i = -item.Size.Width; i <= item.Size.Width; i += item.Size.Width)
+            {
+                for (int j = -item.Size.Height; j <= item.Size.Height; j += item.Size.Height)
+                {
+                    _drawingHandler.DrawRectangle(new Rectangle((int)mousePosition.X + i, (int)mousePosition.Y + j,
+                        item.Size.Width, item.Size.Height), Color.Red, 1);
+                }
+            }
+        }
+        private void ClickOnObject()
+        {
+            if (IsDragging) return;
+            WorldObject upperObject = GetObjectsUnderCursor().OrderByDescending(x => x.ZIndex).FirstOrDefault();
+            if (upperObject == null) return;
+            _drawingHandler.DrawRectangle(new Rectangle(upperObject.Position.X, upperObject.Position.Y,
+                upperObject.Size.Width, upperObject.Size.Height), Color.Aquamarine, 2);
+
+            if (CurrentMouseState.LeftButton == ButtonState.Pressed /*&& LastMouseState.LeftButton == ButtonState.Released*/)
+			{
+                MoveObjectOnMap(upperObject);
+			}
+            if (CurrentMouseState.RightButton == ButtonState.Pressed /*&& LastMouseState.RightButton == ButtonState.Released*/)
+			{
+                RemoveObjectFromCollection(upperObject);
+			}
+        }
+        private void MoveObjectOnMap(WorldObject upperObject)
+        {
+            ItemInQueue = upperObject;
+            RemoveObjectFromCollection(upperObject);
+            IsDragging = true;
+        }
+        private void RemoveObjectFromCollection(WorldObject upperObject)
+        {
+            if (IsDragging) return;
+            if (upperObject.FileType == FileTypesEnum.WorldObject.ToString())
+                MapFile.WorldObjects.Remove(upperObject);
+            if (upperObject.FileType == FileTypesEnum.Tile.ToString())
+                MapFile.Tiles.Remove(upperObject);
         }
         private void RemoveObject()
         {
-            if (CurrentMouseState.RightButton == ButtonState.Pressed &&
-                LastMouseState.RightButton == ButtonState.Released && IsDragging)
+            if (CurrentKeyboardState.IsKeyDown(Keys.Q) &&
+                LastKeyboardState.IsKeyUp(Keys.Q) && IsDragging)
             {
                 IsDragging = false;
                 ItemInQueue = null;
                 return;
             }
         }
-        private void PlaceObject()
-        {
-            if (CurrentMouseState.LeftButton == ButtonState.Pressed &&
-                LastMouseState.LeftButton == ButtonState.Released && IsDragging && ItemInQueue != null)
-            {
-                Vector2 mousePosition = new Vector2(GetMousePosition().X, GetMousePosition().Y);
-                if (ItemInQueue.FileType == FileTypesEnum.Tile.ToString())
-                {
-                    mousePosition = new Vector2(
-                        CurrentMouseState.Position.X / (ItemInQueue as WorldObject).Size.Width * (ItemInQueue as WorldObject).Size.Width,
-                        CurrentMouseState.Position.Y / (ItemInQueue as WorldObject).Size.Height * (ItemInQueue as WorldObject).Size.Height);
-                }
-                Vector2 relativeMousePosition = Vector2.Transform(mousePosition, Matrix.Invert(Camera.Transform));
-                ItemInQueue.Position = new System.Drawing.Point((int)relativeMousePosition.X, (int)relativeMousePosition.Y);
-                WorldObject newItem = (WorldObject)ItemInQueue.Clone();
-                MapFile.WorldObjects.Add(newItem);
-            }
-        }
-        private void ClickOnObject()
-        {
-            if (IsDragging) return;
-            //foreach(WorldObject item in MapFile.WorldObjects)
-            for(int i = 0; i < MapFile.WorldObjects.Count; i++)
-            {
-                if (MapFile.WorldObjects[i].CursorIntersects(TranslatedMousePosition))
-                {
-                    DrawRectangle(new Rectangle(MapFile.WorldObjects[i].Position.X, MapFile.WorldObjects[i].Position.Y, 
-                        MapFile.WorldObjects[i].Size.Width, MapFile.WorldObjects[i].Size.Height), Color.Red, 2);
-                }
-                if(CurrentMouseState.LeftButton == ButtonState.Pressed &&
-                    LastMouseState.LeftButton == ButtonState.Released && MapFile.WorldObjects[i].CursorIntersects(TranslatedMousePosition))
-                {
-                    //DebugManager.Log($"Position: {item.Position}, Name: {item.Name}");
-                    MapFile.WorldObjects.Remove(MapFile.WorldObjects[i]);
-                }
-            }
-        }
+        #endregion
 
-        private void DrawGrid(Vector2 mousePosition)
-        {
-            for(int i = -32; i <= 32; i += 32)
-            {
-                for(int j = -32; j <= 32; j += 32)
-                {
-                    DrawRectangle(new Rectangle((int)mousePosition.X + i, (int)mousePosition.Y + j,
-                        (ItemInQueue as WorldObject).Size.Width, (ItemInQueue as WorldObject).Size.Height), Color.Red, 1);
-                }
-            }
-        }
-        public void DrawRectangle(Rectangle rectangle, Color color, int lineWidth)
-        {
-            Texture2D _pointTexture = null;
-            if (_pointTexture == null)
-            {
-                _pointTexture = new Texture2D(Editor.spriteBatch.GraphicsDevice, 1, 1);
-                _pointTexture.SetData(new Color[] { Color.White });
-            }
-
-            Editor.spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height + lineWidth), color);
-            Editor.spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width + lineWidth, lineWidth), color);
-            Editor.spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X + rectangle.Width, rectangle.Y, lineWidth, rectangle.Height + lineWidth), color);
-            Editor.spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height, rectangle.Width + lineWidth, lineWidth), color);
-        }
+        public void GetLabels(System.Windows.Forms.Label cursorPosition, System.Windows.Forms.Label zoomAmount)
+		{
+            CursorPositionLabel = cursorPosition;
+            ZoomAmountLabel = zoomAmount;
+		}
     }
 }

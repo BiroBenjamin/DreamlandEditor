@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>Tile</FileType>
+  <ID>grass_mushroom_big_003</ID>
+  <Name>GrassMushroomBig003</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\Tiles\Grass\grass_mushroom_big_003.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\Tiles\Grass\grass_mushroom_big_003.dex</FilePath>
+  <ObjectType>Tile</ObjectType>
+  <ZIndex>0</ZIndex>
+  <Position>
+    <X>0</X>
+    <Y>0</Y>
+  </Position>
+  <CollisionPosition>
+    <X>0</X>
+    <Y>0</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>32</Width>
+    <Height>32</Height>
+  </Size>
+  <CollisionSize>
+    <Width>0</Width>
+    <Height>0</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>false</IsCollidable>
+</WorldObject>

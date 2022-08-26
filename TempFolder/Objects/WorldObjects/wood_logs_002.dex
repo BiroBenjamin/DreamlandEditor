@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>wood_logs_002</ID>
+  <Name>WoodLogs002</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\wood_logs_002.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\wood_logs_002.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>2120</X>
+    <Y>2232</Y>
+  </Position>
+  <CollisionPosition>
+    <X>2</X>
+    <Y>14</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>26</Width>
+    <Height>30</Height>
+  </Size>
+  <CollisionSize>
+    <Width>22</Width>
+    <Height>15</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>true</IsCollidable>
+</WorldObject>

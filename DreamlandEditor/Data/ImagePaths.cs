@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace DreamlandEditor.Data
 {
-    public static class ImagePaths
+	public static class ImagePaths
     {
-        public static readonly string OpenFolder = @"../../Content/folder-open-icon.png";
-        public static readonly string CloseFolder = @"../../Content/folder-close-icon.png";
-        public static readonly string Plus = @"../../Content/plus-icon.png";
-        public static readonly string Refresh = @"../../Content/refresh-icon.png";
-        public static readonly string Save = @"../../Content/save-icon.png";
-        public static readonly string NotFound = @"../../Content/not-found.png";
+        private static readonly string IconsFolder = @"../../Content/Icons";
+
+        public static readonly string OpenFolder = Path.Combine(IconsFolder, "folder-open-icon.png");
+        public static readonly string CloseFolder = Path.Combine(IconsFolder, "folder-close-icon.png");
+        public static readonly string Plus = Path.Combine(IconsFolder, "plus-icon.png");
+        public static readonly string Refresh = Path.Combine(IconsFolder, "refresh-icon.png");
+        public static readonly string Save = Path.Combine(IconsFolder, "save-icon.png");
+        public static readonly string NotFound = Path.Combine(IconsFolder, "not-found.png");
     }
 }

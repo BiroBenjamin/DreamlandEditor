@@ -7,7 +7,7 @@ namespace DreamlandEditor.Managers {
         private static DebugWindow debugWindow;
 
         public static void ShowWindow(Form parentForm) {
-            if (SystemPrefsManager.SystemPrefs.isDevMode) {
+            if (SystemPrefsManager.SystemPrefs.IsDevMode) {
                 debugWindow = new DebugWindow(parentForm);
                 debugWindow.Show();
             }

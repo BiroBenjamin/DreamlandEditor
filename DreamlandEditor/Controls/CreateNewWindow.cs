@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
+using System.Globalization;
+using DreamlandEditor.Data.Attributes;
 
 namespace DreamlandEditor.Controls
 {
@@ -23,10 +26,15 @@ namespace DreamlandEditor.Controls
             EditorButtons = editorButtons;
             EditorWindows = editorWindows;
             FolderBrowserImage.ReadOnlyChecked = true;
-            FolderBrowserImage.InitialDirectory = Path.Combine(SystemPrefsManager.SystemPrefs.rootPath, "Sprites");
+            FolderBrowserImage.Multiselect = true;
+            FolderBrowserImage.Filter = "PNG files (*.png; *.PNG)|*.png; *.PNG";
+            FolderBrowserImage.InitialDirectory = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites");
+            FolderBrowserImage.RestoreDirectory = true;
             ComboboxFileType.Items.AddItems(typeof(FileTypesEnum).GetDescriptionOfAll());
             ComboboxFileType.SelectedIndex = 0;
             ComboBoxTerrainType.Items.Add("None");
+            ComboBoxTileType.Items.Add("Normal");
+            ComboBoxTileType.Items.AddItems(typeof(TileTypesEnum).GetDescriptionOfAll(typeof(ElevatedTileAttribute)));
             string directoryName = SystemPrefsManager.SystemPrefs.FolderStructure[FileTypesEnum.Tile.GetDescription()][0];
             DirectoryInfo directory = new DirectoryInfo(directoryName);
             ComboBoxTerrainType.Items.AddRange(DirectoryManager.GetDirectories(directory));
@@ -49,7 +57,7 @@ namespace DreamlandEditor.Controls
             {
                 Directory.CreateDirectory(filePath);
             }
-            WriteToFile(ComboboxFileType.SelectedItem.ToString(), filePath, extension);
+            WriteToFile(ComboboxFileType.SelectedItem.ToString().Replace(" ", ""), filePath, extension);
         }
         private bool FieldsAreEmpty()
         {
@@ -57,7 +65,16 @@ namespace DreamlandEditor.Controls
         }
         private void WriteToFile(string fileType, string filePath, string extension)
         {
-            string path = Path.Combine(filePath, $"{TextboxFileID.Text}.{extension}");
+            string imagePath = String.IsNullOrEmpty(TextBoxTileImagePath.Text) ? TextBoxWOImagePath.Text : TextBoxTileImagePath.Text;
+            string[] folders = filePath.Split('\\');
+            string[] endOfPathFolders = imagePath.Replace(folders[folders.Length - 1], "*").Split('*');
+            string end = endOfPathFolders[endOfPathFolders.Length - 1].TrimStart('\\');
+            string subFolders = String.Join("", end.Split('\\').TakeWhile(x => !x.Contains(".png")));
+			if (!Directory.Exists(Path.Combine(filePath, subFolders)))
+			{
+                Directory.CreateDirectory(Path.Combine(filePath, subFolders));
+			}
+            string path = Path.Combine(filePath, subFolders, $"{TextboxFileID.Text}.{extension}");
             if (File.Exists(path))
             {
                 MessageBox.Show($"File {TextboxFileID.Text}.{extension} already exists!", "File creation error");
@@ -65,8 +82,13 @@ namespace DreamlandEditor.Controls
                 return;
             }
             //Map
-			if (FileTypesEnum.Map.GetDescription().Equals(fileType))
+			if (FileTypesEnum.Map.ToString().Equals(fileType))
 			{
+				if (ItemsManager.GetMapById(TextboxFileID.Text, true).Count > 0)
+				{
+                    MessageBox.Show($"Map with ID: {TextboxFileID.Text} already exists!", "File creation error");
+                    return;
+                }
                 Map map = new Map()
                 {
                     FileType = fileType,
@@ -77,23 +99,32 @@ namespace DreamlandEditor.Controls
                 };
                 if (ComboBoxTerrainType.SelectedItem.ToString() != "None")
                 {
-                    WorldObject tileType = (WorldObject)ItemsManager.GetById<WorldObject>(ComboBoxTerrainType.SelectedItem.ToString());
-                    if(tileType == null)
+                    List<WorldObject> tileTypes = ItemsManager.GetTileByTileType(ComboBoxTerrainType.SelectedItem.ToString()).ToList();
+                    Random rand = new Random();
+                    if (tileTypes.Count < 1)
                     {
                         MessageBox.Show("The selected tile type was not found!", "Object not found");
                         return;
                     }
-                    for (int i = 0; i < NudMapWidth.Value; i++)
+                    int nameParts = 999;
+                    foreach(WorldObject tileType in tileTypes)
+					{
+                        int splitNameLength = tileType.ID.Split('_').Length;
+                        if (splitNameLength < nameParts) nameParts = splitNameLength;
+                    }
+                    List<WorldObject> normalTiles = tileTypes.Where(x => x.ID.Split('_').Length == nameParts).ToList();
+                    List<WorldObject> filledTiles = tileTypes.Where(x => x.ID.Split('_').Length != nameParts).ToList();
+                    for (int i = -(int)Math.Floor(NudMapWidth.Value / 2); i < (int)Math.Ceiling(NudMapWidth.Value / 2); i++)
                     {
-                        for (int j = 0; j < NudMapHeight.Value; j++)
+                        for (int j = -(int)Math.Floor(NudMapWidth.Value / 2); j < (int)Math.Ceiling(NudMapWidth.Value / 2); j++)
                         {
-                            map.WorldObjects.Add(new WorldObject()
-                            {
-                                Size = tileType.Size,
-                                Position = new Point(i * tileType.Size.Width, j * tileType.Size.Height),
-                                ImagePath = tileType.ImagePath
-
-                            });
+                            WorldObject tile = new WorldObject();
+                            if (rand.Next(1, 100) > 90)
+                                tile = filledTiles[rand.Next(1, filledTiles.Count)].Clone() as WorldObject;
+                            else
+                                tile = normalTiles[rand.Next(1, normalTiles.Count)].Clone() as WorldObject;
+                            tile.Position = new Point(i * tile.Size.Width, j * tile.Size.Height);
+                            map.Tiles.Add(tile);
                         }
                     }
                 }
@@ -103,15 +134,22 @@ namespace DreamlandEditor.Controls
                 mapEditor.LoadMap(map);
             }
             //WorldObject
-            else if (FileTypesEnum.WorldObject.GetDescription().Equals(fileType))
+            else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
 			{
+                if (ItemsManager.GetWorldObjectById(TextboxFileID.Text, true).Count > 0)
+                {
+                    MessageBox.Show($"World Object with ID: {TextboxFileID.Text} already exists!", "File creation error");
+                    return;
+                }
                 WorldObject worldObject = new WorldObject
                 {
                     FileType = fileType,
                     ID = TextboxFileID.Text,
                     Name = TextboxFileName.Text,
+                    ImagePath = TextBoxWOImagePath.Text,
                     ObjectType = FileTypesEnum.WorldObject.ToString(),
                     FilePath = path,
+                    ZIndex = 1
                 };
                 FileManager.SaveFile(worldObject);
                 ItemsManager.WorldObjects.Add(worldObject);
@@ -119,16 +157,21 @@ namespace DreamlandEditor.Controls
                 editor.SetRenderableObject(worldObject);
             }
             //Character
-            else if (FileTypesEnum.Character.GetDescription().Equals(fileType))
+            else if (FileTypesEnum.Character.ToString().Equals(fileType))
 			{
 
-			}
+            }
             //Tile
-            else if (FileTypesEnum.Tile.GetDescription().Equals(fileType))
+            else if (FileTypesEnum.Tile.ToString().Equals(fileType))
             {
-                if (String.IsNullOrEmpty(TextBoxImagePath.Text))
+                if (ItemsManager.GetWorldObjectById(TextboxFileID.Text, true).Count > 0)
                 {
-                    MessageBox.Show("Please select an image before saving!", "File path is empty");
+                    MessageBox.Show($"Tile with ID: {TextboxFileID.Text} already exists!", "File creation error");
+                    return;
+                }
+                if (String.IsNullOrEmpty(TextBoxTileImagePath.Text))
+                {
+                    MessageBox.Show("Please select an image before saving!", "File creation error");
                     return;
                 }
                 WorldObject tile = new WorldObject()
@@ -136,13 +179,13 @@ namespace DreamlandEditor.Controls
                     FileType = fileType,
                     ID = TextboxFileID.Text,
                     Name = TextboxFileName.Text,
-                    ImagePath = TextBoxImagePath.Text,
-                    Size = ImageTile.Image.Size,
-                    ObjectType = FileTypesEnum.Tile.ToString(),
+                    ImagePath = TextBoxTileImagePath.Text,
+                    Size = PictureBoxTile.Image.Size,
+                    ObjectType = ComboBoxTileType.SelectedItem.ToString(),
                     FilePath = path,
+                    ZIndex = 0
                 };
-                FileManager.SaveFile(tile);
-                ItemsManager.WorldObjects.Add(tile);
+                ItemsManager.AddTile(tile);
                 return;
             }
             else
@@ -182,6 +225,7 @@ namespace DreamlandEditor.Controls
             else if (FileTypesEnum.WorldObject.GetDescription().Equals(ComboboxFileType.SelectedItem))
 			{
                 HidePanels();
+                PanelWorldObjectDetails.Visible = true;
             }
             else if (FileTypesEnum.Character.GetDescription().Equals(ComboboxFileType.SelectedItem))
 			{
@@ -189,7 +233,8 @@ namespace DreamlandEditor.Controls
             }
             else if (FileTypesEnum.Tile.GetDescription().Equals(ComboboxFileType.SelectedItem))
             {
-                SetupTilePanel();
+                HidePanels();
+                PanelTileDetails.Visible = true;
             }
             else
 			{
@@ -202,27 +247,65 @@ namespace DreamlandEditor.Controls
             PanelMapDetails.Visible = true;
             if (ComboBoxTerrainType.Items.Count > 0) return;
         }
-        private void SetupTilePanel()
-        {
-            HidePanels();
-            PanelTileDetails.Visible = true;
-        }
 
         private void HidePanels()
 		{
             PanelMapDetails.Visible = false;
             PanelTileDetails.Visible = false;
+            PanelWorldObjectDetails.Visible = false;
 		}
 
-        private void ButtonChooseImage_Click(object sender, EventArgs e)
+        private void SetIdAndName(string fileName)
+		{
+            string[] splitPath = fileName.Split('\\');
+            string fileId = splitPath[splitPath.Length - 1].Split('.')[0];
+            TextboxFileID.Text = fileId;
+            TextInfo textinfo = new CultureInfo("en-US", false).TextInfo;
+            TextboxFileName.Text = String.Join("", fileId.Split('_').Select(x => textinfo.ToTitleCase(x)).ToArray());
+        }
+        private void ButtonChooseTileImage_Click(object sender, EventArgs e)
         {
             DialogResult result = FolderBrowserImage.ShowDialog();
-            if (result == DialogResult.OK)
+            if (result == DialogResult.OK && FolderBrowserImage.FileNames.Length == 1)
             {
-                ImageTile.Image = new Bitmap(FolderBrowserImage.FileName);
-                TextBoxImagePath.Text = FolderBrowserImage.FileName;
-                ImageTile.SizeMode = PictureBoxSizeMode.Zoom;
+                PictureBoxTile.Image = new Bitmap(FolderBrowserImage.FileNames[0]);
+                TextBoxTileImagePath.Text = FolderBrowserImage.FileNames[0];
+                PictureBoxTile.SizeMode = PictureBoxSizeMode.Zoom;
+                SetIdAndName(FolderBrowserImage.FileNames[0]);
+            }
+            else if (result == DialogResult.OK && FolderBrowserImage.FileNames.Length > 1)
+			{
+                foreach(string name in FolderBrowserImage.FileNames)
+				{
+                    PictureBoxTile.Image = new Bitmap(name);
+                    TextBoxTileImagePath.Text = name;
+                    PictureBoxTile.SizeMode = PictureBoxSizeMode.Zoom;
+                    SetIdAndName(name);
+                    ButtonAccept.PerformClick();
+                }
+			}
+        }
+		private void ButtonChooseWOImage_Click(object sender, EventArgs e)
+		{
+            DialogResult result = FolderBrowserImage.ShowDialog();
+            if (result == DialogResult.OK && FolderBrowserImage.FileNames.Length == 1)
+            {
+                PictureBoxWorldObject.Image = new Bitmap(FolderBrowserImage.FileName);
+                TextBoxWOImagePath.Text = FolderBrowserImage.FileName;
+                PictureBoxWorldObject.SizeMode = PictureBoxSizeMode.Zoom;
+                SetIdAndName(FolderBrowserImage.FileName);
+            }
+            else if (result == DialogResult.OK && FolderBrowserImage.FileNames.Length > 1)
+            {
+                foreach (string name in FolderBrowserImage.FileNames)
+                {
+                    PictureBoxWorldObject.Image = new Bitmap(name);
+                    TextBoxWOImagePath.Text = name;
+                    PictureBoxWorldObject.SizeMode = PictureBoxSizeMode.Zoom;
+                    SetIdAndName(name);
+                    ButtonAccept.PerformClick();
+                }
             }
         }
-    }
+	}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>crate_004</ID>
+  <Name>Crate004</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\crate_004.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\crate_004.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>1914</X>
+    <Y>2254</Y>
+  </Position>
+  <CollisionPosition>
+    <X>4</X>
+    <Y>21</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>32</Width>
+    <Height>44</Height>
+  </Size>
+  <CollisionSize>
+    <Width>23</Width>
+    <Height>22</Height>
+  </CollisionSize>
+  <IsInteractable>true</IsInteractable>
+  <IsCollidable>true</IsCollidable>
+</WorldObject>

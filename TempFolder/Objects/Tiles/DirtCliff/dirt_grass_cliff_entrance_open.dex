@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>Tile</FileType>
+  <ID>dirt_grass_cliff_entrance_open</ID>
+  <Name>DirtGrassCliffEntranceOpen</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\Tiles\DirtCliff\dirt_grass_cliff_entrance_open.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\Tiles\DirtCliff\dirt_grass_cliff_entrance_open.dex</FilePath>
+  <ObjectType>Dirt Cliff</ObjectType>
+  <ZIndex>0</ZIndex>
+  <Position>
+    <X>0</X>
+    <Y>0</Y>
+  </Position>
+  <CollisionPosition>
+    <X>0</X>
+    <Y>0</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>32</Width>
+    <Height>64</Height>
+  </Size>
+  <CollisionSize>
+    <Width>0</Width>
+    <Height>0</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>false</IsCollidable>
+</WorldObject>

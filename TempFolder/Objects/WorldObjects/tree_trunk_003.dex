@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileType>WorldObject</FileType>
+  <ID>tree_trunk_003</ID>
+  <Name>TreeTrunk003</Name>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\tree_trunk_003.png</ImagePath>
+  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\tree_trunk_003.dex</FilePath>
+  <ObjectType>WorldObject</ObjectType>
+  <ZIndex>1</ZIndex>
+  <Position>
+    <X>2223</X>
+    <Y>2168</Y>
+  </Position>
+  <CollisionPosition>
+    <X>2</X>
+    <Y>19</Y>
+  </CollisionPosition>
+  <Size>
+    <Width>56</Width>
+    <Height>40</Height>
+  </Size>
+  <CollisionSize>
+    <Width>52</Width>
+    <Height>11</Height>
+  </CollisionSize>
+  <IsInteractable>false</IsInteractable>
+  <IsCollidable>true</IsCollidable>
+</WorldObject>

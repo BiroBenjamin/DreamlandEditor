@@ -2,6 +2,7 @@
 using DreamlandEditor.ExtensionClasses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace DreamlandEditor.Data
@@ -9,39 +10,41 @@ namespace DreamlandEditor.Data
     [Serializable]
     public class SystemPrefs 
     {
-        [XmlIgnore] public string rootPath = @"..\..\..\TempFolder";
-        public string debugLogPath = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
-        public bool isDevMode = true;
+        [XmlIgnore] public string RootPath { get; set; }
+        public string DebugLogPath { get; set; } = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
+        public bool IsDevMode { get; set; } = true;
 
-        [XmlIgnore] public Dictionary<string, string[]> FolderStructure;
-        [XmlIgnore] public List<string> extensions = new List<string>();
+        [XmlIgnore] public Dictionary<string, string[]> FolderStructure { get; set; }
+        [XmlIgnore] public List<string> Extensions { get; set; } = new List<string>();
 
         public SystemPrefs() 
         {
+            RootPath = Path.Combine($@"{Directory.GetParent(@"..\..\..\").FullName}", "TempFolder");
+
             FolderStructure = new Dictionary<string, string[]>() 
             {
-                { FileTypesEnum.Map.GetDescription(), new string[2] {$@"{rootPath}\Maps", "map" } },
+                { FileTypesEnum.Map.GetDescription(), new string[2] {$@"{RootPath}\Maps", "map" } },
                 //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "dex" } },
-                { FileTypesEnum.Character.GetDescription(), new string[2] {$@"{rootPath}\Objects\Characters", "dex" } },
-                { FileTypesEnum.WorldObject.GetDescription(), new string[2] {$@"{rootPath}\Objects\WorldObjects", "dex" } },
-                { FileTypesEnum.Tile.GetDescription(), new string[2] {$@"{rootPath}\Objects\Tiles", "dex" } },
+                { FileTypesEnum.Character.GetDescription(), new string[2] {$@"{RootPath}\Objects\Characters", "dex" } },
+                { FileTypesEnum.WorldObject.GetDescription(), new string[2] {$@"{RootPath}\Objects\WorldObjects", "dex" } },
+                { FileTypesEnum.Tile.GetDescription(), new string[2] {$@"{RootPath}\Objects\Tiles", "dex" } },
             };
 
             foreach(KeyValuePair<string, string[]> file in FolderStructure)
             {
                 string extension = file.Value[1];
-				if (!extensions.Contains(extension))
+				if (!Extensions.Contains(extension))
 				{
-                    extensions.Add(extension);
+                    Extensions.Add(extension);
 				}
             }
         }
 
         public override string ToString() 
         {
-            return $"[ rootPath: {rootPath} ]" +
-                $"  [ isDevMode: {isDevMode} ]" +
-                $"  [ debugLogPath: {debugLogPath} ]";
+            return $"[ rootPath: {RootPath} ]" +
+                $"  [ isDevMode: {IsDevMode} ]" +
+                $"  [ debugLogPath: {DebugLogPath} ]";
         }
 
     }
