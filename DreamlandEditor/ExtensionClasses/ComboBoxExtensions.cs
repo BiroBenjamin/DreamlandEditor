@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.ComboBox;
 
-namespace DreamlandEditor.ExtensionClasses
+namespace ProjectDreamland.ExtensionClasses
 {
     public static class ComboBoxExtensions
     {

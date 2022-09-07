@@ -1,9 +1,9 @@
-﻿using DreamlandEditor.UI.UIPanels;
+﻿using ProjectDreamland.UI.UIPanels;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.UIButtons
+namespace ProjectDreamland.UI.UIButtons
 {
     public class WindowChangeButton : Button, IUiButton
     {

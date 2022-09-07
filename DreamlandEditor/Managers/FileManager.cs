@@ -1,13 +1,10 @@
-﻿using DreamlandEditor.Data;
-using DreamlandEditor.Data.Enums;
-using DreamlandEditor.Data.GameFiles;
+﻿using ProjectDreamland.Data.GameFiles;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
 
-namespace DreamlandEditor.Managers
+namespace ProjectDreamland.Managers
 {
   public static class FileManager
   {
@@ -41,9 +38,9 @@ namespace DreamlandEditor.Managers
           loadedItem = (BaseFile)serializer.Deserialize(reader);
           loadedItem.FilePath = loadedItem.FilePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
           loadedItem.FullFilePath = path;
-          if(typeof(T) == typeof(WorldObject) || typeof(T) == typeof(Tile))
+          if(typeof(T) != typeof(Map))
           {
-            loadedItem.ImagePath = loadedItem.ImagePath?.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
+            loadedItem.ImagePath = loadedItem.ImagePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
             loadedItem.FullImagePath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, loadedItem.ImagePath);
           }
         }

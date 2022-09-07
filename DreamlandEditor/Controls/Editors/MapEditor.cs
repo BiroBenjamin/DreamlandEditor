@@ -1,10 +1,10 @@
-﻿using DreamlandEditor.Components;
-using DreamlandEditor.Data;
-using DreamlandEditor.Data.Enums;
-using DreamlandEditor.Data.GameFiles;
-using DreamlandEditor.ExtensionClasses;
-using DreamlandEditor.Handlers;
-using DreamlandEditor.Managers;
+﻿using ProjectDreamland.Components;
+using ProjectDreamland.Data;
+using ProjectDreamland.Data.Enums;
+using ProjectDreamland.Data.GameFiles;
+using ProjectDreamland.ExtensionClasses;
+using ProjectDreamland.Handlers;
+using ProjectDreamland.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,8 +12,9 @@ using MonoGame.Forms.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
-namespace DreamlandEditor.Controls.Editors
+namespace ProjectDreamland.Controls.Editors
 {
   public class MapEditor : MonoGameControl, IBaseEditor
   {
@@ -63,11 +64,11 @@ namespace DreamlandEditor.Controls.Editors
     }
     private void LoadTextures<T>(IEnumerable<BaseFile> objects) where T : BaseFile
     {
-      foreach (WorldObject item in objects)
+      foreach (BaseFile item in objects)
       {
-        string name = item.FullImagePath == null ?
+        string name = String.IsNullOrEmpty(item.ImagePath) ?
           ImagePaths.NotFound :
-          item.FullImagePath.Split('.')[0];
+          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath).Split('.')[0];
         item.Texture = Editor.Content.Load<Texture2D>(name);
       }
     }
@@ -241,15 +242,15 @@ namespace DreamlandEditor.Controls.Editors
     {
       if (MapFile.Tiles != null && MapFile.WorldObjects != null)
       {
-        foreach (WorldObject tile in MapFile.Tiles.Cast<BaseFile>().Union(MapFile.WorldObjects).OrderBy(x => x.ZIndex))
+        foreach (BaseFile file in MapFile.Tiles.Cast<BaseFile>().Union(MapFile.WorldObjects).OrderBy(x => x.ZIndex))
         {
-          Editor.spriteBatch.Draw(tile.Texture, new Vector2(tile.Position.X, tile.Position.Y), Color.White);
-          if (!tile.IsCollidable) continue;
-          DrawCollision(tile);
+          Editor.spriteBatch.Draw(file.Texture, new Vector2(file.Position.X, file.Position.Y), Color.White);
+          if (!file.IsCollidable) continue;
+          DrawCollision(file);
         }
       }
     }
-    private void DrawCollision(WorldObject obj)
+    private void DrawCollision(BaseFile obj)
     {
       if (!IsCollisionDrawn) return;
       _drawingHandler.DrawRectangle(obj.GetCollision(), Color.Red, 1);

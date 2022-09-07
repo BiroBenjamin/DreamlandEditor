@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DreamlandEditor.Properties {
+namespace ProjectDreamland.Properties {
     using System;
     
     

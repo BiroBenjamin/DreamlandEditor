@@ -1,11 +1,11 @@
-﻿using DreamlandEditor.Data.Enums;
-using DreamlandEditor.ExtensionClasses;
+﻿using ProjectDreamland.Data.Enums;
+using ProjectDreamland.ExtensionClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace DreamlandEditor.Data
+namespace ProjectDreamland.Data
 {
     [Serializable]
     public class SystemPrefs 

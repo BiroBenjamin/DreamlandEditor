@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace DreamlandEditor.Managers
+namespace ProjectDreamland.Managers
 {
     public static class DirectoryManager
     {

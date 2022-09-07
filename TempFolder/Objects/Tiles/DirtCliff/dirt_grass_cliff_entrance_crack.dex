@@ -10,10 +10,18 @@
     <X>0</X>
     <Y>0</Y>
   </Position>
+  <IsCollidable>false</IsCollidable>
+  <CollisionPosition>
+    <X>0</X>
+    <Y>0</Y>
+  </CollisionPosition>
+  <CollisionSize>
+    <Width>0</Width>
+    <Height>0</Height>
+  </CollisionSize>
   <Size>
     <Width>32</Width>
     <Height>64</Height>
   </Size>
-  <IsCollidable>false</IsCollidable>
   <TileType>Normal</TileType>
 </Tile>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DreamlandEditor.Data.Attributes
+namespace ProjectDreamland.Data.Attributes
 {
 	public class ElevatedTileAttribute : Attribute
 	{

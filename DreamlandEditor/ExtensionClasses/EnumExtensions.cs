@@ -1,11 +1,11 @@
-﻿using DreamlandEditor.Data.Attributes;
+﻿using ProjectDreamland.Data.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace DreamlandEditor.ExtensionClasses
+namespace ProjectDreamland.ExtensionClasses
 {
 	public static class EnumExtensions
 	{

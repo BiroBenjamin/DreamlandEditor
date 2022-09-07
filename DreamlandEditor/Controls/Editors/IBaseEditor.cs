@@ -1,10 +1,10 @@
-﻿using DreamlandEditor.Data;
-using DreamlandEditor.Data.Enums;
-using DreamlandEditor.ExtensionClasses;
+﻿using ProjectDreamland.Data;
+using ProjectDreamland.Data.Enums;
+using ProjectDreamland.ExtensionClasses;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.Controls.Editors 
+namespace ProjectDreamland.Controls.Editors 
 {
     public interface IBaseEditor
     {

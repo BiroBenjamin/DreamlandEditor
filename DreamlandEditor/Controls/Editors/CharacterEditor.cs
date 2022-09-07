@@ -1,8 +1,8 @@
-﻿using DreamlandEditor.Data.Enums;
-using DreamlandEditor.ExtensionClasses;
+﻿using ProjectDreamland.Data.Enums;
+using ProjectDreamland.ExtensionClasses;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.Controls.Editors
+namespace ProjectDreamland.Controls.Editors
 {
     partial class CharacterEditor : UserControl, IBaseEditor 
     {

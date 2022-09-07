@@ -1,12 +1,12 @@
-﻿using DreamlandEditor.Data.Enums;
-using DreamlandEditor.Data.GameFiles;
-using DreamlandEditor.Managers;
+﻿using ProjectDreamland.Data.Enums;
+using ProjectDreamland.Data.GameFiles;
+using ProjectDreamland.Managers;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.Controls.Editors
+namespace ProjectDreamland.Controls.Editors
 {
   public partial class WorldObjectEditor : UserControl, IBaseEditor
   {

@@ -1,12 +1,12 @@
-﻿using DreamlandEditor.Data.Enums;
-using DreamlandEditor.ExtensionClasses;
+﻿using ProjectDreamland.Data.Enums;
+using ProjectDreamland.ExtensionClasses;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
 
-namespace DreamlandEditor.Data.GameFiles
+namespace ProjectDreamland.Data.GameFiles
 {
   [Serializable]
   public class Map : BaseFile

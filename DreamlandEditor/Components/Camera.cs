@@ -1,9 +1,9 @@
-﻿using DreamlandEditor.Managers;
+﻿using ProjectDreamland.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace DreamlandEditor.Components
+namespace ProjectDreamland.Components
 {
     public class Camera
     {

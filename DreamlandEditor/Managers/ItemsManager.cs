@@ -1,12 +1,12 @@
-﻿using DreamlandEditor.Data.Enums;
-using DreamlandEditor.Data.GameFiles;
-using DreamlandEditor.ExtensionClasses;
+﻿using ProjectDreamland.Data.Enums;
+using ProjectDreamland.Data.GameFiles;
+using ProjectDreamland.ExtensionClasses;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.Managers
+namespace ProjectDreamland.Managers
 {
   public static class ItemsManager
   {

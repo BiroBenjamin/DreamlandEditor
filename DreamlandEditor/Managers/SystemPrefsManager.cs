@@ -1,10 +1,10 @@
-﻿using DreamlandEditor.Data;
-using DreamlandEditor.UI;
+﻿using ProjectDreamland.Data;
+using ProjectDreamland.UI;
 using System;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace DreamlandEditor.Managers 
+namespace ProjectDreamland.Managers 
 {
     public static class SystemPrefsManager 
     {

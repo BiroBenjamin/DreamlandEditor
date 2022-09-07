@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace DreamlandEditor.UI {
+namespace ProjectDreamland.UI {
     public static class UiColors {
         public readonly static Color LightGray = Color.FromArgb(191, 191, 191);
         public readonly static Color LighterGray = Color.FromArgb(166, 166, 166);

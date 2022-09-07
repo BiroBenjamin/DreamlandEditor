@@ -1,5 +1,5 @@
 ﻿
-namespace DreamlandEditor.Controlers {
+namespace ProjectDreamland.Controlers {
     partial class DebugWindow {
         /// <summary>
         /// Required designer variable.

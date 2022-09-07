@@ -2,14 +2,13 @@
 using System.Drawing;
 using System.Xml.Serialization;
 
-namespace DreamlandEditor.Data.GameFiles
+namespace ProjectDreamland.Data.GameFiles
 {
   [Serializable]
   public class Tile : BaseFile
   {
     [XmlIgnore] public Size BaseSize { get; private set; } = new Size(32, 32);
     public Size Size { get; set; } = new Size(64, 64);
-    public bool IsCollidable { get; set; } = false;
     public string TileType { get; set; }
 
     public Tile(){}
@@ -27,7 +26,6 @@ namespace DreamlandEditor.Data.GameFiles
       Tile obj = new Tile(base.Clone());
       obj.BaseSize = BaseSize;
       obj.Size = Size;
-      obj.IsCollidable = IsCollidable;
       obj.TileType = TileType;
       return obj;
     }

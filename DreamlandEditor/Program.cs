@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace DreamlandEditor {
+namespace ProjectDreamland {
     internal static class Program {
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.

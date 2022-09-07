@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace DreamlandEditor.UI.UIPanels 
+namespace ProjectDreamland.UI.UIPanels 
 {
     public class UiPanel : Panel 
     {

@@ -1,4 +1,4 @@
-﻿namespace DreamlandEditor.Controls
+﻿namespace ProjectDreamland.Controls
 {
     partial class CreateNewWindow
     {
