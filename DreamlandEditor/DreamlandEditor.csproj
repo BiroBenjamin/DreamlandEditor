@@ -99,10 +99,11 @@
     <Compile Include="Data\Attributes\DisplayableAttribute.cs" />
     <Compile Include="Data\Attributes\ElevatedTileAttribute.cs" />
     <Compile Include="Data\Enums\TileTypesEnum.cs" />
-    <Compile Include="Data\GameFiles\IBaseFile.cs" />
+    <Compile Include="Data\GameFiles\BaseFile.cs" />
     <Compile Include="Data\Enums\FileTypesEnum.cs" />
     <Compile Include="Data\Enums\WorldObjectTypesEnum.cs" />
     <Compile Include="Data\GameFiles\Map.cs" />
+    <Compile Include="Data\GameFiles\Tile.cs" />
     <Compile Include="Data\ImagePaths.cs" />
     <Compile Include="Data\SystemPrefs.cs" />
     <Compile Include="Controls\Editors\MapEditor.cs">

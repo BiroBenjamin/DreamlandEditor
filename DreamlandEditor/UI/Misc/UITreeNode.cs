@@ -5,9 +5,9 @@ namespace DreamlandEditor.UI.Misc
 {
     internal class UITreeNode : TreeNode
     {
-        public IBaseFile Item { get; set; }
+        public BaseFile Item { get; set; }
 
-        public UITreeNode(string text, IBaseFile file = null) : base(text)
+        public UITreeNode(string text, BaseFile file = null) : base(text)
         {
             Item = file;
         }

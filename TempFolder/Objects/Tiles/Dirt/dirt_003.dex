@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WorldObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Tile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <FileType>Tile</FileType>
   <ID>dirt_003</ID>
   <Name>Dirt003</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\Tiles\Dirt\dirt_003.png</ImagePath>
-  <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\Tiles\Dirt\dirt_003.dex</FilePath>
-  <ObjectType>Tile</ObjectType>
   <ZIndex>0</ZIndex>
+  <ImagePath>Sprites\Tiles\Dirt\dirt_003.png</ImagePath>
+  <FilePath>Objects\Tiles\Dirt\dirt_003.dex</FilePath>
   <Position>
     <X>0</X>
     <Y>0</Y>
   </Position>
-  <CollisionPosition>
-    <X>0</X>
-    <Y>0</Y>
-  </CollisionPosition>
   <Size>
     <Width>32</Width>
     <Height>32</Height>
   </Size>
-  <CollisionSize>
-    <Width>0</Width>
-    <Height>0</Height>
-  </CollisionSize>
-  <IsInteractable>false</IsInteractable>
   <IsCollidable>false</IsCollidable>
-</WorldObject>
+  <TileType>Normal</TileType>
+</Tile>
