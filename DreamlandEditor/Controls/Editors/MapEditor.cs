@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using DreamlandEditor.Data.GameFiles.Objects;
 
 namespace ProjectDreamland.Controls.Editors
 {
@@ -22,7 +23,7 @@ namespace ProjectDreamland.Controls.Editors
     public bool IsLoaded { get; set; } = false;
     public bool IsDragging { get; set; } = false;
     public bool IsCollisionDrawn { get; set; } = false;
-    public BaseFile ItemInQueue { get; set; } = null;
+    public BaseObject ItemInQueue { get; set; } = null;
     public MouseState CurrentMouseState { get; set; }
     public MouseState LastMouseState { get; set; }
     public Vector2 CurrentMousePosition { get; set; }
@@ -52,9 +53,9 @@ namespace ProjectDreamland.Controls.Editors
       LoadTextures<WorldObject>(ItemsManager.WorldObjects);
       foreach (WorldObject item in MapFile.WorldObjects)
       {
-        string name = item.FullImagePath == null ?
+        string name = item.ImagePath == null ?
           ImagePaths.NotFound :
-          item.FullImagePath.Split('.')[0];
+          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath).Split('.')[0];
         item.Texture = Editor.Content.Load<Texture2D>(name);
       }
       LoadTextures<WorldObject>(MapFile.Tiles);
@@ -62,9 +63,9 @@ namespace ProjectDreamland.Controls.Editors
 
       IsLoaded = true;
     }
-    private void LoadTextures<T>(IEnumerable<BaseFile> objects) where T : BaseFile
+    private void LoadTextures<T>(IEnumerable<BaseObject> objects)
     {
-      foreach (BaseFile item in objects)
+      foreach (BaseObject item in objects)
       {
         string name = String.IsNullOrEmpty(item.ImagePath) ?
           ImagePaths.NotFound :
@@ -118,7 +119,7 @@ namespace ProjectDreamland.Controls.Editors
       Vector2 centeredPosition = CenterMousePosition(item);
       Vector2 transformedMousePosition = TranslateMousePosition(centeredPosition);
       item.Position = new System.Drawing.Point((int)transformedMousePosition.X, (int)transformedMousePosition.Y);
-      WorldObject newItem = (WorldObject)item.Clone();
+      WorldObject newItem = new WorldObject(item);
       CountZIndex(newItem);
       MapFile.WorldObjects.Add(newItem);
     }
@@ -129,7 +130,7 @@ namespace ProjectDreamland.Controls.Editors
         CurrentMousePosition.Y - CurrentMousePosition.Y % item.Size.Height);
       Vector2 transformedMousePosition = GetSnapToGridPosition(mousePosition, item.Size.Width, item.Size.Height);
       item.Position = new System.Drawing.Point((int)transformedMousePosition.X, (int)transformedMousePosition.Y);
-      Tile newItem = item.Clone() as Tile;
+      Tile newItem = new Tile(item);
       Tile removeableObject = MapFile.DoesItemIntersectOthers(newItem) as Tile;
       if (removeableObject != null)
       {
@@ -158,9 +159,9 @@ namespace ProjectDreamland.Controls.Editors
         objectItem.ZIndex = objectItem.Position.Y + objectItem.Size.Height;
       }
     }
-    private List<BaseFile> GetObjectsUnderCursor()
+    private List<BaseObject> GetObjectsUnderCursor()
     {
-      List<BaseFile> hoveredOverObjects = new List<BaseFile>();
+      List<BaseObject> hoveredOverObjects = new List<BaseObject>();
       for (int i = 0; i < MapFile.WorldObjects.Count; i++)
       {
         if (MapFile.WorldObjects[i].CursorIntersects(TranslateMousePosition(CurrentMousePosition)))
@@ -242,7 +243,7 @@ namespace ProjectDreamland.Controls.Editors
     {
       if (MapFile.Tiles != null && MapFile.WorldObjects != null)
       {
-        foreach (BaseFile file in MapFile.Tiles.Cast<BaseFile>().Union(MapFile.WorldObjects).OrderBy(x => x.ZIndex))
+        foreach (BaseObject file in MapFile.Tiles.Cast<BaseObject>().Union(MapFile.WorldObjects).OrderBy(x => x.ZIndex))
         {
           Editor.spriteBatch.Draw(file.Texture, new Vector2(file.Position.X, file.Position.Y), Color.White);
           if (!file.IsCollidable) continue;
@@ -250,7 +251,7 @@ namespace ProjectDreamland.Controls.Editors
         }
       }
     }
-    private void DrawCollision(BaseFile obj)
+    private void DrawCollision(BaseObject obj)
     {
       if (!IsCollisionDrawn) return;
       _drawingHandler.DrawRectangle(obj.GetCollision(), Color.Red, 1);
@@ -260,7 +261,7 @@ namespace ProjectDreamland.Controls.Editors
       if (ItemInQueue == null ||
         (CurrentMouseState.Position.X < 0 || CurrentMouseState.Position.X > screenWidth ||
         CurrentMouseState.Position.Y < 0 || CurrentMouseState.Position.Y > screenHeight)) return;
-      WorldObject item = (ItemInQueue as WorldObject);
+      BaseObject item = ItemInQueue;
       Vector2 mousePosition = new Vector2(CurrentMouseState.Position.X, CurrentMouseState.Position.Y);
       if (ItemInQueue.FileType == FileTypesEnum.Tile.ToString())
       {
@@ -277,7 +278,7 @@ namespace ProjectDreamland.Controls.Editors
         mousePosition.Y - item.Size.Height);
       Editor.spriteBatch.Draw(ItemInQueue.Texture, Vector2.Transform(centeredPosition, Matrix.Invert(Camera.Transform)), Color.White);
     }
-    private void DrawGrid(Vector2 mousePosition, WorldObject item)
+    private void DrawGrid(Vector2 mousePosition, BaseObject item)
     {
       for (int i = -item.Size.Width; i <= item.Size.Width; i += item.Size.Width)
       {
@@ -291,7 +292,7 @@ namespace ProjectDreamland.Controls.Editors
     private void ClickOnObject()
     {
       if (IsDragging) return;
-      BaseFile upperObject = GetObjectsUnderCursor().OrderByDescending(x => x.ZIndex).FirstOrDefault();
+      BaseObject upperObject = GetObjectsUnderCursor().OrderByDescending(x => x.ZIndex).FirstOrDefault();
       if (upperObject == null) return;
       if(upperObject.FileType == FileTypesEnum.Tile.ToString())
       {
@@ -315,7 +316,7 @@ namespace ProjectDreamland.Controls.Editors
         RemoveObjectFromCollection(upperObject);
       }
     }
-    private void MoveObjectOnMap(BaseFile upperObject)
+    private void MoveObjectOnMap(BaseObject upperObject)
     {
       ItemInQueue = upperObject;
       RemoveObjectFromCollection(upperObject);

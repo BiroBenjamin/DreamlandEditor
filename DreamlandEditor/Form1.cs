@@ -27,7 +27,7 @@ namespace MonoGame.Forms.DX
       ItemExplorer.SetRenderWindow(MapEditor, ButtonSwitchToMapEditor);
       ButtonSaveNavbutton.Click += (sender, ev) =>
       {
-        if (!String.IsNullOrEmpty(MapEditor.MapFile.FullFilePath))
+        if (!String.IsNullOrEmpty(MapEditor.MapFile.FilePath))
         {
           ItemsManager.SaveItems();
         }

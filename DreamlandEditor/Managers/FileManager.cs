@@ -1,4 +1,5 @@
-﻿using ProjectDreamland.Data.GameFiles;
+﻿using DreamlandEditor.Data.GameFiles.Objects;
+using ProjectDreamland.Data.GameFiles;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -13,7 +14,9 @@ namespace ProjectDreamland.Managers
       XmlSerializer serializer = new XmlSerializer(typeof(T));
       try
       {
-        using (StreamWriter writer = new StreamWriter((obj as BaseFile).FullFilePath))
+        BaseFile baseFile = obj as BaseFile;
+        string path = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, baseFile.FilePath);
+        using (StreamWriter writer = new StreamWriter(path))
         {
 
           serializer.Serialize(writer, obj);
@@ -37,11 +40,12 @@ namespace ProjectDreamland.Managers
         {
           loadedItem = (BaseFile)serializer.Deserialize(reader);
           loadedItem.FilePath = loadedItem.FilePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
-          loadedItem.FullFilePath = path;
+          //loadedItem.FullFilePath = path;
           if(typeof(T) != typeof(Map))
           {
-            loadedItem.ImagePath = loadedItem.ImagePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
-            loadedItem.FullImagePath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, loadedItem.ImagePath);
+            BaseObject baseObject = (BaseObject)loadedItem;
+            baseObject.ImagePath = baseObject.ImagePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
+            //baseObject.FullImagePath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, baseObject.ImagePath);
           }
         }
         catch (Exception ex)

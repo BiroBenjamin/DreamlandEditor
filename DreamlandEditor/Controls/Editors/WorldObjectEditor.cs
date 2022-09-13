@@ -1,4 +1,5 @@
-﻿using ProjectDreamland.Data.Enums;
+﻿using DreamlandEditor.Data.GameFiles.Objects;
+using ProjectDreamland.Data.Enums;
 using ProjectDreamland.Data.GameFiles;
 using ProjectDreamland.Managers;
 using System;
@@ -13,7 +14,8 @@ namespace ProjectDreamland.Controls.Editors
     public string EditorFor { get; set; }
     public WorldObject RenderableObject { get; set; }
 
-    private Bitmap image;
+    private Bitmap _image;
+    private string _pathToSlice = SystemPrefsManager.SystemPrefs.RootPath + "\\";
 
     public WorldObjectEditor()
     {
@@ -29,17 +31,17 @@ namespace ProjectDreamland.Controls.Editors
 
       try
       {
-        image = new Bitmap(RenderableObject.FullImagePath);
-        RenderableObject.Size = image.Size;
+        _image = new Bitmap(Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, RenderableObject.ImagePath));
+        RenderableObject.Size = _image.Size;
       }
       catch
       {
-        DebugManager.Log($"Could not find the image in path {RenderableObject.FullImagePath}");
+        DebugManager.Log($"Could not find the image in path {RenderableObject.ImagePath}");
       }
 
-      string pathToSprites = RenderableObject.FullImagePath == null ?
+      string pathToSprites = RenderableObject.ImagePath == null ?
           Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites") :
-          RenderableObject.FullImagePath;
+          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, RenderableObject.ImagePath);
       if (!Directory.Exists(Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites")))
       {
         Directory.CreateDirectory(Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites"));
@@ -48,9 +50,9 @@ namespace ProjectDreamland.Controls.Editors
 
       TextBoxID.Text = RenderableObject.ID;
       TextBoxName.Text = RenderableObject.Name;
-      TextBoxImagePath.Text = RenderableObject.FullImagePath == null ?
+      TextBoxImagePath.Text = RenderableObject.ImagePath == null ?
           Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites") :
-          RenderableObject.FullImagePath;
+          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, RenderableObject.ImagePath);
 
       CheckBoxIsInteractable.Checked = RenderableObject.IsInteractable;
       ChechBoxHasCollision.Checked = RenderableObject.IsCollidable;
@@ -63,7 +65,7 @@ namespace ProjectDreamland.Controls.Editors
       NudCollisionY.Value = RenderableObject.CollisionPosition.Y;
 
 
-      if (!String.IsNullOrEmpty(RenderableObject.FullImagePath))
+      if (!String.IsNullOrEmpty(RenderableObject.ImagePath))
       {
         SetPicture();
       }
@@ -87,7 +89,7 @@ namespace ProjectDreamland.Controls.Editors
     {
       try
       {
-        if (String.IsNullOrEmpty(RenderableObject.FullImagePath))
+        if (String.IsNullOrEmpty(RenderableObject.ImagePath))
         {
           MessageBox.Show("Please set an image!", "No image");
           return;
@@ -107,16 +109,16 @@ namespace ProjectDreamland.Controls.Editors
 
     private void WriteToFile()
     {
-      if (!string.IsNullOrEmpty(RenderableObject.FullImagePath))
+      if (!string.IsNullOrEmpty(RenderableObject.ImagePath))
       {
-        RenderableObject.FullImagePath = TextBoxImagePath.Text;
+        RenderableObject.ImagePath = TextBoxImagePath.Text.Replace(_pathToSlice, "");
       }
       RenderableObject.Name = TextBoxName.Text;
       RenderableObject.CollisionPosition = new Point((int)NudCollisionX.Value, (int)NudCollisionY.Value);
       RenderableObject.CollisionSize = new Size((int)NudCollisionWidth.Value, (int)NudCollisionHeight.Value);
       RenderableObject.IsInteractable = CheckBoxIsInteractable.Checked;
       RenderableObject.IsCollidable = ChechBoxHasCollision.Checked;
-      RenderableObject.Size = image.Size;
+      RenderableObject.Size = _image.Size;
     }
 
     private void ButtonChooseImage_Click(object sender, EventArgs e)
@@ -125,15 +127,15 @@ namespace ProjectDreamland.Controls.Editors
 
       if (result == DialogResult.OK)
       {
-        RenderableObject.FullImagePath = FolderBrowserImage.FileName;
-        image = new Bitmap(RenderableObject.ImagePath);
+        RenderableObject.ImagePath = FolderBrowserImage.FileName;
+        _image = new Bitmap(RenderableObject.ImagePath);
         SetPicture();
-        RenderableObject.Size = image.Size;
+        RenderableObject.Size = _image.Size;
       }
     }
     private void SetPicture()
     {
-      ImageWObject.Image = image;
+      ImageWObject.Image = _image;
       TextBoxImagePath.Text = RenderableObject.ImagePath;
       ImageWObject.SizeMode = PictureBoxSizeMode.Zoom;
     }

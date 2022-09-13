@@ -1,4 +1,5 @@
-﻿using ProjectDreamland.Controls.Editors;
+﻿using DreamlandEditor.Data.GameFiles.Objects;
+using ProjectDreamland.Controls.Editors;
 using ProjectDreamland.Data;
 using ProjectDreamland.Data.Attributes;
 using ProjectDreamland.Data.Enums;
@@ -176,7 +177,7 @@ namespace ProjectDreamland.UI
     public void SetupItems(ICollection<BaseFile> items)
     {
       ItemsPanel.Controls.Clear();
-      foreach (BaseFile item in items)
+      foreach (BaseObject item in items)
       {
         if (item == null) continue;
         Panel itemBackground = new Panel()
@@ -187,13 +188,14 @@ namespace ProjectDreamland.UI
           BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0)
         };
         ItemsPanel.Controls.Add(itemBackground);
+        string fullImagePath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath);
         PictureBox pictureBox = new PictureBox()
         {
           Dock = DockStyle.Fill,
           SizeMode = PictureBoxSizeMode.Zoom,
-          Image = (String.IsNullOrEmpty(item.FullImagePath) ?
+          Image = (String.IsNullOrEmpty(item.ImagePath) ?
             new Bitmap(@"../../Content/not-found.png") :
-            new Bitmap(item.FullImagePath)),
+            new Bitmap(fullImagePath)),
         };
         itemBackground.Controls.Add(pictureBox);
         new ToolTip().SetToolTip(pictureBox, item.Name == null ? "???" : item.Name);
@@ -226,7 +228,7 @@ namespace ProjectDreamland.UI
       }
     }
 
-    private void ClickOnItem(object sender, EventArgs ev, BaseFile item)
+    private void ClickOnItem(object sender, EventArgs ev, BaseObject item)
     {
       if (!MapEditor.IsLoaded) return;
       if (MapEditor.IsDragging)

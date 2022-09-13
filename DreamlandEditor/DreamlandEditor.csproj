@@ -99,17 +99,20 @@
     <Compile Include="Data\Attributes\DisplayableAttribute.cs" />
     <Compile Include="Data\Attributes\ElevatedTileAttribute.cs" />
     <Compile Include="Data\Enums\TileTypesEnum.cs" />
-    <Compile Include="Data\GameFiles\BaseFile.cs" />
     <Compile Include="Data\Enums\FileTypesEnum.cs" />
     <Compile Include="Data\Enums\WorldObjectTypesEnum.cs" />
+    <Compile Include="Data\GameFiles\BaseFile.cs" />
+    <Compile Include="Data\GameFiles\Characters\BaseCharacter.cs" />
+    <Compile Include="Data\GameFiles\Characters\Player.cs" />
     <Compile Include="Data\GameFiles\Map.cs" />
-    <Compile Include="Data\GameFiles\Tile.cs" />
+    <Compile Include="Data\GameFiles\Objects\BaseObject.cs" />
+    <Compile Include="Data\GameFiles\Objects\Tile.cs" />
+    <Compile Include="Data\GameFiles\Objects\WorldObject.cs" />
     <Compile Include="Data\ImagePaths.cs" />
     <Compile Include="Data\SystemPrefs.cs" />
     <Compile Include="Controls\Editors\MapEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Data\GameFiles\WorldObject.cs" />
     <Compile Include="ExtensionClasses\ComboBoxExtensions.cs" />
     <Compile Include="ExtensionClasses\EnumExtensions.cs" />
     <Compile Include="ExtensionClasses\ICollectionExtensions.cs" />

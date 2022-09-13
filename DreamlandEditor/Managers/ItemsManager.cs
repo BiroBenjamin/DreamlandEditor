@@ -1,4 +1,6 @@
-﻿using ProjectDreamland.Data.Enums;
+﻿using DreamlandEditor.Data.GameFiles.Objects;
+using Microsoft.Xna.Framework.Graphics;
+using ProjectDreamland.Data.Enums;
 using ProjectDreamland.Data.GameFiles;
 using ProjectDreamland.ExtensionClasses;
 using System.Collections.Generic;
@@ -33,18 +35,24 @@ namespace ProjectDreamland.Managers
 
     public static void UpdateInMaps<T>(T obj)
     {
+      bool changed;
       foreach (Map map in Maps)
       {
-        if (typeof(T) == typeof(WorldObject))
+        changed = false;
+        if (typeof(T) != typeof(WorldObject)) continue;
+        for (int i = 0; i < map.WorldObjects.Count(); i++)
         {
-          for (int i = 0; i < map.WorldObjects.Count(); i++)
-          {
-            if (map.WorldObjects[i].ID != (obj as WorldObject).ID) continue;
-            Point position = (obj as WorldObject).Position;
-            map.WorldObjects[i] = (obj as WorldObject);
-            map.WorldObjects[i].Position = position;
-          }
+          if (map.WorldObjects[i].ID != (obj as WorldObject).ID) continue;
+          WorldObject mapObject = map.WorldObjects[i];
+          Point position = mapObject.Position;
+          int zIndex = mapObject.ZIndex;
+          map.WorldObjects[i] = new WorldObject(obj as WorldObject);
+          map.WorldObjects[i].Position = position;
+          map.WorldObjects[i].ZIndex = zIndex;
+          changed = true;
         }
+        if (!changed) continue;
+        FileManager.SaveFile(map);
       }
     }
 
@@ -98,25 +106,13 @@ namespace ProjectDreamland.Managers
       }
       return new List<object>();
     }
-    /*public static ICollection<WorldObject> FilterByObjectType(string objectType)
-    {
-        if(objectType == FileTypesEnum.WorldObject.GetDescription())
-  {
-            return WorldObjects;
-        }
-        else if (objectType == FileTypesEnum.Tile.GetDescription())
-  {
-            return GetTiles();
-  }
-        return new List<WorldObject>();
-    }*/
 
     public static void SaveItems()
     {
       string errors = "";
       foreach (WorldObject item in WorldObjects)
       {
-        if (string.IsNullOrEmpty(item.FullFilePath))
+        if (string.IsNullOrEmpty(item.FilePath))
         {
           errors.Concat($"The following WorldObject: {item.ID} doesn't have a file path!\r\n{item.ID} has not been saved!");
           continue;

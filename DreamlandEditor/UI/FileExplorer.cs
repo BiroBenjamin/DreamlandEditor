@@ -1,4 +1,5 @@
-﻿using ProjectDreamland.Controls;
+﻿using DreamlandEditor.Data.GameFiles.Objects;
+using ProjectDreamland.Controls;
 using ProjectDreamland.Controls.Editors;
 using ProjectDreamland.Data;
 using ProjectDreamland.Data.Enums;
@@ -102,10 +103,11 @@ namespace ProjectDreamland.UI
       {
         string nodeParent = GetFileType(e.Node.FullPath);
         string fileType = nodeParent.Substring(0, nodeParent.Length - 1);
+        string pathToSlice = SystemPrefsManager.SystemPrefs.RootPath + "\\";
         if (FileTypesEnum.Map.ToString().Equals(fileType))
         {
           Map selectedMap = ItemsManager.Maps
-              .Where(x => x.FullFilePath == e.Node.FullPath)
+              .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
               .FirstOrDefault();
           Map map = ItemsManager.GetMapById(selectedMap.ID, true).FirstOrDefault();
           MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
@@ -114,7 +116,7 @@ namespace ProjectDreamland.UI
         else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
         {
           WorldObject selectedWorldObject = ItemsManager.WorldObjects
-              .Where(x => x.FullFilePath == e.Node.FullPath)
+              .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
               .FirstOrDefault();
           WorldObject worldObject = ItemsManager.GetWorldObjectById(selectedWorldObject.ID, true).FirstOrDefault();
           WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);

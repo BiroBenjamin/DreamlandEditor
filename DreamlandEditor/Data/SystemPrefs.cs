@@ -19,7 +19,8 @@ namespace ProjectDreamland.Data
 
         public SystemPrefs() 
         {
-            RootPath = Path.Combine($@"{Directory.GetParent(@"..\..\..\").FullName}", "TempFolder");
+            //RootPath = Path.Combine($@"{Directory.GetParent(@"..\..\..\").FullName}", "TempFolder");
+            RootPath = Path.Combine(@"C:\", "TempFolder");
 
             FolderStructure = new Dictionary<string, string[]>() 
             {

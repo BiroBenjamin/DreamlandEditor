@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Globalization;
 using ProjectDreamland.Data.Attributes;
+using DreamlandEditor.Data.GameFiles.Objects;
 
 namespace ProjectDreamland.Controls
 {
@@ -95,7 +96,6 @@ namespace ProjectDreamland.Controls
           ID = TextboxFileID.Text,
           Name = TextboxFileName.Text,
           Size = new Size((int)NudMapWidth.Value, (int)NudMapHeight.Value),
-          FullFilePath = path,
           FilePath = path.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
         };
         if (ComboBoxTerrainType.SelectedItem.ToString() != "None")
@@ -119,11 +119,11 @@ namespace ProjectDreamland.Controls
           {
             for (int j = -(int)Math.Floor(NudMapWidth.Value / 2); j < (int)Math.Ceiling(NudMapWidth.Value / 2); j++)
             {
-              Tile tile = new Tile();
+              Tile tile;
               if (rand.Next(1, 100) > 90)
-                tile = filledTiles[rand.Next(1, filledTiles.Count)].Clone() as Tile;
+                tile = new Tile(filledTiles[rand.Next(1, filledTiles.Count)]);
               else
-                tile = normalTiles[rand.Next(1, normalTiles.Count)].Clone() as Tile;
+                tile = new Tile(normalTiles[rand.Next(1, normalTiles.Count)]);
               tile.Position = new Point(i * tile.Size.Width, j * tile.Size.Height);
               map.Tiles.Add(tile);
             }
@@ -147,10 +147,10 @@ namespace ProjectDreamland.Controls
           FileType = fileType,
           ID = TextboxFileID.Text,
           Name = TextboxFileName.Text,
-          FullImagePath = TextBoxWOImagePath.Text,
+          //FullImagePath = TextBoxWOImagePath.Text,
           ImagePath = TextBoxWOImagePath.Text.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           //ObjectType = FileTypesEnum.WorldObject.ToString(),
-          FullFilePath = path,
+          //FullFilePath = path,
           FilePath = path.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           ZIndex = 1
         };
@@ -183,10 +183,10 @@ namespace ProjectDreamland.Controls
           ID = TextboxFileID.Text,
           Name = TextboxFileName.Text,
           TileType = ComboBoxTileType.SelectedItem == null ? "Normal" : TileTypesEnum.Elevated.ToString(),
-          FullImagePath = TextBoxTileImagePath.Text,
+          //FullImagePath = TextBoxTileImagePath.Text,
           ImagePath = TextBoxTileImagePath.Text.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           Size = PictureBoxTile.Image.Size,
-          FullFilePath = path,
+          //FullFilePath = path,
           FilePath = path.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           ZIndex = 0
         };

@@ -1,19 +1,21 @@
-﻿using System;
+﻿using ProjectDreamland.Data.GameFiles;
+using System;
 using System.Drawing;
 using System.Xml.Serialization;
 
-namespace ProjectDreamland.Data.GameFiles
+namespace DreamlandEditor.Data.GameFiles.Objects
 {
   [Serializable]
-  public class WorldObject : BaseFile
+  public class WorldObject : BaseObject
   {
-    [XmlIgnore] public Size BaseSize { get; private set; } = new Size(32, 32);
-    public Size Size { get; set; } = new Size(64, 64);
     public bool IsInteractable { get; set; } = false;
 
-    public WorldObject(){}
-    public WorldObject(BaseFile baseFile) :
-      base(baseFile){}
+    public WorldObject() { }
+    public WorldObject(BaseObject baseObject) : base(baseObject) { }
+    public WorldObject(WorldObject worldObject) : base(worldObject) 
+    {
+      IsInteractable = worldObject.IsInteractable;
+    }
 
     public Microsoft.Xna.Framework.Rectangle GetRectangle()
     {
@@ -29,16 +31,6 @@ namespace ProjectDreamland.Data.GameFiles
     public override string ToString()
     {
       return $"ID: {ID}\nName: {Name}\nImagePath: {ImagePath}\nLocation: {Position}";
-    }
-
-    public override BaseFile Clone()
-    {
-      WorldObject obj = new WorldObject(base.Clone());
-      obj.BaseSize = BaseSize;
-      obj.Size = Size;
-      obj.CollisionSize = CollisionSize;
-      obj.IsInteractable = IsInteractable;
-      return obj;
     }
   }
 }
