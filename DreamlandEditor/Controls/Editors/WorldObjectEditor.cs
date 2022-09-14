@@ -27,7 +27,7 @@ namespace ProjectDreamland.Controls.Editors
     public void RenderUI()
     {
       Enabled = true;
-      FolderBrowserImage.ReadOnlyChecked = true;
+      OpenFileDialogImage.ReadOnlyChecked = true;
 
       try
       {
@@ -46,7 +46,7 @@ namespace ProjectDreamland.Controls.Editors
       {
         Directory.CreateDirectory(Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites"));
       }
-      FolderBrowserImage.InitialDirectory = pathToSprites;
+      OpenFileDialogImage.InitialDirectory = pathToSprites;
 
       TextBoxID.Text = RenderableObject.ID;
       TextBoxName.Text = RenderableObject.Name;
@@ -123,11 +123,11 @@ namespace ProjectDreamland.Controls.Editors
 
     private void ButtonChooseImage_Click(object sender, EventArgs e)
     {
-      DialogResult result = FolderBrowserImage.ShowDialog();
+      DialogResult result = OpenFileDialogImage.ShowDialog();
 
       if (result == DialogResult.OK)
       {
-        RenderableObject.ImagePath = FolderBrowserImage.FileName;
+        RenderableObject.ImagePath = OpenFileDialogImage.FileName;
         _image = new Bitmap(RenderableObject.ImagePath);
         SetPicture();
         RenderableObject.Size = _image.Size;

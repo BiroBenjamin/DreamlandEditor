@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ProjectDreamland.Data.Enums;
 using ProjectDreamland.Data.GameFiles;
+using ProjectDreamland.Data.GameFiles.Characters;
 using ProjectDreamland.ExtensionClasses;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,15 +15,20 @@ namespace ProjectDreamland.Managers
   {
     public static ICollection<WorldObject> WorldObjects = new List<WorldObject>();
     public static IDictionary<string, List<Tile>> Tiles = new Dictionary<string, List<Tile>>();
+    public static ICollection<BaseCharacter> Characters = new List<BaseCharacter>();
     public static ICollection<Map> Maps = new List<Map>();
 
-    public static List<WorldObject> GetWorldObjectById(string id, bool fullMatch)
+    public static List<BaseObject> GetObjectById(string id, bool fullMatch)
     {
+      List<BaseObject> objects = new List<BaseObject>();
+      objects.AddRange(WorldObjects);
+      objects.AddRange(GetTiles());
+      objects.AddRange(Characters);
       if (fullMatch)
       {
-        return WorldObjects.Where(x => x.ID == id).ToList();
+        return objects.Where(x => x.ID == id).ToList();
       }
-      return WorldObjects.Where(x => x.ID.ToLower().Contains(id.ToLower())).ToList();
+      return objects.Where(x => x.ID.ToLower().Contains(id.ToLower())).ToList();
     }
     public static List<Map> GetMapById(string id, bool fullMatch)
     {

@@ -1,12 +1,35 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ProjectDreamland.Data.Enums;
 
 namespace ProjectDreamland.Data.GameFiles.Characters
 {
   public class BaseCharacter : BaseObject
   {
-    protected float speed = 3f;
+    public int Level { get; set; }
+    public string ResourceType { get; set; }
+    public float MaxResourcePoints { get; set; }
+    private float _currentResourcePoints;
+    public float CurrentResourcePoints
+    {
+      get { return _currentResourcePoints; }
+      set
+      {
+        if (value > MaxResourcePoints) _currentResourcePoints = MaxResourcePoints;
+      }
+    }
+    public float MaxHealthPoints { get; set; }
+    private float _currentHealthPoints;
+    public float CurrentHealthPoints
+    {
+      get { return _currentHealthPoints; }
+      set
+      {
+        if (value > MaxHealthPoints) _currentHealthPoints = MaxHealthPoints;
+      }
+    }
+    public float Speed { get; set; } = 3f;
     protected Vector2 velocity;
 
     public Rectangle GetSize()
@@ -14,9 +37,20 @@ namespace ProjectDreamland.Data.GameFiles.Characters
       return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
     }
 
+    public BaseCharacter() { }
     public BaseCharacter(Texture2D texture)
     {
       Texture = texture;
+    }
+    public BaseCharacter(Texture2D texture, float maxHealth, float currentHealth, ResourceTypesEnum resourceType, float maxResource, float currentResource, float speed)
+    {
+      Texture = texture;
+      MaxHealthPoints = maxHealth;
+      CurrentHealthPoints = currentHealth;
+      ResourceType = resourceType.ToString();
+      MaxResourcePoints = maxResource;
+      CurrentResourcePoints = currentResource;
+      Speed = speed;
     }
 
     #region Collision

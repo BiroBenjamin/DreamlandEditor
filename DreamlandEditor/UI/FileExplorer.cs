@@ -4,6 +4,7 @@ using ProjectDreamland.Controls.Editors;
 using ProjectDreamland.Data;
 using ProjectDreamland.Data.Enums;
 using ProjectDreamland.Data.GameFiles;
+using ProjectDreamland.Data.GameFiles.Characters;
 using ProjectDreamland.Managers;
 using ProjectDreamland.UI.Misc;
 using ProjectDreamland.UI.UIButtons;
@@ -104,27 +105,34 @@ namespace ProjectDreamland.UI
         string nodeParent = GetFileType(e.Node.FullPath);
         string fileType = nodeParent.Substring(0, nodeParent.Length - 1);
         string pathToSlice = SystemPrefsManager.SystemPrefs.RootPath + "\\";
+        //Map
         if (FileTypesEnum.Map.ToString().Equals(fileType))
         {
           Map selectedMap = ItemsManager.Maps
               .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
               .FirstOrDefault();
-          Map map = ItemsManager.GetMapById(selectedMap.ID, true).FirstOrDefault();
+          //Map map = ItemsManager.GetMapById(selectedMap.ID, true).FirstOrDefault();
           MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
-          mapEditor.LoadMap(map);
+          mapEditor.LoadMap(selectedMap);
         }
+        //WorldObject
         else if (FileTypesEnum.WorldObject.ToString().Equals(fileType))
         {
           WorldObject selectedWorldObject = ItemsManager.WorldObjects
               .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
               .FirstOrDefault();
-          WorldObject worldObject = ItemsManager.GetWorldObjectById(selectedWorldObject.ID, true).FirstOrDefault();
+          //WorldObject worldObject = (WorldObject)ItemsManager.GetObjectById(selectedWorldObject.ID, true).FirstOrDefault();
           WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
-          worldObjectEditor.SetRenderableObject(worldObject);
+          worldObjectEditor.SetRenderableObject(selectedWorldObject);
         }
+        //Character
         else if (FileTypesEnum.Character.ToString().Equals(fileType))
         {
-
+          BaseCharacter selectedCharacter = ItemsManager.Characters
+            .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
+            .FirstOrDefault();
+          CharacterEditor characterEditor = (CharacterEditor)FindEditorPanel(fileType);
+          characterEditor.SetRenderableObject(selectedCharacter);
         }
         else
         {
@@ -231,6 +239,14 @@ namespace ProjectDreamland.UI
         node.Nodes.Add(newNode);
         if (!isInitialLoad) return;
         ItemsManager.AddTile(item);
+      }
+      else if (new BaseCharacter().GetType().Name.Equals(xmlType))
+      {
+        BaseCharacter character = (BaseCharacter)FileManager.LoadFile<BaseCharacter>(Path.Combine(node.FullPath, fileName));
+        UITreeNode newNode = new UITreeNode(fileName, character);
+        node.Nodes.Add(newNode);
+        if (!isInitialLoad) return;
+        ItemsManager.Characters.Add(character);
       }
     }
 
