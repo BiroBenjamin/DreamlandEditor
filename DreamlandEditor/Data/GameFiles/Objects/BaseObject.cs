@@ -39,6 +39,11 @@ namespace DreamlandEditor.Data.GameFiles.Objects
         CollisionSize.Height);
     }
 
+    public bool CursorIntersects(Vector2 cursor)
+    {
+      return cursor.X > Position.X && cursor.X < Size.Width + Position.X &&
+        cursor.Y > Position.Y && cursor.Y < Size.Height + Position.Y;
+    }
     public virtual void Update(GameTime gameTime)
     {
 

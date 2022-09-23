@@ -175,6 +175,9 @@ namespace ProjectDreamland.Controls
           Size = PictureBoxObject.Image.Size,
           FilePath = path.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           ZIndex = 0,
+          IsCollidable = true,
+          CollisionPosition = new Point(0 + PictureBoxObject.Image.Width / 3 / 2, PictureBoxObject.Image.Height - PictureBoxObject.Image.Height / 4),
+          CollisionSize = new Size(PictureBoxObject.Image.Width - PictureBoxObject.Image.Width / 3, PictureBoxObject.Image.Height / 4),
         };
         FileManager.SaveFile(character);
         ItemsManager.Characters.Add(character);

@@ -1,6 +1,5 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
 using ProjectDreamland.Controls.Editors;
-using ProjectDreamland.Data;
 using ProjectDreamland.Data.Attributes;
 using ProjectDreamland.Data.Enums;
 using ProjectDreamland.Data.GameFiles;
@@ -65,11 +64,6 @@ namespace ProjectDreamland.UI
 
       SetupChangeTypeCombobox();
       SetupFilterField();
-      /*SetupItems(ItemsManager.WorldObjects
-        .Cast<BaseFile>()
-        .Union(ItemsManager.GetTiles()
-          .Cast<BaseFile>())
-        .ToList());*/
     }
     private void SetupChangeTypeCombobox()
     {
@@ -95,6 +89,8 @@ namespace ProjectDreamland.UI
             .Cast<BaseFile>()
             .Union(ItemsManager.GetTiles()
               .Cast<BaseFile>()).ToList()
+            .Union(ItemsManager.Characters)
+              .Cast<BaseFile>()
             .Where(x => x.Name.ToLower()
               .Contains(filterField.Text.ToLower()))
             .ToList());
@@ -112,6 +108,15 @@ namespace ProjectDreamland.UI
         else if (selectedValue.Equals(FileTypesEnum.Tile.ToString()))
         {
           List<BaseFile> filteredItems = ItemsManager.GetTiles()
+            .Where(x => x.Name.ToLower()
+              .Contains(filterField.Text.ToLower()))
+            .Cast<BaseFile>()
+            .ToList();
+          SetupItems(filteredItems);
+        }
+        else if (selectedValue.Equals(FileTypesEnum.Character.ToString()))
+        {
+          List<BaseFile> filteredItems = ItemsManager.Characters
             .Where(x => x.Name.ToLower()
               .Contains(filterField.Text.ToLower()))
             .Cast<BaseFile>()

@@ -42,15 +42,17 @@ namespace ProjectDreamland.Data.GameFiles.Characters
     {
       Texture = texture;
     }
-    public BaseCharacter(Texture2D texture, float maxHealth, float currentHealth, ResourceTypesEnum resourceType, float maxResource, float currentResource, float speed)
+    public BaseCharacter(BaseObject baseObject) : base(baseObject) { }
+    public BaseCharacter(BaseCharacter baseCharacter) : base(baseCharacter)
     {
-      Texture = texture;
-      MaxHealthPoints = maxHealth;
-      CurrentHealthPoints = currentHealth;
-      ResourceType = resourceType.ToString();
-      MaxResourcePoints = maxResource;
-      CurrentResourcePoints = currentResource;
-      Speed = speed;
+      Texture = baseCharacter.Texture;
+      Level = baseCharacter.Level;
+      MaxHealthPoints = baseCharacter.MaxHealthPoints;
+      CurrentHealthPoints = baseCharacter.CurrentHealthPoints;
+      ResourceType = baseCharacter.ResourceType.ToString();
+      MaxResourcePoints = baseCharacter.MaxResourcePoints;
+      CurrentResourcePoints = baseCharacter.CurrentResourcePoints;
+      Speed = baseCharacter.Speed;
     }
 
     #region Collision

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using DreamlandEditor.Data.GameFiles.Objects;
+using ProjectDreamland.Data.GameFiles.Characters;
 
 namespace ProjectDreamland.Controls.Editors
 {
@@ -51,6 +52,7 @@ namespace ProjectDreamland.Controls.Editors
       _drawingHandler = new DrawingHandler(Editor.spriteBatch);
       LoadTextures<WorldObject>(ItemsManager.GetTiles());
       LoadTextures<WorldObject>(ItemsManager.WorldObjects);
+      LoadTextures<WorldObject>(ItemsManager.Characters);
       foreach (WorldObject item in MapFile.WorldObjects)
       {
         string name = item.ImagePath == null ?
@@ -60,6 +62,7 @@ namespace ProjectDreamland.Controls.Editors
       }
       LoadTextures<WorldObject>(MapFile.Tiles);
       LoadTextures<WorldObject>(MapFile.WorldObjects);
+      LoadTextures<WorldObject>(MapFile.Characters);
 
       IsLoaded = true;
     }
@@ -112,6 +115,10 @@ namespace ProjectDreamland.Controls.Editors
         {
           PlaceTile(ItemInQueue as Tile);
         }
+        else if (ItemInQueue.FileType.Equals(FileTypesEnum.Character.ToString()))
+        {
+          PlaceCharacter(ItemInQueue as BaseCharacter);
+        }
       }
     }
     private void PlaceWorldObject(WorldObject item)
@@ -122,6 +129,15 @@ namespace ProjectDreamland.Controls.Editors
       WorldObject newItem = new WorldObject(item);
       CountZIndex(newItem);
       MapFile.WorldObjects.Add(newItem);
+    }
+    private void PlaceCharacter(BaseCharacter character)
+    {
+      Vector2 centeredPosition = CenterMousePosition(character);
+      Vector2 transformedMousePosition = TranslateMousePosition(centeredPosition);
+      character.Position = new System.Drawing.Point((int)transformedMousePosition.X, (int)transformedMousePosition.Y);
+      BaseCharacter newCharacter = new BaseCharacter(character);
+      CountZIndex(newCharacter);
+      MapFile.Characters.Add(newCharacter);
     }
     private void PlaceTile(Tile item)
     {
@@ -142,7 +158,7 @@ namespace ProjectDreamland.Controls.Editors
       }
       MapFile.Tiles.Add(newItem);
     }
-    private Vector2 CenterMousePosition(WorldObject item)
+    private Vector2 CenterMousePosition(BaseObject item)
     {
       return new Vector2(CurrentMousePosition.X - item.Size.Width, CurrentMousePosition.Y - item.Size.Height);
     }
@@ -162,11 +178,12 @@ namespace ProjectDreamland.Controls.Editors
     private List<BaseObject> GetObjectsUnderCursor()
     {
       List<BaseObject> hoveredOverObjects = new List<BaseObject>();
-      for (int i = 0; i < MapFile.WorldObjects.Count; i++)
+      List<BaseObject> mapObjects = MapFile.WorldObjects.Cast<BaseObject>().Union(MapFile.Characters).ToList();
+      for (int i = 0; i < mapObjects.Count; i++)
       {
-        if (MapFile.WorldObjects[i].CursorIntersects(TranslateMousePosition(CurrentMousePosition)))
+        if (mapObjects[i].CursorIntersects(TranslateMousePosition(CurrentMousePosition)))
         {
-          hoveredOverObjects.Add(MapFile.WorldObjects[i]);
+          hoveredOverObjects.Add(mapObjects[i]);
         }
       }
       if (hoveredOverObjects.Count < 1)
@@ -243,7 +260,12 @@ namespace ProjectDreamland.Controls.Editors
     {
       if (MapFile.Tiles != null && MapFile.WorldObjects != null)
       {
-        foreach (BaseObject file in MapFile.Tiles.Cast<BaseObject>().Union(MapFile.WorldObjects).OrderBy(x => x.ZIndex))
+        List<BaseObject> mapObjects = MapFile.Tiles.Cast<BaseObject>()
+          .Union(MapFile.WorldObjects)
+          .Union(MapFile.Characters)
+          .OrderBy(x => x.ZIndex)
+          .ToList();
+        foreach (BaseObject file in mapObjects)
         {
           Editor.spriteBatch.Draw(file.Texture, new Vector2(file.Position.X, file.Position.Y), Color.White);
           if (!file.IsCollidable) continue;
@@ -300,9 +322,9 @@ namespace ProjectDreamland.Controls.Editors
         _drawingHandler.DrawRectangle(new Rectangle(upperObject.Position.X, upperObject.Position.Y,
           tile.Size.Width, tile.Size.Height), Color.Aquamarine, 2);
       }
-      else if (upperObject.FileType == FileTypesEnum.WorldObject.ToString())
+      else 
       {
-        WorldObject obj = (WorldObject)upperObject;
+        BaseObject obj = upperObject;
         _drawingHandler.DrawRectangle(new Rectangle(upperObject.Position.X, upperObject.Position.Y,
           obj.Size.Width, obj.Size.Height), Color.Aquamarine, 2);
       }
@@ -329,6 +351,8 @@ namespace ProjectDreamland.Controls.Editors
         MapFile.WorldObjects.Remove(upperObject as WorldObject);
       if (upperObject.FileType == FileTypesEnum.Tile.ToString())
         MapFile.Tiles.Remove(upperObject as Tile);
+      if (upperObject.FileType == FileTypesEnum.Character.ToString())
+        MapFile.Characters.Remove(upperObject as BaseCharacter);
     }
     private void RemoveObject()
     {

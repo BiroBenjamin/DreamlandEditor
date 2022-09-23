@@ -109,8 +109,9 @@ namespace ProjectDreamland.Controls.Editors
       RenderableCharacter.MaxResourcePoints = (float)NudMaxResource.Value;
       RenderableCharacter.ResourceType = ComboboxResourceType.SelectedItem.ToString();
       RenderableCharacter.CurrentResourcePoints = (float)NudCurrentResource.Value;
-      RenderableCharacter.CollisionPosition = new Point();
-      RenderableCharacter.CollisionSize = new Size();
+      RenderableCharacter.IsCollidable = true;
+      RenderableCharacter.CollisionPosition = new Point(0 + _image.Width / 3 / 2, _image.Height - _image.Height / 4);
+      RenderableCharacter.CollisionSize = new Size(_image.Width - _image.Width / 3, _image.Height / 4);
       RenderableCharacter.Size = _image.Size;
     }
 

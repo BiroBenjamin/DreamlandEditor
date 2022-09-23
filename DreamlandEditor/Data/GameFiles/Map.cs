@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
 using DreamlandEditor.Data.GameFiles.Objects;
+using ProjectDreamland.Data.GameFiles.Characters;
 
 namespace ProjectDreamland.Data.GameFiles
 {
@@ -14,6 +15,7 @@ namespace ProjectDreamland.Data.GameFiles
   {
     public List<WorldObject> WorldObjects { get; set; } = new List<WorldObject>();
     public List<Tile> Tiles { get; set; } = new List<Tile>();
+    public List<BaseCharacter> Characters { get; set; } = new List<BaseCharacter>();
     public Size Size { get; set; }
 
     public Map() { }
