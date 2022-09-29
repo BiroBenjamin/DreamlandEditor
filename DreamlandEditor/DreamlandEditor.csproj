@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Data\Attributes\DisplayableAttribute.cs" />
     <Compile Include="Data\Attributes\ElevatedTileAttribute.cs" />
+    <Compile Include="Data\Enums\LookDirectionsEnum.cs" />
     <Compile Include="Data\Enums\ResourceTypesEnum.cs" />
     <Compile Include="Data\Enums\TileTypesEnum.cs" />
     <Compile Include="Data\Enums\FileTypesEnum.cs" />

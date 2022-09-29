@@ -3,26 +3,25 @@
   <FileType>WorldObject</FileType>
   <ID>tree_big</ID>
   <Name>TreeBig</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\tree_big.png</ImagePath>
   <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\tree_big.dex</FilePath>
-  <ObjectType>WorldObject</ObjectType>
   <ZIndex>1</ZIndex>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\tree_big.png</ImagePath>
   <Position>
     <X>2086</X>
     <Y>1813</Y>
   </Position>
-  <CollisionPosition>
-    <X>61</X>
-    <Y>155</Y>
-  </CollisionPosition>
   <Size>
     <Width>192</Width>
     <Height>192</Height>
   </Size>
+  <CollisionPosition>
+    <X>61</X>
+    <Y>155</Y>
+  </CollisionPosition>
   <CollisionSize>
     <Width>61</Width>
     <Height>35</Height>
   </CollisionSize>
-  <IsInteractable>false</IsInteractable>
   <IsCollidable>true</IsCollidable>
+  <IsInteractable>false</IsInteractable>
 </WorldObject>

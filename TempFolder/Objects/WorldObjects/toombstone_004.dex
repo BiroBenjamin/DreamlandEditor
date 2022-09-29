@@ -3,26 +3,25 @@
   <FileType>WorldObject</FileType>
   <ID>toombstone_004</ID>
   <Name>Toombstone004</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\toombstone_004.png</ImagePath>
   <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\toombstone_004.dex</FilePath>
-  <ObjectType>WorldObject</ObjectType>
   <ZIndex>1</ZIndex>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\toombstone_004.png</ImagePath>
   <Position>
     <X>0</X>
     <Y>0</Y>
   </Position>
-  <CollisionPosition>
-    <X>4</X>
-    <Y>28</Y>
-  </CollisionPosition>
   <Size>
     <Width>32</Width>
     <Height>44</Height>
   </Size>
+  <CollisionPosition>
+    <X>4</X>
+    <Y>28</Y>
+  </CollisionPosition>
   <CollisionSize>
     <Width>23</Width>
     <Height>13</Height>
   </CollisionSize>
-  <IsInteractable>false</IsInteractable>
   <IsCollidable>true</IsCollidable>
+  <IsInteractable>false</IsInteractable>
 </WorldObject>

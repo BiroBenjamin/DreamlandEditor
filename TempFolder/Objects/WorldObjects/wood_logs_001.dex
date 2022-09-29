@@ -3,26 +3,25 @@
   <FileType>WorldObject</FileType>
   <ID>wood_logs_001</ID>
   <Name>WoodLogs001</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\wood_logs_001.png</ImagePath>
   <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\wood_logs_001.dex</FilePath>
-  <ObjectType>WorldObject</ObjectType>
   <ZIndex>1</ZIndex>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\wood_logs_001.png</ImagePath>
   <Position>
     <X>2094</X>
     <Y>2239</Y>
   </Position>
-  <CollisionPosition>
-    <X>0</X>
-    <Y>9</Y>
-  </CollisionPosition>
   <Size>
     <Width>26</Width>
     <Height>24</Height>
   </Size>
+  <CollisionPosition>
+    <X>0</X>
+    <Y>9</Y>
+  </CollisionPosition>
   <CollisionSize>
     <Width>25</Width>
     <Height>14</Height>
   </CollisionSize>
-  <IsInteractable>false</IsInteractable>
   <IsCollidable>true</IsCollidable>
+  <IsInteractable>false</IsInteractable>
 </WorldObject>

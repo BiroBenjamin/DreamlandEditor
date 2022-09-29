@@ -3,26 +3,25 @@
   <FileType>WorldObject</FileType>
   <ID>crate_007</ID>
   <Name>Crate007</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\crate_007.png</ImagePath>
   <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\crate_007.dex</FilePath>
-  <ObjectType>WorldObject</ObjectType>
   <ZIndex>1</ZIndex>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\crate_007.png</ImagePath>
   <Position>
     <X>0</X>
     <Y>0</Y>
   </Position>
-  <CollisionPosition>
-    <X>4</X>
-    <Y>11</Y>
-  </CollisionPosition>
   <Size>
     <Width>28</Width>
     <Height>40</Height>
   </Size>
+  <CollisionPosition>
+    <X>4</X>
+    <Y>11</Y>
+  </CollisionPosition>
   <CollisionSize>
     <Width>20</Width>
     <Height>28</Height>
   </CollisionSize>
-  <IsInteractable>true</IsInteractable>
   <IsCollidable>true</IsCollidable>
+  <IsInteractable>true</IsInteractable>
 </WorldObject>
