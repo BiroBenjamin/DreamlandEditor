@@ -1,7 +1,9 @@
-﻿using DreamlandEditor.Data.GameFiles.Objects;
+﻿using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectDreamland.Data.Enums;
+using System.Xml.Serialization;
 
 namespace ProjectDreamland.Data.GameFiles.Characters
 {
@@ -9,27 +11,17 @@ namespace ProjectDreamland.Data.GameFiles.Characters
   {
     public int Level { get; set; }
     public string ResourceType { get; set; }
-    public float MaxResourcePoints { get; set; }
-    private float _currentResourcePoints;
-    public float CurrentResourcePoints
-    {
-      get { return _currentResourcePoints; }
-      set
-      {
-        if (value > MaxResourcePoints) _currentResourcePoints = MaxResourcePoints;
-      }
-    }
-    public float MaxHealthPoints { get; set; }
-    private float _currentHealthPoints;
-    public float CurrentHealthPoints
-    {
-      get { return _currentHealthPoints; }
-      set
-      {
-        if (value > MaxHealthPoints) _currentHealthPoints = MaxHealthPoints;
-      }
-    }
+    public int MaxResourcePoints { get; set; }
+    public int CurrentResourcePoints;
+    public int AttackDamage { get; set; }
+    public float AttackRange { get; set; } = 1.5f;
+    public int MaxHealthPoints { get; set; }
+    public int CurrentHealthPoints;
+    public bool IsDead { get; set; } = false;
+    [XmlIgnore] public bool IsTakingDamage { get; set; } = false;
     public float Speed { get; set; } = 3f;
+    [XmlIgnore] public LookDirectionsEnum Facing { get; set; } = LookDirectionsEnum.South;
+
     protected Vector2 velocity;
 
     public Rectangle GetSize()
@@ -53,6 +45,10 @@ namespace ProjectDreamland.Data.GameFiles.Characters
       MaxResourcePoints = baseCharacter.MaxResourcePoints;
       CurrentResourcePoints = baseCharacter.CurrentResourcePoints;
       Speed = baseCharacter.Speed;
+      AttackDamage = baseCharacter.AttackDamage;
+      AttackRange = baseCharacter.AttackRange;
+      IsDead = baseCharacter.IsDead;
+      Facing = baseCharacter.Facing;
     }
 
     #region Collision

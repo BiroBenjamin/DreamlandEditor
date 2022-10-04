@@ -3,26 +3,25 @@
   <FileType>WorldObject</FileType>
   <ID>tree_log</ID>
   <Name>TreeLog</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\tree_log.png</ImagePath>
   <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\tree_log.dex</FilePath>
-  <ObjectType>WorldObject</ObjectType>
   <ZIndex>1</ZIndex>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\tree_log.png</ImagePath>
   <Position>
     <X>1981</X>
     <Y>2326</Y>
   </Position>
-  <CollisionPosition>
-    <X>8</X>
-    <Y>30</Y>
-  </CollisionPosition>
   <Size>
     <Width>96</Width>
     <Height>64</Height>
   </Size>
+  <CollisionPosition>
+    <X>8</X>
+    <Y>30</Y>
+  </CollisionPosition>
   <CollisionSize>
     <Width>80</Width>
     <Height>13</Height>
   </CollisionSize>
-  <IsInteractable>false</IsInteractable>
   <IsCollidable>true</IsCollidable>
+  <IsInteractable>false</IsInteractable>
 </WorldObject>

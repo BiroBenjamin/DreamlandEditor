@@ -54,13 +54,13 @@ namespace ProjectDreamland.Controls.Editors
       TextBoxImagePath.Text = RenderableCharacter.ImagePath == null ?
           Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites") :
           Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, RenderableCharacter.ImagePath);
-      NudLevel.Value = (decimal)RenderableCharacter.Level;
-      NudMaxHealth.Value = (decimal)RenderableCharacter.MaxHealthPoints;
-      NudCurrentHealth.Value = (decimal)RenderableCharacter.CurrentHealthPoints;
+      NudLevel.Value = RenderableCharacter.Level;
+      NudMaxHealth.Value = RenderableCharacter.MaxHealthPoints;
+      NudCurrentHealth.Value = RenderableCharacter.CurrentHealthPoints;
       List<string> resourceTypes = typeof(ResourceTypesEnum).GetDescriptionOfAll().ToList();
       ComboboxResourceType.SelectedIndex = resourceTypes.IndexOf(RenderableCharacter.ResourceType);
-      NudMaxResource.Value = (decimal)RenderableCharacter.MaxResourcePoints;
-      NudCurrentResource.Value = (decimal)RenderableCharacter.CurrentResourcePoints;
+      NudMaxResource.Value = RenderableCharacter.MaxResourcePoints;
+      NudCurrentResource.Value = RenderableCharacter.CurrentResourcePoints;
 
       if (!String.IsNullOrEmpty(RenderableCharacter.ImagePath))
       {
@@ -104,11 +104,11 @@ namespace ProjectDreamland.Controls.Editors
       }
       RenderableCharacter.Name = TextBoxName.Text;
       RenderableCharacter.Level = (int)NudLevel.Value;
-      RenderableCharacter.MaxHealthPoints = (float)NudMaxHealth.Value;
-      RenderableCharacter.CurrentHealthPoints = (float)NudCurrentHealth.Value;
-      RenderableCharacter.MaxResourcePoints = (float)NudMaxResource.Value;
+      RenderableCharacter.MaxHealthPoints = (int)NudMaxHealth.Value;
+      RenderableCharacter.CurrentHealthPoints = (int)NudCurrentHealth.Value;
+      RenderableCharacter.MaxResourcePoints = (int)NudMaxResource.Value;
       RenderableCharacter.ResourceType = ComboboxResourceType.SelectedItem.ToString();
-      RenderableCharacter.CurrentResourcePoints = (float)NudCurrentResource.Value;
+      RenderableCharacter.CurrentResourcePoints = (int)NudCurrentResource.Value;
       RenderableCharacter.IsCollidable = true;
       RenderableCharacter.CollisionPosition = new Point(0 + _image.Width / 3 / 2, _image.Height - _image.Height / 4);
       RenderableCharacter.CollisionSize = new Size(_image.Width - _image.Width / 3, _image.Height / 4);

@@ -3,26 +3,25 @@
   <FileType>WorldObject</FileType>
   <ID>barrel_full_002</ID>
   <Name>BarrelFull002</Name>
-  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\barrel_full_002.png</ImagePath>
   <FilePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Objects\WorldObjects\barrel_full_002.dex</FilePath>
-  <ObjectType>WorldObject</ObjectType>
   <ZIndex>1</ZIndex>
+  <ImagePath>C:\Users\bbiro\source\repos\DreamlandEditor\TempFolder\Sprites\WorldObjects\barrel_full_002.png</ImagePath>
   <Position>
     <X>0</X>
     <Y>0</Y>
   </Position>
-  <CollisionPosition>
-    <X>5</X>
-    <Y>23</Y>
-  </CollisionPosition>
   <Size>
     <Width>28</Width>
     <Height>42</Height>
   </Size>
+  <CollisionPosition>
+    <X>5</X>
+    <Y>23</Y>
+  </CollisionPosition>
   <CollisionSize>
     <Width>18</Width>
     <Height>19</Height>
   </CollisionSize>
-  <IsInteractable>true</IsInteractable>
   <IsCollidable>true</IsCollidable>
+  <IsInteractable>true</IsInteractable>
 </WorldObject>
