@@ -19,6 +19,7 @@ namespace MonoGame.Forms.DX
     {
       InitializeComponent();
       DebugManager.ShowWindow(this);
+      SystemPrefsManager.SetUpSystemPrefs();
 
       SetupEditors();
 
