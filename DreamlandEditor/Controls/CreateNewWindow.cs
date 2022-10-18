@@ -1,9 +1,9 @@
-﻿using ProjectDreamland.Controls.Editors;
-using ProjectDreamland.Data.GameFiles;
-using ProjectDreamland.Data.Enums;
-using ProjectDreamland.ExtensionClasses;
-using ProjectDreamland.Managers;
-using ProjectDreamland.UI.UIButtons;
+﻿using DreamlandEditor.Controls.Editors;
+using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.ExtensionClasses;
+using DreamlandEditor.Managers;
+using DreamlandEditor.UI.UIButtons;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,9 +12,9 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Globalization;
 using DreamlandEditor.Data.GameFiles.Objects;
-using ProjectDreamland.Data.GameFiles.Characters;
+using DreamlandEditor.Data.GameFiles.Characters;
 
-namespace ProjectDreamland.Controls
+namespace DreamlandEditor.Controls
 {
   public partial class CreateNewWindow : Form
   {

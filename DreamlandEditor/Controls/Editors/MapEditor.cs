@@ -1,10 +1,10 @@
-﻿using ProjectDreamland.Components;
-using ProjectDreamland.Data;
-using ProjectDreamland.Data.Enums;
-using ProjectDreamland.Data.GameFiles;
-using ProjectDreamland.ExtensionClasses;
-using ProjectDreamland.Handlers;
-using ProjectDreamland.Managers;
+﻿using DreamlandEditor.Components;
+using DreamlandEditor.Data;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.ExtensionClasses;
+using DreamlandEditor.Handlers;
+using DreamlandEditor.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,9 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using DreamlandEditor.Data.GameFiles.Objects;
-using ProjectDreamland.Data.GameFiles.Characters;
+using DreamlandEditor.Data.GameFiles.Characters;
 
-namespace ProjectDreamland.Controls.Editors
+namespace DreamlandEditor.Controls.Editors
 {
   public class MapEditor : MonoGameControl, IBaseEditor
   {
@@ -57,8 +57,8 @@ namespace ProjectDreamland.Controls.Editors
       {
         string name = item.ImagePath == null ?
           ImagePaths.NotFound :
-          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath).Split('.')[0];
-        item.Texture = Editor.Content.Load<Texture2D>(name);
+          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath);
+        item.Texture = Editor.Content.Load<Texture2D>(name.Replace(Path.GetExtension(name), ""));
       }
       LoadTextures<WorldObject>(MapFile.Tiles);
       LoadTextures<WorldObject>(MapFile.WorldObjects);
@@ -72,8 +72,8 @@ namespace ProjectDreamland.Controls.Editors
       {
         string name = String.IsNullOrEmpty(item.ImagePath) ?
           ImagePaths.NotFound :
-          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath).Split('.')[0];
-        item.Texture = Editor.Content.Load<Texture2D>(name);
+          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath);
+        item.Texture = Editor.Content.Load<Texture2D>(name.Replace(Path.GetExtension(name), ""));
       }
     }
     #region UPDATE

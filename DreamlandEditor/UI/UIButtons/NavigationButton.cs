@@ -1,8 +1,8 @@
-﻿using ProjectDreamland.UI.UIPanels;
+﻿using DreamlandEditor.UI.UIPanels;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.UI.UIButtons
+namespace DreamlandEditor.UI.UIButtons
 {
     public class NavigationButton : Button, IUiButton
     {

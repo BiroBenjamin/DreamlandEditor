@@ -1,4 +1,4 @@
-﻿namespace ProjectDreamland.Controls.Editors
+﻿namespace DreamlandEditor.Controls.Editors
 {
     partial class CharacterEditor
     {

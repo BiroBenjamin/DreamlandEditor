@@ -1,12 +1,12 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
-using ProjectDreamland.Controls.Editors;
-using ProjectDreamland.Data.Attributes;
-using ProjectDreamland.Data.Enums;
-using ProjectDreamland.Data.GameFiles;
-using ProjectDreamland.ExtensionClasses;
-using ProjectDreamland.Managers;
-using ProjectDreamland.UI.UIButtons;
-using ProjectDreamland.UI.UIPanels;
+using DreamlandEditor.Controls.Editors;
+using DreamlandEditor.Data.Attributes;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.ExtensionClasses;
+using DreamlandEditor.Managers;
+using DreamlandEditor.UI.UIButtons;
+using DreamlandEditor.UI.UIPanels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.UI
+namespace DreamlandEditor.UI
 {
   public partial class ItemExplorer : ResizablePanel
   {

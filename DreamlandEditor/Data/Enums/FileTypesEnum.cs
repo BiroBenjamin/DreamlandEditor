@@ -1,7 +1,7 @@
-﻿using ProjectDreamland.Data.Attributes;
+﻿using DreamlandEditor.Data.Attributes;
 using System.ComponentModel;
 
-namespace ProjectDreamland.Data.Enums
+namespace DreamlandEditor.Data.Enums
 {
     public enum FileTypesEnum
 	{

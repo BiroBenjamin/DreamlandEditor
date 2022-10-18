@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ProjectDreamland.Data.Enums
+namespace DreamlandEditor.Data.Enums
 {
   public enum ResourceTypesEnum
   {

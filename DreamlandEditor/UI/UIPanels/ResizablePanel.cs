@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.UI.UIPanels 
+namespace DreamlandEditor.UI.UIPanels 
 {
     public class ResizablePanel : UiPanel 
     {

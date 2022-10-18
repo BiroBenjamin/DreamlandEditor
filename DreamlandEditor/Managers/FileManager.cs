@@ -1,11 +1,11 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
-using ProjectDreamland.Data.GameFiles;
+using DreamlandEditor.Data.GameFiles;
 using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace ProjectDreamland.Managers
+namespace DreamlandEditor.Managers
 {
   public static class FileManager
   {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace ProjectDreamland.Data.GameFiles.Characters
+namespace DreamlandEditor.Data.GameFiles.Characters
 {
   public class Player : BaseCharacter
   {

@@ -1,7 +1,7 @@
-﻿using ProjectDreamland.Data.GameFiles;
+﻿using DreamlandEditor.Data.GameFiles;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.UI.Misc
+namespace DreamlandEditor.UI.Misc
 {
     internal class UITreeNode : TreeNode
     {

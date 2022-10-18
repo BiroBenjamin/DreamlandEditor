@@ -1,15 +1,15 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectDreamland.Data.Enums;
-using ProjectDreamland.Data.GameFiles;
-using ProjectDreamland.Data.GameFiles.Characters;
-using ProjectDreamland.ExtensionClasses;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.Data.GameFiles.Characters;
+using DreamlandEditor.ExtensionClasses;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.Managers
+namespace DreamlandEditor.Managers
 {
   public static class ItemsManager
   {

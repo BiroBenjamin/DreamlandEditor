@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace ProjectDreamland.Data
+namespace DreamlandEditor.Data
 {
 	public static class ImagePaths
     {

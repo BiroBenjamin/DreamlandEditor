@@ -25,15 +25,15 @@ namespace MonoGame.Forms.DX {
         /// </summary>
         private void InitializeComponent() {
 			this.PanelNavbar = new System.Windows.Forms.Panel();
-			this.ButtonSaveNavbutton = new ProjectDreamland.UI.UIButtons.NavigationButton();
+			this.ButtonSaveNavbutton = new DreamlandEditor.UI.UIButtons.NavigationButton();
 			this.PanelSwitchWorkWindows = new System.Windows.Forms.Panel();
-			this.ButtonSwitchToCharacterEditor = new ProjectDreamland.UI.UIButtons.WindowChangeButton();
-			this.ButtonSwitchToWorldObjectEditor = new ProjectDreamland.UI.UIButtons.WindowChangeButton();
-			this.ButtonSwitchToMapEditor = new ProjectDreamland.UI.UIButtons.WindowChangeButton();
+			this.ButtonSwitchToCharacterEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+			this.ButtonSwitchToWorldObjectEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
+			this.ButtonSwitchToMapEditor = new DreamlandEditor.UI.UIButtons.WindowChangeButton();
 			this.PanelWorkArea = new System.Windows.Forms.Panel();
-			this.MapEditor = new ProjectDreamland.Controls.Editors.MapEditor();
-			this.FileExplorer = new ProjectDreamland.UI.FileExplorer();
-			this.ItemExplorer = new ProjectDreamland.UI.ItemExplorer();
+			this.MapEditor = new DreamlandEditor.Controls.Editors.MapEditor();
+			this.FileExplorer = new DreamlandEditor.UI.FileExplorer();
+			this.ItemExplorer = new DreamlandEditor.UI.ItemExplorer();
 			this.LabelZoomAmount = new System.Windows.Forms.Label();
 			this.LabelCursorPosition = new System.Windows.Forms.Label();
 			this.PanelNavbar.SuspendLayout();
@@ -255,16 +255,16 @@ namespace MonoGame.Forms.DX {
 
         #endregion
 
-        private ProjectDreamland.Controls.Editors.MapEditor MapEditor;
+        private DreamlandEditor.Controls.Editors.MapEditor MapEditor;
         private System.Windows.Forms.Panel PanelNavbar;
-        private ProjectDreamland.UI.FileExplorer FileExplorer;
-        private ProjectDreamland.UI.UIButtons.NavigationButton ButtonSaveNavbutton;
+        private DreamlandEditor.UI.FileExplorer FileExplorer;
+        private DreamlandEditor.UI.UIButtons.NavigationButton ButtonSaveNavbutton;
         private System.Windows.Forms.Panel PanelSwitchWorkWindows;
-        private ProjectDreamland.UI.UIButtons.WindowChangeButton ButtonSwitchToCharacterEditor;
-        private ProjectDreamland.UI.UIButtons.WindowChangeButton ButtonSwitchToWorldObjectEditor;
-        private ProjectDreamland.UI.UIButtons.WindowChangeButton ButtonSwitchToMapEditor;
+        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToCharacterEditor;
+        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToWorldObjectEditor;
+        private DreamlandEditor.UI.UIButtons.WindowChangeButton ButtonSwitchToMapEditor;
         private System.Windows.Forms.Panel PanelWorkArea;
-		private ProjectDreamland.UI.ItemExplorer ItemExplorer;
+		private DreamlandEditor.UI.ItemExplorer ItemExplorer;
 		private System.Windows.Forms.Label LabelCursorPosition;
 		private System.Windows.Forms.Label LabelZoomAmount;
 	}

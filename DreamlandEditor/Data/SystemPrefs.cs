@@ -1,11 +1,11 @@
-﻿using ProjectDreamland.Data.Enums;
-using ProjectDreamland.ExtensionClasses;
+﻿using DreamlandEditor.Data.Enums;
+using DreamlandEditor.ExtensionClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ProjectDreamland.Data
+namespace DreamlandEditor.Data
 {
   [Serializable]
   public class SystemPrefs
@@ -19,8 +19,6 @@ namespace ProjectDreamland.Data
 
     public SystemPrefs()
     {
-      //RootPath = Path.Combine($@"{Directory.GetParent(@"..\..\..\").FullName}", "TempFolder");
-      //RootPath = Path.Combine(@"C:\", "TempFolder");
     }
     public void SetupFolderStructure()
     {

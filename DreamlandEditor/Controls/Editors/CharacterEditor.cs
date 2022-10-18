@@ -1,7 +1,7 @@
-﻿using ProjectDreamland.Data.Enums;
-using ProjectDreamland.Data.GameFiles.Characters;
-using ProjectDreamland.ExtensionClasses;
-using ProjectDreamland.Managers;
+﻿using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles.Characters;
+using DreamlandEditor.ExtensionClasses;
+using DreamlandEditor.Managers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.Controls.Editors
+namespace DreamlandEditor.Controls.Editors
 {
   partial class CharacterEditor : UserControl, IBaseEditor
   {

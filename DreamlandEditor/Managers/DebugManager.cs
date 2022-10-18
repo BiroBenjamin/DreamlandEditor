@@ -1,8 +1,8 @@
-﻿using ProjectDreamland.Controlers;
-using ProjectDreamland.Data;
+﻿using DreamlandEditor.Controlers;
+using DreamlandEditor.Data;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.Managers {
+namespace DreamlandEditor.Managers {
     public static class DebugManager {
         private static DebugWindow debugWindow;
 

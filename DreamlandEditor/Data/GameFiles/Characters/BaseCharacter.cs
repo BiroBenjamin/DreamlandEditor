@@ -2,10 +2,10 @@
 using DreamlandEditor.Data.GameFiles.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectDreamland.Data.Enums;
+using DreamlandEditor.Data.Enums;
 using System.Xml.Serialization;
 
-namespace ProjectDreamland.Data.GameFiles.Characters
+namespace DreamlandEditor.Data.GameFiles.Characters
 {
   public class BaseCharacter : BaseObject
   {

@@ -1,19 +1,24 @@
-﻿using ProjectDreamland.Data;
-using ProjectDreamland.UI;
+﻿using DreamlandEditor.Data;
+using DreamlandEditor.UI;
 using System;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ProjectDreamland.Managers
+namespace DreamlandEditor.Managers
 {
   public static class SystemPrefsManager
   {
     private static readonly XmlSerializer serializer = new XmlSerializer(typeof(SystemPrefs));
+    private static readonly string pathDirectory = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\";
     private static readonly string path = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\SystemPrefs.xml";
     public static SystemPrefs SystemPrefs { get; set; } = new SystemPrefs();
 
     public static SystemPrefs SetUpSystemPrefs()
     {
+      if (!Directory.Exists(pathDirectory))
+      {
+        Directory.CreateDirectory(pathDirectory);
+      }
       if (!File.Exists(path))
       {
         SerializeSystemPrefs();

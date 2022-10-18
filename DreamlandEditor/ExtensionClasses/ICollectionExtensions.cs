@@ -1,11 +1,11 @@
-﻿using ProjectDreamland.Data.GameFiles;
+﻿using DreamlandEditor.Data.GameFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectDreamland.ExtensionClasses
+namespace DreamlandEditor.ExtensionClasses
 {
     public static class ICollectionExtensions
     {

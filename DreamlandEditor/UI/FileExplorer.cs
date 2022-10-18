@@ -1,14 +1,15 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
-using ProjectDreamland.Controls;
-using ProjectDreamland.Controls.Editors;
-using ProjectDreamland.Data;
-using ProjectDreamland.Data.Enums;
-using ProjectDreamland.Data.GameFiles;
-using ProjectDreamland.Data.GameFiles.Characters;
-using ProjectDreamland.Managers;
-using ProjectDreamland.UI.Misc;
-using ProjectDreamland.UI.UIButtons;
-using ProjectDreamland.UI.UIPanels;
+using DreamlandEditor.Controls;
+using DreamlandEditor.Controls.Editors;
+using DreamlandEditor.Data;
+using DreamlandEditor.Data.Enums;
+using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.Data.GameFiles.Characters;
+using DreamlandEditor.Managers;
+using DreamlandEditor.ExtensionClasses;
+using DreamlandEditor.UI.Misc;
+using DreamlandEditor.UI.UIButtons;
+using DreamlandEditor.UI.UIPanels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,7 +18,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace ProjectDreamland.UI
+namespace DreamlandEditor.UI
 {
   public class FileExplorer : ResizablePanel
   {
@@ -68,7 +69,7 @@ namespace ProjectDreamland.UI
 
       FileTree.BeginUpdate();
 
-      string rootPath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath);
+      string rootPath = SystemPrefsManager.SystemPrefs.RootPath;
       UITreeNode rootnode = new UITreeNode(rootPath);
       FileTree.Nodes.Add(rootnode);
       FillChildNodes(rootnode, isInitialLoad);
@@ -207,6 +208,7 @@ namespace ProjectDreamland.UI
     {
       return !Directory.EnumerateFileSystemEntries(path).Any();
     }
+
     private void LoadItem(UITreeNode node, string fileName, bool isInitialLoad)
     {
       XmlDocument document = new XmlDocument();

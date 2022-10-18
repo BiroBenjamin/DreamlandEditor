@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProjectDreamland.Data.GameFiles
+namespace DreamlandEditor.Data.GameFiles
 {
   public class BaseFile
   {

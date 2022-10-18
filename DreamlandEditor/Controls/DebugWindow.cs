@@ -1,11 +1,11 @@
-﻿using ProjectDreamland.Data;
-using ProjectDreamland.Managers;
+﻿using DreamlandEditor.Data;
+using DreamlandEditor.Managers;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace ProjectDreamland.Controlers 
+namespace DreamlandEditor.Controlers 
 {
     public partial class DebugWindow : Form 
     {

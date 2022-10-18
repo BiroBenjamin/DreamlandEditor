@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProjectDreamland.Data.Attributes
+namespace DreamlandEditor.Data.Attributes
 {
 	public class DisplayableAttribute : Attribute
 	{

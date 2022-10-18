@@ -1,4 +1,4 @@
-﻿namespace ProjectDreamland.UI
+﻿namespace DreamlandEditor.UI
 {
 	partial class ItemExplorer
 	{
