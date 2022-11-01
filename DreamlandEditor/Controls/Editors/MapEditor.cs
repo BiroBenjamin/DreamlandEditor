@@ -2,7 +2,6 @@
 using DreamlandEditor.Data;
 using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
-using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Handlers;
 using DreamlandEditor.Managers;
 using Microsoft.Xna.Framework;
@@ -25,6 +24,7 @@ namespace DreamlandEditor.Controls.Editors
     public bool IsDragging { get; set; } = false;
     public bool IsCollisionDrawn { get; set; } = false;
     public BaseObject ItemInQueue { get; set; } = null;
+    public WorldObject ObjectToAddCommandTo { get; set; }
     public MouseState CurrentMouseState { get; set; }
     public MouseState LastMouseState { get; set; }
     public Vector2 CurrentMousePosition { get; set; }
@@ -35,15 +35,15 @@ namespace DreamlandEditor.Controls.Editors
     public System.Windows.Forms.Label CursorPositionLabel { get; set; }
     public System.Windows.Forms.Label ZoomAmountLabel { get; set; }
 
-    private bool _shouldUpdateMouse;
-
     private DrawingHandler _drawingHandler;
+    public static bool _shouldUpdate = true;
 
     protected override void Initialize()
     {
       base.Initialize();
       Camera = new Camera(Editor.graphics);
       MapFile = new Map();
+      MouseHoverUpdatesOnly = true;
     }
 
     public void LoadMap(Map obj)
@@ -80,19 +80,18 @@ namespace DreamlandEditor.Controls.Editors
     protected override void Update(GameTime gameTime)
     {
       base.Update(gameTime);
+      _shouldUpdate = !MapObjectEditor.IsOpen;
       if (!IsLoaded || !IsMouseInsideControlArea(0, 0, Width, Height)) return;
-      _shouldUpdateMouse = IsMouseInsideControlArea(Location.X, Location.Y, Width, Height);
 
       CurrentMouseState = Mouse.GetState();
       CurrentKeyboardState = Keyboard.GetState();
       GetCurrentMousePosition();
+      Camera.Update(gameTime, Width, Height);
+      SetLabels();
+      if (!_shouldUpdate) return;
       RemoveObject();
       ObjectPlacement();
       HandleKeyboardInput();
-      Camera.Update(gameTime, Width, Height);
-      SetLabels();
-      LastMouseState = CurrentMouseState;
-      LastKeyboardState = CurrentKeyboardState;
     }
     private void GetCurrentMousePosition()
     {
@@ -111,13 +110,16 @@ namespace DreamlandEditor.Controls.Editors
         {
           PlaceWorldObject(ItemInQueue as WorldObject);
         }
-        else if (ItemInQueue.FileType.Equals(FileTypesEnum.Tile.ToString()))
-        {
-          PlaceTile(ItemInQueue as Tile);
-        }
         else if (ItemInQueue.FileType.Equals(FileTypesEnum.Character.ToString()))
         {
           PlaceCharacter(ItemInQueue as BaseCharacter);
+        }
+      }
+      if (CurrentMouseState.LeftButton == ButtonState.Pressed && IsDragging && ItemInQueue != null)
+      {
+        if (ItemInQueue.FileType.Equals(FileTypesEnum.Tile.ToString()))
+        {
+          PlaceTile(ItemInQueue as Tile);
         }
       }
     }
@@ -164,7 +166,7 @@ namespace DreamlandEditor.Controls.Editors
     }
     private void CountZIndex(BaseFile item)
     {
-      if(item.FileType == FileTypesEnum.Tile.ToString())
+      if (item.FileType == FileTypesEnum.Tile.ToString())
       {
         Tile tileItem = item as Tile;
         tileItem.ZIndex = tileItem.Position.Y + tileItem.Size.Height;
@@ -239,12 +241,9 @@ namespace DreamlandEditor.Controls.Editors
 
       Editor.spriteBatch.Begin(transformMatrix: Camera.Transform);
 
-      CurrentMouseState = Mouse.GetState();
-      CurrentKeyboardState = Keyboard.GetState();
-
       DrawObjects();
       DrawDraggedImage(Width, Height);
-      if (!IsMouseInsideControlArea(0, 0, Width, Height))
+      if (!IsMouseInsideControlArea(0, 0, Width, Height) || !_shouldUpdate)
       {
         Editor.spriteBatch.End();
         return;
@@ -313,29 +312,42 @@ namespace DreamlandEditor.Controls.Editors
     }
     private void ClickOnObject()
     {
+      if (MapObjectEditor.IsDone)
+      {
+        int index = MapFile.WorldObjects.IndexOf(ObjectToAddCommandTo);
+        MapFile.WorldObjects[index] = MapObjectEditor.File;
+        MapObjectEditor.IsDone = false;
+      }
       if (IsDragging) return;
       BaseObject upperObject = GetObjectsUnderCursor().OrderByDescending(x => x.ZIndex).FirstOrDefault();
       if (upperObject == null) return;
-      if(upperObject.FileType == FileTypesEnum.Tile.ToString())
+      if (upperObject.FileType == FileTypesEnum.Tile.ToString())
       {
         Tile tile = (Tile)upperObject;
         _drawingHandler.DrawRectangle(new Rectangle(upperObject.Position.X, upperObject.Position.Y,
           tile.Size.Width, tile.Size.Height), Color.Aquamarine, 2);
       }
-      else 
+      else
       {
         BaseObject obj = upperObject;
         _drawingHandler.DrawRectangle(new Rectangle(upperObject.Position.X, upperObject.Position.Y,
           obj.Size.Width, obj.Size.Height), Color.Aquamarine, 2);
       }
 
-      if (CurrentMouseState.LeftButton == ButtonState.Pressed /*&& LastMouseState.LeftButton == ButtonState.Released*/)
+      if (CurrentMouseState.LeftButton == ButtonState.Pressed && LastMouseState.LeftButton == ButtonState.Released)
       {
         MoveObjectOnMap(upperObject);
       }
-      if (CurrentMouseState.RightButton == ButtonState.Pressed /*&& LastMouseState.RightButton == ButtonState.Released*/)
+      if (CurrentMouseState.RightButton == ButtonState.Pressed && LastMouseState.RightButton == ButtonState.Released)
       {
         RemoveObjectFromCollection(upperObject);
+      }
+      if (CurrentKeyboardState.IsKeyDown(Keys.E) && LastKeyboardState.IsKeyUp(Keys.E) &&
+        upperObject.GetType() == typeof(WorldObject) && (upperObject as WorldObject).IsInteractable)
+      {
+        ObjectToAddCommandTo = upperObject as WorldObject;
+        if (MapObjectEditor.IsOpen) return;
+        new MapObjectEditor(ObjectToAddCommandTo).Show();
       }
     }
     private void MoveObjectOnMap(BaseObject upperObject)

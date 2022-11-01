@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DreamlandEditor.Data.Enums;
 using System.Xml.Serialization;
+using ProjectDreamland.Data.Enums;
 
 namespace DreamlandEditor.Data.GameFiles.Characters
 {
@@ -21,6 +22,7 @@ namespace DreamlandEditor.Data.GameFiles.Characters
     [XmlIgnore] public bool IsTakingDamage { get; set; } = false;
     public float Speed { get; set; } = 3f;
     [XmlIgnore] public LookDirectionsEnum Facing { get; set; } = LookDirectionsEnum.South;
+    public CharacterAffiliationsEnum CharacterAffiliation { get; set; }
 
     protected Vector2 velocity;
 

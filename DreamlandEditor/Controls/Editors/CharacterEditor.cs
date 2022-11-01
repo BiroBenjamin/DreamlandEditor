@@ -2,6 +2,7 @@
 using DreamlandEditor.Data.GameFiles.Characters;
 using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.Managers;
+using ProjectDreamland.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,12 +24,13 @@ namespace DreamlandEditor.Controls.Editors
     {
       InitializeComponent();
       EditorFor = FileTypesEnum.Character.ToString();
+      ComboboxResourceType.Items.AddItems(typeof(ResourceTypesEnum).GetDescriptionOfAll());
+      ComboBoxCharacterAffiliation.Items.AddItems(typeof(CharacterAffiliationsEnum).GetDescriptionOfAll());
     }
 
     public void RenderUI()
     {
       Enabled = true;
-      ComboboxResourceType.Items.AddItems(typeof(ResourceTypesEnum).GetDescriptionOfAll());
 
       try
       {
@@ -57,10 +59,12 @@ namespace DreamlandEditor.Controls.Editors
       NudLevel.Value = RenderableCharacter.Level;
       NudMaxHealth.Value = RenderableCharacter.MaxHealthPoints;
       NudCurrentHealth.Value = RenderableCharacter.CurrentHealthPoints;
+
       List<string> resourceTypes = typeof(ResourceTypesEnum).GetDescriptionOfAll().ToList();
       ComboboxResourceType.SelectedIndex = resourceTypes.IndexOf(RenderableCharacter.ResourceType);
       NudMaxResource.Value = RenderableCharacter.MaxResourcePoints;
       NudCurrentResource.Value = RenderableCharacter.CurrentResourcePoints;
+      ComboBoxCharacterAffiliation.SelectedItem = RenderableCharacter.CharacterAffiliation.GetDescription();
 
       if (!String.IsNullOrEmpty(RenderableCharacter.ImagePath))
       {
@@ -76,6 +80,7 @@ namespace DreamlandEditor.Controls.Editors
 
     private void ButtonSave_Click(object sender, EventArgs e)
     {
+      if (RenderableCharacter == null) return;
       try
       {
         if (String.IsNullOrEmpty(RenderableCharacter.ImagePath))
@@ -113,6 +118,9 @@ namespace DreamlandEditor.Controls.Editors
       RenderableCharacter.CollisionPosition = new Point(0 + _image.Width / 3 / 2, _image.Height - _image.Height / 4);
       RenderableCharacter.CollisionSize = new Size(_image.Width - _image.Width / 3, _image.Height / 4);
       RenderableCharacter.Size = _image.Size;
+
+      Enum.TryParse(ComboBoxCharacterAffiliation.SelectedItem.ToString(), out CharacterAffiliationsEnum tmpEnum);
+      RenderableCharacter.CharacterAffiliation = tmpEnum;
     }
 
     private void ButtonChooseImage_Click(object sender, EventArgs e)

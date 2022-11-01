@@ -96,8 +96,15 @@
     <Compile Include="Controls\DebugWindow.Designer.cs">
       <DependentUpon>DebugWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MapObjectEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\MapObjectEditor.Designer.cs">
+      <DependentUpon>MapObjectEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Attributes\DisplayableAttribute.cs" />
     <Compile Include="Data\Attributes\ElevatedTileAttribute.cs" />
+    <Compile Include="Data\Enums\CharacterAffiliationsEnum.cs" />
     <Compile Include="Data\Enums\LookDirectionsEnum.cs" />
     <Compile Include="Data\Enums\ResourceTypesEnum.cs" />
     <Compile Include="Data\Enums\TileTypesEnum.cs" />
@@ -177,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DebugWindow.resx">
       <DependentUpon>DebugWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MapObjectEditor.resx">
+      <DependentUpon>MapObjectEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

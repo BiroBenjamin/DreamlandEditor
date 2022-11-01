@@ -8,6 +8,7 @@ namespace DreamlandEditor.Data.GameFiles
     public string ID { get; set; }
     public string Name { get; set; }
     public string FilePath { get; set; }
+    public string Instructions { get; set; }
 
     public BaseFile() { }
     public BaseFile(BaseFile baseFile)
@@ -16,6 +17,7 @@ namespace DreamlandEditor.Data.GameFiles
       ID = baseFile.ID;
       Name = baseFile.Name;
       FilePath = baseFile.FilePath;
+      Instructions = baseFile.Instructions;
     }
   }
 }

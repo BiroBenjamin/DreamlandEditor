@@ -202,13 +202,16 @@ namespace DreamlandEditor.Controls
           FileType = fileType,
           ID = TextboxFileID.Text,
           Name = TextboxFileName.Text,
-          //FullImagePath = TextBoxTileImagePath.Text,
           ImagePath = TextBoxImagePath.Text.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           Size = PictureBoxObject.Image.Size,
-          //FullFilePath = path,
           FilePath = path.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           ZIndex = -9999,
         };
+        if (CheckBoxTileCollision.Checked) {
+          tile.CollisionPosition = new Point(0, 0);
+          tile.CollisionSize = tile.Size;
+          tile.IsCollidable = true;
+        }
         ItemsManager.AddTile(tile);
         return;
       }
@@ -258,7 +261,7 @@ namespace DreamlandEditor.Controls
       else if (FileTypesEnum.Tile.GetDescription().Equals(ComboboxFileType.SelectedItem))
       {
         HidePanels();
-        //PanelTileDetails.Visible = true;
+        CheckBoxTileCollision.Visible = true;
         PanelObjectDetails.Visible = true;
       }
       else
@@ -276,8 +279,8 @@ namespace DreamlandEditor.Controls
     private void HidePanels()
     {
       PanelMapDetails.Visible = false;
-      //PanelTileDetails.Visible = false;
       PanelObjectDetails.Visible = false;
+      CheckBoxTileCollision.Visible = false;
     }
 
     private void SetIdAndName(string fileName)
