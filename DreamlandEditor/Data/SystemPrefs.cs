@@ -3,6 +3,7 @@ using DreamlandEditor.ExtensionClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace DreamlandEditor.Data

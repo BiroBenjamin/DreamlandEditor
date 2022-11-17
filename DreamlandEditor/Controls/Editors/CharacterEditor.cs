@@ -64,7 +64,7 @@ namespace DreamlandEditor.Controls.Editors
       ComboboxResourceType.SelectedIndex = resourceTypes.IndexOf(RenderableCharacter.ResourceType);
       NudMaxResource.Value = RenderableCharacter.MaxResourcePoints;
       NudCurrentResource.Value = RenderableCharacter.CurrentResourcePoints;
-      ComboBoxCharacterAffiliation.SelectedItem = RenderableCharacter.CharacterAffiliation.GetDescription();
+      ComboBoxCharacterAffiliation.SelectedItem = RenderableCharacter.CharacterAffiliation;
 
       if (!String.IsNullOrEmpty(RenderableCharacter.ImagePath))
       {
@@ -118,9 +118,7 @@ namespace DreamlandEditor.Controls.Editors
       RenderableCharacter.CollisionPosition = new Point(0 + _image.Width / 3 / 2, _image.Height - _image.Height / 4);
       RenderableCharacter.CollisionSize = new Size(_image.Width - _image.Width / 3, _image.Height / 4);
       RenderableCharacter.Size = _image.Size;
-
-      Enum.TryParse(ComboBoxCharacterAffiliation.SelectedItem.ToString(), out CharacterAffiliationsEnum tmpEnum);
-      RenderableCharacter.CharacterAffiliation = tmpEnum;
+      RenderableCharacter.CharacterAffiliation = ComboBoxCharacterAffiliation.SelectedItem.ToString();
     }
 
     private void ButtonChooseImage_Click(object sender, EventArgs e)

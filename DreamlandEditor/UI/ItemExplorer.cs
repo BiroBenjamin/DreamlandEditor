@@ -13,10 +13,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using DreamlandEditor.Data;
 
 namespace DreamlandEditor.UI
 {
-  public partial class ItemExplorer : ResizablePanel
+  public partial class ItemExplorer : UiPanel
   {
     private WindowChangeButton MapEditorButton;
     private MapEditor MapEditor;
@@ -30,7 +31,6 @@ namespace DreamlandEditor.UI
     public ItemExplorer()
     {
       InitializeComponent();
-      SetupLayout(DockStyle.Top);
       SetupPanels();
       SetupTimer();
     }
@@ -46,13 +46,14 @@ namespace DreamlandEditor.UI
       WorkArea = new UiPanel() { Dock = DockStyle.Fill };
       Controls.Add(WorkArea);
 
-      ItemsPanel = new UiPanel() { Dock = DockStyle.Fill };
+      ItemsPanel = new UiPanel();
       WorkArea.Controls.Add(ItemsPanel);
+      ItemsPanel.Dock = DockStyle.Fill;
       ItemsPanel.AutoScroll = false;
-      ItemsPanel.HorizontalScroll.Enabled = false;
-      ItemsPanel.HorizontalScroll.Visible = false;
+      ItemsPanel.HorizontalScroll.Enabled = true;
+      ItemsPanel.HorizontalScroll.Visible = true;
       ItemsPanel.VerticalScroll.Visible = false;
-      ItemsPanel.HorizontalScroll.Maximum = 0;
+      //ItemsPanel.HorizontalScroll.Maximum = 0;
       ItemsPanel.AutoScroll = true;
 
       MiscPanel = new UiPanel()
@@ -199,7 +200,7 @@ namespace DreamlandEditor.UI
           Dock = DockStyle.Fill,
           SizeMode = PictureBoxSizeMode.Zoom,
           Image = (String.IsNullOrEmpty(item.ImagePath) ?
-            new Bitmap(@"../../Content/not-found.png") :
+            new Bitmap(ImagePaths.NotFound) :
             new Bitmap(fullImagePath)),
         };
         itemBackground.Controls.Add(pictureBox);

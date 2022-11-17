@@ -184,6 +184,7 @@ namespace DreamlandEditor.UI
         DirectoryInfo directory = new DirectoryInfo(node.FullPath);
         foreach (DirectoryInfo dir in directory.GetDirectories())
         {
+          if (!IsDirectoryNeeded(Path.Combine(node.FullPath, dir.Name))) continue;
           UITreeNode newNode = new UITreeNode(dir.Name);
           node.Nodes.Add(newNode);
           if (!IsDirectoryEmpty(node.FullPath))
@@ -207,6 +208,10 @@ namespace DreamlandEditor.UI
     private bool IsDirectoryEmpty(string path)
     {
       return !Directory.EnumerateFileSystemEntries(path).Any();
+    }
+    private bool IsDirectoryNeeded(string path)
+    {
+      return path.Contains("Maps") || path.Contains("Objects") || path.Equals(SystemPrefsManager.SystemPrefs.RootPath);
     }
 
     private void LoadItem(UITreeNode node, string fileName, bool isInitialLoad)
@@ -263,7 +268,6 @@ namespace DreamlandEditor.UI
         Height = 25
       };
       Controls.Add(MenuPanel);
-
       IconButton openNodesButton = new IconButton(new Bitmap(ImagePaths.OpenFolder), new Size(25, 25), DockStyle.Right);
       openNodesButton.Click += (sender, ev) =>
       {

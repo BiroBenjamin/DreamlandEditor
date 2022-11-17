@@ -22,7 +22,7 @@ namespace DreamlandEditor.Data.GameFiles.Characters
     [XmlIgnore] public bool IsTakingDamage { get; set; } = false;
     public float Speed { get; set; } = 3f;
     [XmlIgnore] public LookDirectionsEnum Facing { get; set; } = LookDirectionsEnum.South;
-    public CharacterAffiliationsEnum CharacterAffiliation { get; set; }
+    public string CharacterAffiliation { get; set; }
 
     protected Vector2 velocity;
 
@@ -51,6 +51,7 @@ namespace DreamlandEditor.Data.GameFiles.Characters
       AttackRange = baseCharacter.AttackRange;
       IsDead = baseCharacter.IsDead;
       Facing = baseCharacter.Facing;
+      CharacterAffiliation = baseCharacter.CharacterAffiliation;
     }
 
     #region Collision

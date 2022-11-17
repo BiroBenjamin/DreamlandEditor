@@ -154,10 +154,7 @@ namespace DreamlandEditor.Controls.Editors
       {
         MapFile.Tiles.Remove(removeableObject);
       }
-      if (newItem.TileType == TileTypesEnum.Elevated.ToString())
-      {
-        CountZIndex(newItem);
-      }
+      item.ZIndex = int.MinValue;
       MapFile.Tiles.Add(newItem);
     }
     private Vector2 CenterMousePosition(BaseObject item)
@@ -166,15 +163,15 @@ namespace DreamlandEditor.Controls.Editors
     }
     private void CountZIndex(BaseFile item)
     {
-      if (item.FileType == FileTypesEnum.Tile.ToString())
-      {
-        Tile tileItem = item as Tile;
-        tileItem.ZIndex = tileItem.Position.Y + tileItem.Size.Height;
-      }
-      else if (item.FileType == FileTypesEnum.WorldObject.ToString())
+      if (item.FileType == FileTypesEnum.WorldObject.ToString())
       {
         WorldObject objectItem = item as WorldObject;
         objectItem.ZIndex = objectItem.Position.Y + objectItem.Size.Height;
+      }
+      else if (item.FileType == FileTypesEnum.Character.ToString())
+      {
+        BaseCharacter characterItem = item as BaseCharacter;
+        characterItem.ZIndex = characterItem.Position.Y + characterItem.Size.Height;
       }
     }
     private List<BaseObject> GetObjectsUnderCursor()
@@ -227,8 +224,8 @@ namespace DreamlandEditor.Controls.Editors
     private void SetLabels()
     {
       CursorPositionLabel.Text =
-        $"X:{Math.Floor(TranslateMousePosition(CurrentMousePosition).X / 32)} " +
-        $"- Y:{Math.Floor(TranslateMousePosition(CurrentMousePosition).Y / 32)}";
+        $"X:{Math.Floor(TranslateMousePosition(CurrentMousePosition).X / 32)} ({Math.Floor(TranslateMousePosition(CurrentMousePosition).X)}) " +
+        $"- Y:{Math.Floor(TranslateMousePosition(CurrentMousePosition).Y / 32)} ({Math.Floor(TranslateMousePosition(CurrentMousePosition).Y)})";
       ZoomAmountLabel.Text =
         $"{Camera.GetZoomPercentage()}%";
     }
@@ -249,6 +246,7 @@ namespace DreamlandEditor.Controls.Editors
         return;
       }
       ClickOnObject();
+
 
       LastMouseState = CurrentMouseState;
       LastKeyboardState = CurrentKeyboardState;
@@ -343,7 +341,7 @@ namespace DreamlandEditor.Controls.Editors
         RemoveObjectFromCollection(upperObject);
       }
       if (CurrentKeyboardState.IsKeyDown(Keys.E) && LastKeyboardState.IsKeyUp(Keys.E) &&
-        upperObject.GetType() == typeof(WorldObject) && (upperObject as WorldObject).IsInteractable)
+        upperObject.GetType() == typeof(WorldObject))
       {
         ObjectToAddCommandTo = upperObject as WorldObject;
         if (MapObjectEditor.IsOpen) return;

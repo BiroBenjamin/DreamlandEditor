@@ -95,9 +95,13 @@ namespace DreamlandEditor.Managers
       return tiles;
     }
 
-    public static void RemoveItem(BaseFile item)
+    public static void RemoveItem<T>(T item)
     {
-      GetCollectionByType(item.FileType).Cast<BaseFile>().ToList().Remove(item);
+      //GetCollectionByType(item.GetType()).Cast<BaseFile>().ToList().Remove(item);
+      if (item is WorldObject) WorldObjects.Remove(WorldObjects.Where(x => x.ID == (item as WorldObject).ID).FirstOrDefault());
+      else if (item is Tile) GetTiles().Remove(GetTiles().Where(x => x.ID == (item as Tile).ID).FirstOrDefault());
+      else if (item is Map) Maps.Remove(Maps.Where(x => x.ID == (item as Map).ID).FirstOrDefault());
+      else if (item is BaseCharacter) Characters.Remove(Characters.Where(x => x.ID == (item as BaseCharacter).ID).FirstOrDefault());
     }
 
     public static IEnumerable<object> GetCollectionByType(string fileType)
@@ -109,6 +113,14 @@ namespace DreamlandEditor.Managers
       else if (fileType == FileTypesEnum.Tile.GetDescription())
       {
         return GetTiles();
+      }
+      else if (fileType == FileTypesEnum.Map.GetDescription())
+      {
+        return Maps;
+      }
+      else if (fileType == FileTypesEnum.Character.GetDescription())
+      {
+        return Characters;
       }
       return new List<object>();
     }
@@ -148,6 +160,7 @@ namespace DreamlandEditor.Managers
     {
       WorldObjects = WorldObjects.OrderByDescending(x => x.ID).ToList();
       Maps = Maps.OrderByDescending(x => x.ID).ToList();
+      Characters = Characters.OrderByDescending(x => x.ID).ToList();
     }
   }
 }

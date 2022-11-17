@@ -2,6 +2,7 @@
 using DreamlandEditor.UI;
 using System;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace DreamlandEditor.Managers
@@ -21,9 +22,11 @@ namespace DreamlandEditor.Managers
       }
       if (!File.Exists(path))
       {
-        SerializeSystemPrefs();
-        SystemPrefs.SetupFolderStructure();
-        return SystemPrefs;
+        //SerializeSystemPrefs();
+        //SystemPrefs.SetupFolderStructure();
+        DebugManager.Log("Can not find \"Content\" folder. Please make sure it exists. If not please reinstall Project Dreamland.");
+        MessageBox.Show("Can not find \"Content\" folder. Please make sure it exists.", "File loading error");
+        
       }
       DeserializeSystemPrefs();
       SystemPrefs.SetupFolderStructure();

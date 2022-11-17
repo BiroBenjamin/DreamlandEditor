@@ -4,7 +4,7 @@ namespace DreamlandEditor.Data
 {
 	public static class ImagePaths
     {
-        private static readonly string IconsFolder = @"..\\..\\Content\\Icons";
+        private static readonly string IconsFolder = @".\Content\Icons";
 
         public static readonly string OpenFolder = Path.Combine(IconsFolder, "folder-open-icon.png");
         public static readonly string CloseFolder = Path.Combine(IconsFolder, "folder-close-icon.png");
