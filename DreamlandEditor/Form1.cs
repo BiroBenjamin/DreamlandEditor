@@ -18,8 +18,8 @@ namespace MonoGame.Forms.DX
     public Form1()
     {
       InitializeComponent();
-      DebugManager.ShowWindow(this);
       SystemPrefsManager.SetUpSystemPrefs();
+      DebugManager.ShowWindow(this);
 
       SetupEditors();
 
@@ -33,6 +33,8 @@ namespace MonoGame.Forms.DX
           ItemsManager.SaveItems();
         }
       };
+
+      DebugManager.ShowWindow();
     }
 
     private void SetupEditors()

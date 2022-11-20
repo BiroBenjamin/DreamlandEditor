@@ -24,8 +24,8 @@ namespace DreamlandEditor.Managers
       {
         //SerializeSystemPrefs();
         //SystemPrefs.SetupFolderStructure();
-        DebugManager.Log("Can not find \"Content\" folder. Please make sure it exists. If not please reinstall Project Dreamland.");
-        MessageBox.Show("Can not find \"Content\" folder. Please make sure it exists.", "File loading error");
+        //DebugManager.Log("Can not find \"Content\" folder. Please make sure it exists. If not please reinstall Project Dreamland.");
+        //MessageBox.Show("Can not find \"Content\" folder. Please make sure it exists.", "File loading error");
         
       }
       DeserializeSystemPrefs();
