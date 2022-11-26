@@ -3,7 +3,6 @@ using DreamlandEditor.ExtensionClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace DreamlandEditor.Data
@@ -12,7 +11,7 @@ namespace DreamlandEditor.Data
   public class SystemPrefs
   {
     public string RootPath { get; set; }
-    public string DebugLogPath { get; set; } = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\DebugLog\";
+    public string DebugLogPath { get; set; } = $@"C:\Users\{Environment.UserName}\Documents\DreamlandEditor\Log\";
     public bool IsDevMode { get; set; } = true;
 
     [XmlIgnore] public Dictionary<string, string[]> FolderStructure { get; set; }
@@ -26,7 +25,6 @@ namespace DreamlandEditor.Data
       FolderStructure = new Dictionary<string, string[]>()
       {
         { FileTypesEnum.Map.GetDescription(), new string[2] {Path.Combine(RootPath, "Maps"), "map" } },
-        //{ "Item", new string[2] {$@"{rootPath}\Objects\Items", "dex" } },
         { FileTypesEnum.Character.GetDescription(), new string[2] { Path.Combine(RootPath, "Objects\\Characters"), "dex" } },
         { FileTypesEnum.WorldObject.GetDescription(), new string[2] { Path.Combine(RootPath, "Objects\\WorldObjects"), "dex" } },
         { FileTypesEnum.Tile.GetDescription(), new string[2] { Path.Combine(RootPath, "Objects\\Tiles"), "dex" } },

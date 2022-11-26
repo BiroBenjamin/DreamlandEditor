@@ -49,7 +49,7 @@ namespace DreamlandEditor.Controls.Editors
     public void LoadMap(Map obj)
     {
       MapFile = obj;
-      _drawingHandler = new DrawingHandler(Editor.spriteBatch);
+      _drawingHandler = new DrawingHandler(Editor.spriteBatch, Editor.Content);
       LoadTextures<WorldObject>(ItemsManager.GetTiles());
       LoadTextures<WorldObject>(ItemsManager.WorldObjects);
       LoadTextures<WorldObject>(ItemsManager.Characters);
@@ -115,7 +115,9 @@ namespace DreamlandEditor.Controls.Editors
           PlaceCharacter(ItemInQueue as BaseCharacter);
         }
       }
-      if (CurrentMouseState.LeftButton == ButtonState.Pressed && IsDragging && ItemInQueue != null)
+      if (((CurrentMouseState.LeftButton == ButtonState.Pressed && LastMouseState.LeftButton == ButtonState.Released) ||
+        CurrentMouseState.LeftButton == ButtonState.Pressed && CurrentKeyboardState.IsKeyDown(Keys.LeftShift) && LastKeyboardState.IsKeyDown(Keys.LeftShift)) && 
+        IsDragging && ItemInQueue != null)
       {
         if (ItemInQueue.FileType.Equals(FileTypesEnum.Tile.ToString()))
         {
@@ -251,6 +253,10 @@ namespace DreamlandEditor.Controls.Editors
       LastMouseState = CurrentMouseState;
       LastKeyboardState = CurrentKeyboardState;
 
+      Editor.spriteBatch.End();
+
+      Editor.spriteBatch.Begin();
+      _drawingHandler.DrawHelp(0, 0);
       Editor.spriteBatch.End();
     }
     private void DrawObjects()

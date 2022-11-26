@@ -22,6 +22,12 @@ namespace DreamlandEditor.Managers
           serializer.Serialize(writer, obj);
         }
       }
+      catch (UnauthorizedAccessException ex)
+      {
+        MessageBox.Show("Unauthorized acces to file.\r\nPlease open application as administrator!", "Error");
+        DebugManager.Log($"{ex.Message}\r\n{ex.InnerException}\r\n{ex.StackTrace}");
+        Environment.Exit(1009);
+      }
       catch (Exception ex)
       {
         MessageBox.Show("Unexpected error during save.\nSee log file for further info.", "Error");
@@ -40,12 +46,10 @@ namespace DreamlandEditor.Managers
         {
           loadedItem = (BaseFile)serializer.Deserialize(reader);
           loadedItem.FilePath = loadedItem.FilePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
-          //loadedItem.FullFilePath = path;
           if(typeof(T) != typeof(Map))
           {
             BaseObject baseObject = (BaseObject)loadedItem;
             baseObject.ImagePath = baseObject.ImagePath.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", "");
-            //baseObject.FullImagePath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, baseObject.ImagePath);
           }
         }
         catch (Exception ex)
