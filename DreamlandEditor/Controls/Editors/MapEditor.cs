@@ -24,7 +24,7 @@ namespace DreamlandEditor.Controls.Editors
     public bool IsDragging { get; set; } = false;
     public bool IsCollisionDrawn { get; set; } = false;
     public BaseObject ItemInQueue { get; set; } = null;
-    public WorldObject ObjectToAddCommandTo { get; set; }
+    public BaseFile ObjectToAddCommandTo { get; set; }
     public MouseState CurrentMouseState { get; set; }
     public MouseState LastMouseState { get; set; }
     public Vector2 CurrentMousePosition { get; set; }
@@ -318,8 +318,17 @@ namespace DreamlandEditor.Controls.Editors
     {
       if (MapObjectEditor.IsDone)
       {
-        int index = MapFile.WorldObjects.IndexOf(ObjectToAddCommandTo);
-        MapFile.WorldObjects[index] = MapObjectEditor.File;
+        BaseFile file = MapObjectEditor.File;
+        if(file.GetType() == typeof(WorldObject))
+        {
+          int index = MapFile.WorldObjects.IndexOf(ObjectToAddCommandTo as WorldObject);
+          MapFile.WorldObjects[index] = MapObjectEditor.File as WorldObject;
+        }
+        else if (file.GetType() == typeof(BaseCharacter))
+        {
+          int index = MapFile.Characters.IndexOf(ObjectToAddCommandTo as BaseCharacter);
+          MapFile.Characters[index] = MapObjectEditor.File as BaseCharacter;
+        }
         MapObjectEditor.IsDone = false;
       }
       if (IsDragging) return;
@@ -347,9 +356,9 @@ namespace DreamlandEditor.Controls.Editors
         RemoveObjectFromCollection(upperObject);
       }
       if (CurrentKeyboardState.IsKeyDown(Keys.E) && LastKeyboardState.IsKeyUp(Keys.E) &&
-        upperObject.GetType() == typeof(WorldObject))
+        (upperObject.GetType() == typeof(WorldObject) || upperObject.GetType() == typeof(BaseCharacter)))
       {
-        ObjectToAddCommandTo = upperObject as WorldObject;
+        ObjectToAddCommandTo = upperObject;
         if (MapObjectEditor.IsOpen) return;
         new MapObjectEditor(ObjectToAddCommandTo).Show();
       }

@@ -1,4 +1,5 @@
-﻿using DreamlandEditor.Data.GameFiles.Objects;
+﻿using DreamlandEditor.Data.GameFiles;
+using DreamlandEditor.Data.GameFiles.Objects;
 using System;
 using System.Windows.Forms;
 
@@ -9,13 +10,13 @@ namespace DreamlandEditor.Controls
     public static bool IsOpen { get; private set; }
     public static bool IsDone { get; set; }
 
-    public static WorldObject File { get; private set; }
+    public static BaseFile File { get; private set; }
 
     public MapObjectEditor()
     {
       InitializeComponent();
     }
-    public MapObjectEditor(WorldObject baseFile)
+    public MapObjectEditor(BaseFile baseFile)
     {
       InitializeComponent();
       File = baseFile;

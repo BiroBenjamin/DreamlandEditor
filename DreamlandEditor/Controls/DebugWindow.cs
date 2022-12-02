@@ -1,7 +1,5 @@
-﻿using DreamlandEditor.Data;
-using DreamlandEditor.Managers;
+﻿using DreamlandEditor.Managers;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -23,16 +21,6 @@ namespace DreamlandEditor.Controlers
         Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.DebugLogPath);
       }
       CreateLogFile();
-      /*try
-      {
-          CreateLogFile();
-      }
-      catch (DirectoryNotFoundException e)
-      {
-          Debug.WriteLine(e.Message);
-          Directory.CreateDirectory(SystemPrefsManager.SystemPrefs.debugLogPath);
-          CreateLogFile();
-      }*/
     }
     private void CreateLogFile()
     {
