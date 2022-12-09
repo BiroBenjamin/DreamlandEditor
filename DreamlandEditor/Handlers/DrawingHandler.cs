@@ -27,10 +27,6 @@ namespace DreamlandEditor.Handlers
       _spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X + rectangle.Width, rectangle.Y, lineWidth, rectangle.Height + lineWidth), color);
       _spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height, rectangle.Width + lineWidth, lineWidth), color);
     }
-    public void Dispose()
-    {
-      if (_pointTexture != null) _pointTexture.Dispose();
-    }
 
     public void DrawHelp(int x, int y)
     {

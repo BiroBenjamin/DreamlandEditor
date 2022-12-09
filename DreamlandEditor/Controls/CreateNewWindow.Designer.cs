@@ -32,7 +32,7 @@
       this.ButtonCancel = new System.Windows.Forms.Button();
       this.TextboxFileID = new System.Windows.Forms.TextBox();
       this.LabelFileID = new System.Windows.Forms.Label();
-      this.ComboboxFileType = new System.Windows.Forms.ComboBox();
+      this.ComboBoxFileType = new System.Windows.Forms.ComboBox();
       this.LabelFileType = new System.Windows.Forms.Label();
       this.PanelBaseData = new System.Windows.Forms.Panel();
       this.TextboxFileName = new System.Windows.Forms.TextBox();
@@ -105,15 +105,15 @@
       // 
       // ComboboxFileType
       // 
-      this.ComboboxFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.ComboboxFileType.FormattingEnabled = true;
-      this.ComboboxFileType.Location = new System.Drawing.Point(267, 33);
-      this.ComboboxFileType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-      this.ComboboxFileType.Name = "ComboboxFileType";
-      this.ComboboxFileType.Size = new System.Drawing.Size(195, 24);
-      this.ComboboxFileType.Sorted = true;
-      this.ComboboxFileType.TabIndex = 4;
-      this.ComboboxFileType.SelectedValueChanged += new System.EventHandler(this.SelectedValueChanged);
+      this.ComboBoxFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.ComboBoxFileType.FormattingEnabled = true;
+      this.ComboBoxFileType.Location = new System.Drawing.Point(267, 33);
+      this.ComboBoxFileType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+      this.ComboBoxFileType.Name = "ComboboxFileType";
+      this.ComboBoxFileType.Size = new System.Drawing.Size(195, 24);
+      this.ComboBoxFileType.Sorted = true;
+      this.ComboBoxFileType.TabIndex = 4;
+      this.ComboBoxFileType.SelectedValueChanged += new System.EventHandler(this.SelectedValueChanged);
       // 
       // LabelFileType
       // 
@@ -128,7 +128,7 @@
       // PanelBaseData
       // 
       this.PanelBaseData.Controls.Add(this.LabelFileType);
-      this.PanelBaseData.Controls.Add(this.ComboboxFileType);
+      this.PanelBaseData.Controls.Add(this.ComboBoxFileType);
       this.PanelBaseData.Controls.Add(this.LabelFileID);
       this.PanelBaseData.Controls.Add(this.TextboxFileID);
       this.PanelBaseData.Controls.Add(this.TextboxFileName);
@@ -375,7 +375,7 @@
         private System.Windows.Forms.Button ButtonCancel;
         private System.Windows.Forms.TextBox TextboxFileID;
         private System.Windows.Forms.Label LabelFileID;
-        private System.Windows.Forms.ComboBox ComboboxFileType;
+        private System.Windows.Forms.ComboBox ComboBoxFileType;
         private System.Windows.Forms.Label LabelFileType;
         private System.Windows.Forms.Panel PanelBaseData;
         private System.Windows.Forms.Panel PanelButtons;

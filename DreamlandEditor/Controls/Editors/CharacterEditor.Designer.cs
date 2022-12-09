@@ -47,7 +47,7 @@
       this.LabelResourceType = new System.Windows.Forms.Label();
       this.NudCurrentResource = new System.Windows.Forms.NumericUpDown();
       this.LabelCurrentResource = new System.Windows.Forms.Label();
-      this.ComboboxResourceType = new System.Windows.Forms.ComboBox();
+      this.ComboBoxResourceType = new System.Windows.Forms.ComboBox();
       this.NudMaxResource = new System.Windows.Forms.NumericUpDown();
       this.LabelMaxResource = new System.Windows.Forms.Label();
       this.NudLevel = new System.Windows.Forms.NumericUpDown();
@@ -247,7 +247,7 @@
       this.GroupBoxResource.Controls.Add(this.LabelResourceType);
       this.GroupBoxResource.Controls.Add(this.NudCurrentResource);
       this.GroupBoxResource.Controls.Add(this.LabelCurrentResource);
-      this.GroupBoxResource.Controls.Add(this.ComboboxResourceType);
+      this.GroupBoxResource.Controls.Add(this.ComboBoxResourceType);
       this.GroupBoxResource.Controls.Add(this.NudMaxResource);
       this.GroupBoxResource.Controls.Add(this.LabelMaxResource);
       this.GroupBoxResource.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -297,12 +297,12 @@
       // 
       // ComboboxResourceType
       // 
-      this.ComboboxResourceType.FormattingEnabled = true;
-      this.ComboboxResourceType.Location = new System.Drawing.Point(15, 43);
-      this.ComboboxResourceType.Margin = new System.Windows.Forms.Padding(4);
-      this.ComboboxResourceType.Name = "ComboboxResourceType";
-      this.ComboboxResourceType.Size = new System.Drawing.Size(108, 25);
-      this.ComboboxResourceType.TabIndex = 41;
+      this.ComboBoxResourceType.FormattingEnabled = true;
+      this.ComboBoxResourceType.Location = new System.Drawing.Point(15, 43);
+      this.ComboBoxResourceType.Margin = new System.Windows.Forms.Padding(4);
+      this.ComboBoxResourceType.Name = "ComboboxResourceType";
+      this.ComboBoxResourceType.Size = new System.Drawing.Size(108, 25);
+      this.ComboBoxResourceType.TabIndex = 41;
       // 
       // NudMaxResource
       // 
@@ -423,7 +423,7 @@
     private System.Windows.Forms.Label LabelResourceType;
     private System.Windows.Forms.NumericUpDown NudCurrentResource;
     private System.Windows.Forms.Label LabelCurrentResource;
-    private System.Windows.Forms.ComboBox ComboboxResourceType;
+    private System.Windows.Forms.ComboBox ComboBoxResourceType;
     private System.Windows.Forms.NumericUpDown NudMaxResource;
     private System.Windows.Forms.Label LabelMaxResource;
     private System.Windows.Forms.NumericUpDown NudLevel;

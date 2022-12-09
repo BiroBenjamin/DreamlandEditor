@@ -39,15 +39,6 @@ namespace DreamlandEditor.Controlers
     {
       TextBoxLogboard.AppendText(String.Format("[{0:HH:mm:ss}] \r\n {1}", DateTime.Now, text));
       TextBoxLogboard.AppendText(Environment.NewLine);
-      /*try 
-      {
-          TextBoxLogboard.AppendText(String.Format("[{0:HH:mm:ss}] \r\n {1}", DateTime.Now, text));
-          TextBoxLogboard.AppendText(Environment.NewLine);
-      }
-      catch(Exception e) 
-      {
-          Debug.WriteLine(e.Message);
-      }*/
     }
   }
 }

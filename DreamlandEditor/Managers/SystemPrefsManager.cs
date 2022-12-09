@@ -16,17 +16,10 @@ namespace DreamlandEditor.Managers
 
     public static SystemPrefs SetUpSystemPrefs()
     {
-      if (!Directory.Exists(pathDirectory))
-      {
-        Directory.CreateDirectory(pathDirectory);
-      }
       if (!File.Exists(path))
       {
-        //SerializeSystemPrefs();
-        //SystemPrefs.SetupFolderStructure();
-        //DebugManager.Log("Can not find \"Content\" folder. Please make sure it exists. If not please reinstall Project Dreamland.");
-        //MessageBox.Show("Can not find \"Content\" folder. Please make sure it exists.", "File loading error");
-        
+        MessageBox.Show($"Can not find {path}.\n Please make sure it exists.", "File loading error");
+        Environment.Exit(-1);
       }
       DeserializeSystemPrefs();
       SystemPrefs.SetupFolderStructure();

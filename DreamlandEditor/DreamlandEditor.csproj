@@ -104,16 +104,12 @@
       <DependentUpon>MapObjectEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Attributes\DisplayableAttribute.cs" />
-    <Compile Include="Data\Attributes\ElevatedTileAttribute.cs" />
     <Compile Include="Data\Enums\CharacterAffiliationsEnum.cs" />
     <Compile Include="Data\Enums\LookDirectionsEnum.cs" />
     <Compile Include="Data\Enums\ResourceTypesEnum.cs" />
-    <Compile Include="Data\Enums\TileTypesEnum.cs" />
     <Compile Include="Data\Enums\FileTypesEnum.cs" />
-    <Compile Include="Data\Enums\WorldObjectTypesEnum.cs" />
     <Compile Include="Data\GameFiles\BaseFile.cs" />
     <Compile Include="Data\GameFiles\Characters\BaseCharacter.cs" />
-    <Compile Include="Data\GameFiles\Characters\Player.cs" />
     <Compile Include="Data\GameFiles\Map.cs" />
     <Compile Include="Data\GameFiles\Objects\BaseObject.cs" />
     <Compile Include="Data\GameFiles\Objects\Tile.cs" />
@@ -170,7 +166,6 @@
     <Compile Include="UI\UIButtons\NavigationButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\UiColors.cs" />
     <Compile Include="UI\UIButtons\WindowChangeButton.cs">
       <SubType>Component</SubType>
     </Compile>

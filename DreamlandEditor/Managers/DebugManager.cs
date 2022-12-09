@@ -7,7 +7,7 @@ namespace DreamlandEditor.Managers
   {
     private static DebugWindow debugWindow;
 
-    public static void ShowWindow(Form parentForm)
+    public static void Initialize(Form parentForm)
     {
       debugWindow = new DebugWindow(parentForm);
       debugWindow.Visible = false;

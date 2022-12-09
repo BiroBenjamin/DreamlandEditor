@@ -1,5 +1,4 @@
-﻿using DreamlandEditor.Data.GameFiles;
-using System;
+﻿using System;
 using System.Drawing;
 
 namespace DreamlandEditor.Data.GameFiles.Objects
@@ -14,12 +13,6 @@ namespace DreamlandEditor.Data.GameFiles.Objects
     public Tile(Tile tile) : base(tile) 
     {
       TileType = tile.TileType;
-    }
-
-    public bool CursorIntersects(Microsoft.Xna.Framework.Vector2 cursor)
-    {
-      return cursor.X > Position.X && cursor.X < Size.Width + Position.X &&
-        cursor.Y > Position.Y && cursor.Y < Size.Height + Position.Y;
     }
   }
 }

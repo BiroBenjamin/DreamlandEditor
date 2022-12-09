@@ -53,7 +53,6 @@ namespace DreamlandEditor.UI
       ItemsPanel.HorizontalScroll.Enabled = true;
       ItemsPanel.HorizontalScroll.Visible = true;
       ItemsPanel.VerticalScroll.Visible = false;
-      //ItemsPanel.HorizontalScroll.Maximum = 0;
       ItemsPanel.AutoScroll = true;
 
       MiscPanel = new UiPanel()
@@ -191,7 +190,7 @@ namespace DreamlandEditor.UI
           Dock = DockStyle.Left,
           Width = Height,
           BorderStyle = BorderStyle.FixedSingle,
-          BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0)
+          BackColor = Color.FromArgb(0, 0, 0, 0)
         };
         ItemsPanel.Controls.Add(itemBackground);
         string fullImagePath = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath);
@@ -210,8 +209,8 @@ namespace DreamlandEditor.UI
           Text = item.Name == null ? "???" : item.Name,
           TextAlign = ContentAlignment.MiddleCenter,
           Dock = DockStyle.Bottom,
-          BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0),
-          ForeColor = System.Drawing.Color.White
+          BackColor = Color.FromArgb(0, 0, 0, 0),
+          ForeColor = Color.White
         };
         itemBackground.Controls.Add(itemName);
 
@@ -221,11 +220,11 @@ namespace DreamlandEditor.UI
         };
         pictureBox.MouseEnter += (sender, ev) =>
         {
-          ((PictureBox)sender).BackColor = System.Drawing.Color.White;
+          ((PictureBox)sender).BackColor = Color.White;
         };
         pictureBox.MouseLeave += (sender, ev) =>
         {
-          ((PictureBox)sender).BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+          ((PictureBox)sender).BackColor = Color.FromArgb(0, 0, 0, 0);
         };
         pictureBox.Click += delegate (object sender, EventArgs ev)
         {

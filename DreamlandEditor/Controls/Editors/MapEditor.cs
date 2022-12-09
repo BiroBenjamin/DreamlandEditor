@@ -50,19 +50,12 @@ namespace DreamlandEditor.Controls.Editors
     {
       MapFile = obj;
       _drawingHandler = new DrawingHandler(Editor.spriteBatch, Editor.Content);
-      LoadTextures<WorldObject>(ItemsManager.GetTiles());
+      LoadTextures<Tile>(ItemsManager.GetTiles());
       LoadTextures<WorldObject>(ItemsManager.WorldObjects);
-      LoadTextures<WorldObject>(ItemsManager.Characters);
-      foreach (WorldObject item in MapFile.WorldObjects)
-      {
-        string name = item.ImagePath == null ?
-          ImagePaths.NotFound :
-          Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, item.ImagePath);
-        item.Texture = Editor.Content.Load<Texture2D>(name.Replace(Path.GetExtension(name), ""));
-      }
-      LoadTextures<WorldObject>(MapFile.Tiles);
+      LoadTextures<BaseCharacter>(ItemsManager.Characters);
+      LoadTextures<Tile>(MapFile.Tiles);
       LoadTextures<WorldObject>(MapFile.WorldObjects);
-      LoadTextures<WorldObject>(MapFile.Characters);
+      LoadTextures<BaseCharacter>(MapFile.Characters);
 
       IsLoaded = true;
     }
@@ -89,9 +82,9 @@ namespace DreamlandEditor.Controls.Editors
       Camera.Update(gameTime, Width, Height);
       SetLabels();
       if (!_shouldUpdate) return;
-      RemoveObject();
+      RemoveObjectFromQueue();
       ObjectPlacement();
-      HandleKeyboardInput();
+      HandleCollisionRendering();
     }
     private void GetCurrentMousePosition()
     {
@@ -215,7 +208,7 @@ namespace DreamlandEditor.Controls.Editors
       return new Vector2(x, y);
     }
 
-    private void HandleKeyboardInput()
+    private void HandleCollisionRendering()
     {
       if (CurrentKeyboardState.IsKeyDown(Keys.C) && LastKeyboardState.IsKeyUp(Keys.C))
       {
@@ -261,7 +254,7 @@ namespace DreamlandEditor.Controls.Editors
     }
     private void DrawObjects()
     {
-      if (MapFile.Tiles != null && MapFile.WorldObjects != null)
+      if (MapFile.Tiles != null && MapFile.WorldObjects != null && MapFile.Characters != null)
       {
         List<BaseObject> mapObjects = MapFile.Tiles.Cast<BaseObject>()
           .Union(MapFile.WorldObjects)
@@ -379,7 +372,7 @@ namespace DreamlandEditor.Controls.Editors
       if (upperObject.FileType == FileTypesEnum.Character.ToString())
         MapFile.Characters.Remove(upperObject as BaseCharacter);
     }
-    private void RemoveObject()
+    private void RemoveObjectFromQueue()
     {
       if (CurrentKeyboardState.IsKeyDown(Keys.Q) &&
         LastKeyboardState.IsKeyUp(Keys.Q) && IsDragging)

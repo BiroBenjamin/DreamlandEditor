@@ -1,5 +1,4 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
-using Microsoft.Xna.Framework.Graphics;
 using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.Data.GameFiles.Characters;
@@ -18,7 +17,7 @@ namespace DreamlandEditor.Managers
     public static ICollection<BaseCharacter> Characters = new List<BaseCharacter>();
     public static ICollection<Map> Maps = new List<Map>();
 
-    public static List<BaseObject> GetObjectById(string id, bool fullMatch)
+    public static List<BaseObject> GetObjectById(string id, bool fullMatch = true)
     {
       List<BaseObject> objects = new List<BaseObject>();
       objects.AddRange(WorldObjects);
@@ -45,17 +44,37 @@ namespace DreamlandEditor.Managers
       foreach (Map map in Maps)
       {
         changed = false;
-        if (typeof(T) != typeof(WorldObject)) continue;
-        for (int i = 0; i < map.WorldObjects.Count(); i++)
+        if (typeof(T) == typeof(WorldObject))
         {
-          if (map.WorldObjects[i].ID != (obj as WorldObject).ID) continue;
-          WorldObject mapObject = map.WorldObjects[i];
-          Point position = mapObject.Position;
-          int zIndex = mapObject.ZIndex;
-          map.WorldObjects[i] = new WorldObject(obj as WorldObject);
-          map.WorldObjects[i].Position = position;
-          map.WorldObjects[i].ZIndex = zIndex;
-          changed = true;
+          for (int i = 0; i < map.WorldObjects.Count(); i++)
+          {
+            if (map.WorldObjects[i].ID != (obj as WorldObject).ID) continue;
+            WorldObject mapObject = map.WorldObjects[i];
+            Point position = mapObject.Position;
+            int zIndex = mapObject.ZIndex;
+            string instructions = map.Instructions;
+            map.WorldObjects[i] = new WorldObject(obj as WorldObject);
+            map.WorldObjects[i].Position = position;
+            map.WorldObjects[i].ZIndex = zIndex;
+            map.WorldObjects[i].Instructions = instructions;
+            changed = true;
+          }
+        }
+        else if (typeof(T) == typeof(BaseCharacter))
+        {
+          for (int i = 0; i < map.Characters.Count(); i++)
+          {
+            if (map.Characters[i].ID != (obj as BaseCharacter).ID) continue;
+            BaseCharacter character = map.Characters[i];
+            Point position = character.Position;
+            int zIndex = character.ZIndex;
+            string instructions = character.Instructions;
+            map.Characters[i] = new BaseCharacter(obj as BaseCharacter);
+            map.Characters[i].Position = position;
+            map.Characters[i].ZIndex = zIndex;
+            map.Characters[i].Instructions = instructions;
+            changed = true;
+          }
         }
         if (!changed) continue;
         FileManager.SaveFile(map);
@@ -97,7 +116,6 @@ namespace DreamlandEditor.Managers
 
     public static void RemoveItem<T>(T item)
     {
-      //GetCollectionByType(item.GetType()).Cast<BaseFile>().ToList().Remove(item);
       if (item is WorldObject) WorldObjects.Remove(WorldObjects.Where(x => x.ID == (item as WorldObject).ID).FirstOrDefault());
       else if (item is Tile) GetTiles().Remove(GetTiles().Where(x => x.ID == (item as Tile).ID).FirstOrDefault());
       else if (item is Map) Maps.Remove(Maps.Where(x => x.ID == (item as Map).ID).FirstOrDefault());

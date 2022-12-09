@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using DreamlandEditor.Data.GameFiles;
 using System.Xml.Serialization;
 
 namespace DreamlandEditor.Data.GameFiles.Objects

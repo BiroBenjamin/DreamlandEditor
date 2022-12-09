@@ -27,8 +27,8 @@ namespace DreamlandEditor.Controls
       EditorButtons = editorButtons;
       EditorWindows = editorWindows;
       OpenFileDialogImage.InitialDirectory = Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, "Sprites");
-      ComboboxFileType.Items.AddItems(typeof(FileTypesEnum).GetDescriptionOfAll());
-      ComboboxFileType.SelectedIndex = 0;
+      ComboBoxFileType.Items.AddItems(typeof(FileTypesEnum).GetDescriptionOfAll());
+      ComboBoxFileType.SelectedIndex = 0;
       ComboBoxTerrainType.Items.Add("None");
       string directoryName = SystemPrefsManager.SystemPrefs.FolderStructure[FileTypesEnum.Tile.GetDescription()][0];
       DirectoryInfo directory = new DirectoryInfo(directoryName);
@@ -45,18 +45,18 @@ namespace DreamlandEditor.Controls
         return;
       }
 
-      string filePath = SystemPrefsManager.SystemPrefs.FolderStructure[ComboboxFileType.SelectedItem.ToString()][0];
-      string extension = SystemPrefsManager.SystemPrefs.FolderStructure[ComboboxFileType.SelectedItem.ToString()][1];
+      string filePath = SystemPrefsManager.SystemPrefs.FolderStructure[ComboBoxFileType.SelectedItem.ToString()][0];
+      string extension = SystemPrefsManager.SystemPrefs.FolderStructure[ComboBoxFileType.SelectedItem.ToString()][1];
 
       if (!Directory.Exists(filePath))
       {
         Directory.CreateDirectory(filePath);
       }
-      WriteToFile(ComboboxFileType.SelectedItem.ToString().Replace(" ", ""), filePath, extension);
+      WriteToFile(ComboBoxFileType.SelectedItem.ToString().Replace(" ", ""), filePath, extension);
     }
     private bool FieldsAreEmpty()
     {
-      return TextboxFileID.Text.Length == 0 || ComboboxFileType.SelectedItem == null;
+      return TextboxFileID.Text.Length == 0 || ComboBoxFileType.SelectedItem == null;
     }
     private void WriteToFile(string fileType, string filePath, string extension)
     {
@@ -141,10 +141,7 @@ namespace DreamlandEditor.Controls
           FileType = fileType,
           ID = TextboxFileID.Text,
           Name = TextboxFileName.Text,
-          //FullImagePath = TextBoxWOImagePath.Text,
           ImagePath = TextBoxImagePath.Text.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
-          //ObjectType = FileTypesEnum.WorldObject.ToString(),
-          //FullFilePath = path,
           FilePath = path.Replace(SystemPrefsManager.SystemPrefs.RootPath + "\\", ""),
           ZIndex = 1
         };
@@ -243,22 +240,22 @@ namespace DreamlandEditor.Controls
 
     private void SelectedValueChanged(object sender, EventArgs e)
     {
-      LabelFileName.Text = $"{ComboboxFileType.SelectedItem} Name: ";
-      if (FileTypesEnum.Map.GetDescription().Equals(ComboboxFileType.SelectedItem))
+      LabelFileName.Text = $"{ComboBoxFileType.SelectedItem} Name: ";
+      if (FileTypesEnum.Map.GetDescription().Equals(ComboBoxFileType.SelectedItem))
       {
         SetupMapPanel();
       }
-      else if (FileTypesEnum.WorldObject.GetDescription().Equals(ComboboxFileType.SelectedItem))
+      else if (FileTypesEnum.WorldObject.GetDescription().Equals(ComboBoxFileType.SelectedItem))
       {
         HidePanels();
         PanelObjectDetails.Visible = true;
       }
-      else if (FileTypesEnum.Character.GetDescription().Equals(ComboboxFileType.SelectedItem))
+      else if (FileTypesEnum.Character.GetDescription().Equals(ComboBoxFileType.SelectedItem))
       {
         HidePanels();
         PanelObjectDetails.Visible = true;
       }
-      else if (FileTypesEnum.Tile.GetDescription().Equals(ComboboxFileType.SelectedItem))
+      else if (FileTypesEnum.Tile.GetDescription().Equals(ComboBoxFileType.SelectedItem))
       {
         HidePanels();
         CheckBoxTileCollision.Visible = true;
@@ -291,28 +288,6 @@ namespace DreamlandEditor.Controls
       TextInfo textinfo = new CultureInfo("en-US", false).TextInfo;
       TextboxFileName.Text = String.Join("", fileId.Split('_').Select(x => textinfo.ToTitleCase(x)).ToArray());
     }
-    //private void ButtonChooseTileImage_Click(object sender, EventArgs e)
-    //{
-    //  DialogResult result = OpenFileDialogImage.ShowDialog();
-    //  if (result == DialogResult.OK && OpenFileDialogImage.FileNames.Length == 1)
-    //  {
-    //    PictureBoxTile.Image = new Bitmap(OpenFileDialogImage.FileNames[0]);
-    //    TextBoxTileImagePath.Text = OpenFileDialogImage.FileNames[0];
-    //    PictureBoxTile.SizeMode = PictureBoxSizeMode.Zoom;
-    //    SetIdAndName(OpenFileDialogImage.FileNames[0]);
-    //  }
-    //  else if (result == DialogResult.OK && OpenFileDialogImage.FileNames.Length > 1)
-    //  {
-    //    foreach (string name in OpenFileDialogImage.FileNames)
-    //    {
-    //      PictureBoxTile.Image = new Bitmap(name);
-    //      TextBoxTileImagePath.Text = name;
-    //      PictureBoxTile.SizeMode = PictureBoxSizeMode.Zoom;
-    //      SetIdAndName(name);
-    //      ButtonAccept.PerformClick();
-    //    }
-    //  }
-    //}
     private void ButtonChooseImage_Click(object sender, EventArgs e)
     {
       DialogResult result = OpenFileDialogImage.ShowDialog();

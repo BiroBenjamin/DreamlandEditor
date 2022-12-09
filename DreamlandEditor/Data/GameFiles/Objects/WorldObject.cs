@@ -1,7 +1,4 @@
-﻿using DreamlandEditor.Data.GameFiles;
-using System;
-using System.Drawing;
-using System.Xml.Serialization;
+﻿using System;
 
 namespace DreamlandEditor.Data.GameFiles.Objects
 {
@@ -15,16 +12,6 @@ namespace DreamlandEditor.Data.GameFiles.Objects
     public WorldObject(WorldObject worldObject) : base(worldObject) 
     {
       IsInteractable = worldObject.IsInteractable;
-    }
-
-    public Microsoft.Xna.Framework.Rectangle GetRectangle()
-    {
-      return new Microsoft.Xna.Framework.Rectangle(Position.X, Position.Y, Size.Width, Size.Height);
-    }
-
-    public override string ToString()
-    {
-      return $"ID: {ID}\nName: {Name}\nImagePath: {ImagePath}\nLocation: {Position}";
     }
   }
 }

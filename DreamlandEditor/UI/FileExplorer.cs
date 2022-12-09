@@ -6,7 +6,6 @@ using DreamlandEditor.Data.Enums;
 using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.Data.GameFiles.Characters;
 using DreamlandEditor.Managers;
-using DreamlandEditor.ExtensionClasses;
 using DreamlandEditor.UI.Misc;
 using DreamlandEditor.UI.UIButtons;
 using DreamlandEditor.UI.UIPanels;
@@ -86,8 +85,8 @@ namespace DreamlandEditor.UI
       item.Click += (s, e) =>
       {
         DialogResult result = MessageBox.Show(
-                  $"Do you really want to delete {ev.Node.Text}?", "Delete file",
-                  MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+          $"Do you really want to delete {ev.Node.Text}?", "Delete file",
+          MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
         if (result == DialogResult.Yes)
         {
           File.Delete(ev.Node.FullPath);
@@ -112,7 +111,6 @@ namespace DreamlandEditor.UI
           Map selectedMap = ItemsManager.Maps
               .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
               .FirstOrDefault();
-          //Map map = ItemsManager.GetMapById(selectedMap.ID, true).FirstOrDefault();
           MapEditor mapEditor = (MapEditor)FindEditorPanel(fileType);
           mapEditor.LoadMap(selectedMap);
         }
@@ -122,7 +120,6 @@ namespace DreamlandEditor.UI
           WorldObject selectedWorldObject = ItemsManager.WorldObjects
               .Where(x => x.FilePath == e.Node.FullPath.Replace(pathToSlice, ""))
               .FirstOrDefault();
-          //WorldObject worldObject = (WorldObject)ItemsManager.GetObjectById(selectedWorldObject.ID, true).FirstOrDefault();
           WorldObjectEditor worldObjectEditor = (WorldObjectEditor)FindEditorPanel(fileType);
           worldObjectEditor.SetRenderableObject(selectedWorldObject);
         }
@@ -165,6 +162,7 @@ namespace DreamlandEditor.UI
         IBaseEditor editor = (IBaseEditor)window;
         if (editor.EditorFor.Equals(fileType)) return window;
       }
+      MessageBox.Show("An unexpected error happened", "Error");
       throw new Exception("No editor was found");
     }
     private Button FindEditorButton(string fileType)
@@ -174,6 +172,7 @@ namespace DreamlandEditor.UI
         IUiButton editorButton = (IUiButton)button;
         if (editorButton.ButtonFor.Equals(fileType)) return button;
       }
+      MessageBox.Show("An unexpected error happened", "Error");
       throw new Exception("No button was found");
     }
 
@@ -203,6 +202,7 @@ namespace DreamlandEditor.UI
       catch (Exception e)
       {
         MessageBox.Show(e.Message.ToString());
+        DebugManager.Log(e.ToString());
       }
     }
     private bool IsDirectoryEmpty(string path)
@@ -291,7 +291,6 @@ namespace DreamlandEditor.UI
         DialogResult result = new CreateNewWindow(EditorButtons, EditorWindows).ShowDialog();
         if (result == DialogResult.Cancel) return;
         SetUpTreeView(false);
-        //ItemExplorer.SetupItems(ItemsManager.WorldObjects.Cast<BaseFile>().Union(ItemsManager.GetTiles()).ToList());
       };
       MenuPanel.Controls.Add(addFileButton);
 

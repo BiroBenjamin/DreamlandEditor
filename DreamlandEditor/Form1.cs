@@ -19,7 +19,7 @@ namespace MonoGame.Forms.DX
     {
       InitializeComponent();
       SystemPrefsManager.SetUpSystemPrefs();
-      DebugManager.ShowWindow(this);
+      DebugManager.Initialize(this);
 
       SetupEditors();
 
@@ -61,17 +61,17 @@ namespace MonoGame.Forms.DX
       ButtonSwitchToCharacterEditor.SetupEvents(CharacterEditor);
 
       WindowChangeButton.ButtonsToCoordinate.AddRange(new List<WindowChangeButton>()
-            {
-                ButtonSwitchToMapEditor,
-                ButtonSwitchToWorldObjectEditor,
-                ButtonSwitchToCharacterEditor
-            });
+      {
+          ButtonSwitchToMapEditor,
+          ButtonSwitchToWorldObjectEditor,
+          ButtonSwitchToCharacterEditor
+      });
       WindowChangeButton.PanelsToCoordinate.AddRange(new List<Control>()
-            {
-                MapEditor,
-                WorldObjectEditor,
-                CharacterEditor
-            });
+      {
+          MapEditor,
+          WorldObjectEditor,
+          CharacterEditor
+      });
 
       FileExplorer.AddEditors(WindowChangeButton.PanelsToCoordinate, WindowChangeButton.ButtonsToCoordinate);
     }

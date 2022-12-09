@@ -24,7 +24,7 @@ namespace DreamlandEditor.Controls.Editors
     {
       InitializeComponent();
       EditorFor = FileTypesEnum.Character.ToString();
-      ComboboxResourceType.Items.AddItems(typeof(ResourceTypesEnum).GetDescriptionOfAll());
+      ComboBoxResourceType.Items.AddItems(typeof(ResourceTypesEnum).GetDescriptionOfAll());
       ComboBoxCharacterAffiliation.Items.AddItems(typeof(CharacterAffiliationsEnum).GetDescriptionOfAll());
     }
 
@@ -61,7 +61,7 @@ namespace DreamlandEditor.Controls.Editors
       NudCurrentHealth.Value = RenderableCharacter.CurrentHealthPoints;
 
       List<string> resourceTypes = typeof(ResourceTypesEnum).GetDescriptionOfAll().ToList();
-      ComboboxResourceType.SelectedIndex = resourceTypes.IndexOf(RenderableCharacter.ResourceType);
+      ComboBoxResourceType.SelectedIndex = resourceTypes.IndexOf(RenderableCharacter.ResourceType);
       NudMaxResource.Value = RenderableCharacter.MaxResourcePoints;
       NudCurrentResource.Value = RenderableCharacter.CurrentResourcePoints;
       ComboBoxCharacterAffiliation.SelectedItem = RenderableCharacter.CharacterAffiliation;
@@ -88,7 +88,7 @@ namespace DreamlandEditor.Controls.Editors
           MessageBox.Show("Please set an image!", "No image");
           return;
         }
-        WriteToFile();
+        WriteToObject();
         MessageBox.Show("Save succesfull", "Save");
       }
       catch (Exception ex)
@@ -101,7 +101,7 @@ namespace DreamlandEditor.Controls.Editors
       ItemsManager.UpdateInMaps(RenderableCharacter);
     }
 
-    private void WriteToFile()
+    private void WriteToObject()
     {
       if (!string.IsNullOrEmpty(RenderableCharacter.ImagePath))
       {
@@ -112,7 +112,7 @@ namespace DreamlandEditor.Controls.Editors
       RenderableCharacter.MaxHealthPoints = (int)NudMaxHealth.Value;
       RenderableCharacter.CurrentHealthPoints = (int)NudCurrentHealth.Value;
       RenderableCharacter.MaxResourcePoints = (int)NudMaxResource.Value;
-      RenderableCharacter.ResourceType = ComboboxResourceType.SelectedItem.ToString();
+      RenderableCharacter.ResourceType = ComboBoxResourceType.SelectedItem.ToString();
       RenderableCharacter.CurrentResourcePoints = (int)NudCurrentResource.Value;
       RenderableCharacter.IsCollidable = true;
       RenderableCharacter.CollisionPosition = new Point(0 + _image.Width / 3 / 2, _image.Height - _image.Height / 4);

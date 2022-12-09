@@ -17,9 +17,7 @@ namespace DreamlandEditor.Data
     [XmlIgnore] public Dictionary<string, string[]> FolderStructure { get; set; }
     [XmlIgnore] public List<string> Extensions { get; set; } = new List<string>();
 
-    public SystemPrefs()
-    {
-    }
+    public SystemPrefs() { }
     public void SetupFolderStructure()
     {
       FolderStructure = new Dictionary<string, string[]>()
@@ -39,13 +37,5 @@ namespace DreamlandEditor.Data
         }
       }
     }
-
-    public override string ToString()
-    {
-      return $"[ rootPath: {RootPath} ]" +
-          $"  [ isDevMode: {IsDevMode} ]" +
-          $"  [ debugLogPath: {DebugLogPath} ]";
-    }
-
   }
 }

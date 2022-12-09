@@ -36,7 +36,7 @@
       this.LabelImagePath = new System.Windows.Forms.Label();
       this.TextBoxImagePath = new System.Windows.Forms.TextBox();
       this.ButtonChooseImage = new System.Windows.Forms.Button();
-      this.ChechBoxHasCollision = new System.Windows.Forms.CheckBox();
+      this.CheckBoxHasCollision = new System.Windows.Forms.CheckBox();
       this.LabelWidth = new System.Windows.Forms.Label();
       this.NudWidth = new System.Windows.Forms.NumericUpDown();
       this.CheckBoxIsInteractable = new System.Windows.Forms.CheckBox();
@@ -157,21 +157,21 @@
       this.ButtonChooseImage.UseVisualStyleBackColor = false;
       this.ButtonChooseImage.Click += new System.EventHandler(this.ButtonChooseImage_Click);
       // 
-      // ChechBoxHasCollision
+      // CheckBoxHasCollision
       // 
-      this.ChechBoxHasCollision.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.ChechBoxHasCollision.AutoSize = true;
-      this.ChechBoxHasCollision.BackColor = System.Drawing.Color.White;
-      this.ChechBoxHasCollision.Checked = true;
-      this.ChechBoxHasCollision.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.ChechBoxHasCollision.FlatAppearance.BorderSize = 2;
-      this.ChechBoxHasCollision.Location = new System.Drawing.Point(308, 9);
-      this.ChechBoxHasCollision.Name = "ChechBoxHasCollision";
-      this.ChechBoxHasCollision.Size = new System.Drawing.Size(15, 14);
-      this.ChechBoxHasCollision.TabIndex = 9;
-      this.ChechBoxHasCollision.UseVisualStyleBackColor = false;
-      this.ChechBoxHasCollision.CheckedChanged += new System.EventHandler(this.ChechBoxHasCollision_CheckedChanged);
-      this.ChechBoxHasCollision.CheckStateChanged += new System.EventHandler(this.RenderCollision);
+      this.CheckBoxHasCollision.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.CheckBoxHasCollision.AutoSize = true;
+      this.CheckBoxHasCollision.BackColor = System.Drawing.Color.White;
+      this.CheckBoxHasCollision.Checked = true;
+      this.CheckBoxHasCollision.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.CheckBoxHasCollision.FlatAppearance.BorderSize = 2;
+      this.CheckBoxHasCollision.Location = new System.Drawing.Point(308, 9);
+      this.CheckBoxHasCollision.Name = "ChechBoxHasCollision";
+      this.CheckBoxHasCollision.Size = new System.Drawing.Size(15, 14);
+      this.CheckBoxHasCollision.TabIndex = 9;
+      this.CheckBoxHasCollision.UseVisualStyleBackColor = false;
+      this.CheckBoxHasCollision.CheckedChanged += new System.EventHandler(this.ChechBoxHasCollision_CheckedChanged);
+      this.CheckBoxHasCollision.CheckStateChanged += new System.EventHandler(this.RenderCollision);
       // 
       // LabelWidth
       // 
@@ -245,7 +245,7 @@
       this.GroupBoxCollision.Controls.Add(this.CheckBoxRenderCollision);
       this.GroupBoxCollision.Controls.Add(this.GroupBoxCollisionLocation);
       this.GroupBoxCollision.Controls.Add(this.GroupBoxCollisionSize);
-      this.GroupBoxCollision.Controls.Add(this.ChechBoxHasCollision);
+      this.GroupBoxCollision.Controls.Add(this.CheckBoxHasCollision);
       this.GroupBoxCollision.Location = new System.Drawing.Point(545, 253);
       this.GroupBoxCollision.Name = "GroupBoxCollision";
       this.GroupBoxCollision.Size = new System.Drawing.Size(326, 157);
@@ -480,7 +480,7 @@
         private System.Windows.Forms.Label LabelImagePath;
         private System.Windows.Forms.TextBox TextBoxImagePath;
         private System.Windows.Forms.Button ButtonChooseImage;
-        private System.Windows.Forms.CheckBox ChechBoxHasCollision;
+        private System.Windows.Forms.CheckBox CheckBoxHasCollision;
         private System.Windows.Forms.Label LabelWidth;
         private System.Windows.Forms.NumericUpDown NudWidth;
         private System.Windows.Forms.CheckBox CheckBoxIsInteractable;

@@ -1,13 +1,8 @@
-﻿using DreamlandEditor.Data.GameFiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DreamlandEditor.ExtensionClasses
 {
-    public static class ICollectionExtensions
+  public static class ICollectionExtensions
     {
         public static void AddRange<T>(this ICollection<T> collection, ICollection<T> collectionToAdd)
         {

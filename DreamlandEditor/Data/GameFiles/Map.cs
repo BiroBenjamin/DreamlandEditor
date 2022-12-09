@@ -1,10 +1,8 @@
 ﻿using DreamlandEditor.Data.Enums;
 using DreamlandEditor.ExtensionClasses;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Xml.Serialization;
 using DreamlandEditor.Data.GameFiles.Objects;
 using DreamlandEditor.Data.GameFiles.Characters;
 
@@ -20,18 +18,19 @@ namespace DreamlandEditor.Data.GameFiles
 
     public Map() { }
     public Map(BaseFile baseFile) : base(baseFile) { }
-    public Map(Map map) : base(map) 
+    public Map(Map map) : base(map)
     {
       WorldObjects = map.WorldObjects;
       Tiles = map.Tiles;
+      Characters = map.Characters;
       Size = map.Size;
     }
 
     public BaseFile DoesItemIntersectOthers(BaseFile item)
     {
-      Tile tileItem = item as Tile;
-      if (tileItem.FileType == FileTypesEnum.Tile.GetDescription())
+      if (item.FileType == FileTypesEnum.Tile.GetDescription())
       {
+        Tile tileItem = item as Tile;
         foreach (Tile tile in Tiles)
         {
           if (new Rectangle(tileItem.Position, tileItem.Size).IntersectsWith(new Rectangle(tile.Position, tile.Size)))
@@ -40,9 +39,9 @@ namespace DreamlandEditor.Data.GameFiles
           }
         }
       }
-      Tile objectItem = item as Tile;
-      if (objectItem.FileType == FileTypesEnum.WorldObject.GetDescription())
+      if (item.FileType == FileTypesEnum.WorldObject.GetDescription())
       {
+        WorldObject objectItem = item as WorldObject;
         foreach (WorldObject obj in WorldObjects)
         {
           if (new Rectangle(objectItem.Position, objectItem.Size).IntersectsWith(new Rectangle(obj.Position, obj.Size)))

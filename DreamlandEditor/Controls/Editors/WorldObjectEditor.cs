@@ -1,6 +1,5 @@
 ﻿using DreamlandEditor.Data.GameFiles.Objects;
 using DreamlandEditor.Data.Enums;
-using DreamlandEditor.Data.GameFiles;
 using DreamlandEditor.Managers;
 using System;
 using System.Drawing;
@@ -55,7 +54,7 @@ namespace DreamlandEditor.Controls.Editors
           Path.Combine(SystemPrefsManager.SystemPrefs.RootPath, RenderableObject.ImagePath);
 
       CheckBoxIsInteractable.Checked = RenderableObject.IsInteractable;
-      ChechBoxHasCollision.Checked = RenderableObject.IsCollidable;
+      CheckBoxHasCollision.Checked = RenderableObject.IsCollidable;
 
       NudWidth.Value = RenderableObject.Size.Width;
       NudHeight.Value = RenderableObject.Size.Height;
@@ -79,9 +78,9 @@ namespace DreamlandEditor.Controls.Editors
 
     public void ChechBoxHasCollision_CheckedChanged(object sender, EventArgs e)
     {
-      GroupBoxCollisionLocation.Enabled = ChechBoxHasCollision.Checked;
-      GroupBoxCollisionSize.Enabled = ChechBoxHasCollision.Checked;
-      CheckBoxRenderCollision.Checked = ChechBoxHasCollision.Checked;
+      GroupBoxCollisionLocation.Enabled = CheckBoxHasCollision.Checked;
+      GroupBoxCollisionSize.Enabled = CheckBoxHasCollision.Checked;
+      CheckBoxRenderCollision.Checked = CheckBoxHasCollision.Checked;
       CheckBoxRenderCollision.Enabled = false;
     }
 
@@ -94,7 +93,7 @@ namespace DreamlandEditor.Controls.Editors
           MessageBox.Show("Please set an image!", "No image");
           return;
         }
-        WriteToFile();
+        WriteToObject();
         MessageBox.Show("Save succesfull", "Save");
       }
       catch (Exception ex)
@@ -107,7 +106,7 @@ namespace DreamlandEditor.Controls.Editors
       ItemsManager.UpdateInMaps(RenderableObject);
     }
 
-    private void WriteToFile()
+    private void WriteToObject()
     {
       if (!string.IsNullOrEmpty(RenderableObject.ImagePath))
       {
@@ -117,7 +116,7 @@ namespace DreamlandEditor.Controls.Editors
       RenderableObject.CollisionPosition = new Point((int)NudCollisionX.Value, (int)NudCollisionY.Value);
       RenderableObject.CollisionSize = new Size((int)NudCollisionWidth.Value, (int)NudCollisionHeight.Value);
       RenderableObject.IsInteractable = CheckBoxIsInteractable.Checked;
-      RenderableObject.IsCollidable = ChechBoxHasCollision.Checked;
+      RenderableObject.IsCollidable = CheckBoxHasCollision.Checked;
       RenderableObject.Size = _image.Size;
     }
 
